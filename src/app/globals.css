@@ -45,6 +45,8 @@
   --color-ivory: var(--ivory);
   --color-charcoal: var(--charcoal);
   --color-ink: var(--ink);
+  --color-navy: var(--navy);
+  --color-brand-orange: var(--brand-orange);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -53,43 +55,49 @@
 }
 
 :root {
-  --background: #f6f3ee;
-  --foreground: #171717;
+  /* FLINT brand: navy + orange (replaces black + copper) */
+  --navy: #1b365d;
+  --navy-deep: #132844;
+  --navy-mid: #243f6b;
+  --brand-orange: #ff6b00;
+
+  --background: #f4f6f9;
+  --foreground: #1b365d;
   --card: #ffffff;
-  --card-foreground: #171717;
+  --card-foreground: #1b365d;
   --popover: #ffffff;
-  --popover-foreground: #171717;
-  --primary: #171717;
-  --primary-foreground: #f6f3ee;
-  --secondary: #252525;
-  --secondary-foreground: #f6f3ee;
-  --muted: #ebe6de;
-  --muted-foreground: #77736e;
-  --accent: #b8734f;
+  --popover-foreground: #1b365d;
+  --primary: #1b365d;
+  --primary-foreground: #ffffff;
+  --secondary: #132844;
+  --secondary-foreground: #ffffff;
+  --muted: #e6ebf2;
+  --muted-foreground: #5a6b82;
+  --accent: #ff6b00;
   --accent-foreground: #ffffff;
   --destructive: #9f2d2d;
-  --border: #ddd6cb;
-  --input: #ddd6cb;
-  --ring: #b8734f;
-  --copper: #b8734f;
+  --border: #d5dde8;
+  --input: #d5dde8;
+  --ring: #ff6b00;
+  --copper: #ff6b00;
   --copper-foreground: #ffffff;
-  --ivory: #f6f3ee;
-  --charcoal: #252525;
-  --ink: #171717;
-  --chart-1: #b8734f;
-  --chart-2: #171717;
-  --chart-3: #77736e;
-  --chart-4: #8a5a3c;
-  --chart-5: #c9a48a;
+  --ivory: #f4f6f9;
+  --charcoal: #132844;
+  --ink: #1b365d;
+  --chart-1: #ff6b00;
+  --chart-2: #1b365d;
+  --chart-3: #5a6b82;
+  --chart-4: #e85d04;
+  --chart-5: #7a93b5;
   --radius: 0.25rem;
-  --sidebar: #171717;
-  --sidebar-foreground: #f6f3ee;
-  --sidebar-primary: #b8734f;
+  --sidebar: #1b365d;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ff6b00;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #252525;
-  --sidebar-accent-foreground: #f6f3ee;
-  --sidebar-border: #333333;
-  --sidebar-ring: #b8734f;
+  --sidebar-accent: #132844;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2a4570;
+  --sidebar-ring: #ff6b00;
 }
 
 @layer base {
@@ -129,7 +137,7 @@
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--copper) 28%, transparent);
+    background: color-mix(in srgb, var(--brand-orange) 28%, transparent);
   }
 }
 
@@ -144,9 +152,9 @@
 
   .surface-grain {
     background-image:
-      radial-gradient(circle at 20% 20%, rgba(184, 115, 79, 0.05), transparent 40%),
-      radial-gradient(circle at 80% 0%, rgba(23, 23, 23, 0.04), transparent 35%),
-      linear-gradient(180deg, rgba(246, 243, 238, 0.9), rgba(246, 243, 238, 1));
+      radial-gradient(circle at 20% 20%, rgba(255, 107, 0, 0.06), transparent 40%),
+      radial-gradient(circle at 80% 0%, rgba(27, 54, 93, 0.05), transparent 35%),
+      linear-gradient(180deg, rgba(244, 246, 249, 0.9), rgba(244, 246, 249, 1));
   }
 
   .ink-panel {

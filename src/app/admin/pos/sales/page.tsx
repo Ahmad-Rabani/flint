@@ -38,8 +38,8 @@ export default async function PosSalesPage({ searchParams }: Props) {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">POS</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Sales History</h1>
-      <p className="mt-1 text-sm text-[#171717]/50">{list.total} receipts, newest first</p>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Sales History</h1>
+      <p className="mt-1 text-sm text-[#1B365D]/50">{list.total} receipts, newest first</p>
       <PosSubnav current="/admin/pos/sales" />
 
       <form method="GET" className="mt-5 flex flex-wrap gap-3">
@@ -47,17 +47,17 @@ export default async function PosSalesPage({ searchParams }: Props) {
           name="q"
           defaultValue={q}
           placeholder="Receipt number"
-          className="h-11 w-64 border border-[#171717]/20 bg-white px-3 text-sm text-[#171717] outline-none placeholder:text-[#171717]/30 focus:border-copper"
+          className="h-11 w-64 border border-[#1B365D]/20 bg-white px-3 text-sm text-[#1B365D] outline-none placeholder:text-[#1B365D]/30 focus:border-copper"
         />
         {status !== "all" && <input type="hidden" name="status" value={status} />}
         <button
           type="submit"
-          className="inline-flex min-h-11 items-center border border-[#171717]/20 px-4 text-sm text-[#171717]/70 hover:border-copper hover:text-copper"
+          className="inline-flex min-h-11 items-center border border-[#1B365D]/20 px-4 text-sm text-[#1B365D]/70 hover:border-copper hover:text-copper"
         >
           Search
         </button>
         {q && (
-          <Link href={salesHref("", status)} className="inline-flex min-h-11 items-center px-2 text-sm text-[#171717]/45">
+          <Link href={salesHref("", status)} className="inline-flex min-h-11 items-center px-2 text-sm text-[#1B365D]/45">
             Clear
           </Link>
         )}
@@ -71,8 +71,8 @@ export default async function PosSalesPage({ searchParams }: Props) {
             className={cn(
               "inline-flex min-h-11 items-center border px-4 text-sm",
               status === entry.value
-                ? "border-[#171717] bg-[#171717] text-ivory"
-                : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper",
+                ? "border-[#1B365D] bg-[#1B365D] text-ivory"
+                : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper",
             )}
           >
             {entry.label}

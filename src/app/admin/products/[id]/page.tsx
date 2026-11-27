@@ -25,8 +25,8 @@ export default async function EditProductPage({ params }: Props) {
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Catalogue</p>
-          <h1 className="mt-1 font-heading text-4xl text-[#171717]">{product.name}</h1>
-          <p className="mt-1 font-mono text-xs text-[#171717]/40">{product.sku}</p>
+          <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">{product.name}</h1>
+          <p className="mt-1 font-mono text-xs text-[#1B365D]/40">{product.sku}</p>
         </div>
         <Link
           href={`/products/${product.slug}`}

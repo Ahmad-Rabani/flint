@@ -24,17 +24,17 @@ export default async function EditStaffUserPage({ params }: Props) {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Settings</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">{user.name}</h1>
-      <p className="mt-2 text-sm text-[#171717]/50">
-        <Link href="/admin/users" className="underline decoration-[#171717]/25 underline-offset-4 hover:text-copper">
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">{user.name}</h1>
+      <p className="mt-2 text-sm text-[#1B365D]/50">
+        <Link href="/admin/users" className="underline decoration-[#1B365D]/25 underline-offset-4 hover:text-copper">
           Back to users
         </Link>
       </p>
       {locked ? (
-        <div className="mt-8 max-w-xl border border-[#171717]/10 bg-white p-5 text-sm text-[#171717]/70">
+        <div className="mt-8 max-w-xl border border-[#1B365D]/10 bg-white p-5 text-sm text-[#1B365D]/70">
           <p>{user.email}</p>
           <p className="mt-1">{roleLabel(user.role)}</p>
-          <p className="mt-4 text-[#171717]">Only a super admin can edit this account.</p>
+          <p className="mt-4 text-[#1B365D]">Only a super admin can edit this account.</p>
         </div>
       ) : (
         <UserForm

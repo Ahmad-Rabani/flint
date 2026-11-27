@@ -45,45 +45,45 @@ export default async function AdminQuotationsPage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Orders</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Quotations</h1>
-      <p className="mt-1 text-sm text-[#171717]/50">{items.length} total</p>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Quotations</h1>
+      <p className="mt-1 text-sm text-[#1B365D]/50">{items.length} total</p>
 
-      <div className="mt-6 border border-[#171717]/10 bg-white overflow-x-auto">
+      <div className="mt-6 border border-[#1B365D]/10 bg-white overflow-x-auto">
         {items.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#171717]/30">
+          <div className="p-12 text-center text-sm text-[#1B365D]/30">
             No quotations yet. Issue them from Custom Order pages.
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Quotation #</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Custom Order</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Customer</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40">Amount</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Status</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Valid Until</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40" />
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Quotation #</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Custom Order</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Customer</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Amount</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Status</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Valid Until</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {items.map((q) => (
-                <tr key={q.id} className="hover:bg-[#171717]/[0.02] transition-colors">
-                  <td className="px-4 py-3 font-medium text-[#171717]">{q.quotationNumber}</td>
+                <tr key={q.id} className="hover:bg-[#1B365D]/[0.02] transition-colors">
+                  <td className="px-4 py-3 font-medium text-[#1B365D]">{q.quotationNumber}</td>
                   <td className="px-4 py-3">
                     {q.order ? (
                       <Link href={`/admin/custom-orders/${q.customOrderId}`} className="text-copper/70 hover:text-copper transition-colors">
                         {q.order.orderNumber}
                       </Link>
                     ) : (
-                      <span className="text-[#171717]/30">—</span>
+                      <span className="text-[#1B365D]/30">—</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-[#171717]/60">{q.order?.customerName ?? "—"}</td>
-                  <td className="px-4 py-3 text-right text-[#171717] font-medium">
+                  <td className="px-4 py-3 text-[#1B365D]/60">{q.order?.customerName ?? "—"}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D] font-medium">
                     {formatCurrency(q.amount, q.currency)}
                     {q.depositAmount > 0 && (
-                      <p className="text-xs font-normal text-[#171717]/40">Deposit: {formatCurrency(q.depositAmount, q.currency)}</p>
+                      <p className="text-xs font-normal text-[#1B365D]/40">Deposit: {formatCurrency(q.depositAmount, q.currency)}</p>
                     )}
                   </td>
                   <td className="px-4 py-3">
@@ -91,7 +91,7 @@ export default async function AdminQuotationsPage() {
                       {q.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-xs text-[#171717]/40">{q.validUntil ? formatDate(q.validUntil) : "—"}</td>
+                  <td className="px-4 py-3 text-xs text-[#1B365D]/40">{q.validUntil ? formatDate(q.validUntil) : "—"}</td>
                   <td className="px-4 py-3 text-right">
                     <Link href={`/admin/custom-orders/${q.customOrderId}`} className="text-xs text-copper/60 hover:text-copper transition-colors">
                       View →

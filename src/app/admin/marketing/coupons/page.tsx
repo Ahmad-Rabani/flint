@@ -29,7 +29,7 @@ export default async function AdminCouponsPage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Marketing</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Coupons</h1>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Coupons</h1>
       <CouponManager coupons={coupons} />
     </div>
   );

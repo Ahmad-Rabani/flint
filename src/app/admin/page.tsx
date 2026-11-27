@@ -113,8 +113,8 @@ export default async function AdminDashboardPage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Admin</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Dashboard</h1>
-      <p className="mt-2 text-sm text-[#171717]/50">Last 30 days revenue overview</p>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Dashboard</h1>
+      <p className="mt-2 text-sm text-[#1B365D]/50">Last 30 days revenue overview</p>
 
       {/* Metric cards */}
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -165,40 +165,40 @@ export default async function AdminDashboardPage() {
       {/* Recent tables */}
       <div className="mt-10 grid gap-8 lg:grid-cols-2">
         {/* Recent Online Orders */}
-        <div className="border border-[#171717]/10 bg-white p-6">
+        <div className="border border-[#1B365D]/10 bg-white p-6">
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="font-heading text-lg text-[#171717]">Recent Orders</h2>
+            <h2 className="font-heading text-lg text-[#1B365D]">Recent Orders</h2>
             <Link href="/admin/orders" className="text-xs text-copper/70 hover:text-copper transition-colors">
               View all →
             </Link>
           </div>
           {data.recentOrders.length === 0 ? (
-            <p className="text-sm text-[#171717]/40">No orders yet.</p>
+            <p className="text-sm text-[#1B365D]/40">No orders yet.</p>
           ) : (
             <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#171717]/10">
-                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Order</th>
-                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Status</th>
-                  <th className="pb-2.5 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40">Total</th>
+                <tr className="border-b border-[#1B365D]/10">
+                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Order</th>
+                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Status</th>
+                  <th className="pb-2.5 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#171717]/5">
+              <tbody className="divide-y divide-[#1B365D]/5">
                 {data.recentOrders.map((order) => (
                   <tr key={order.id}>
                     <td className="py-3">
-                      <Link href={`/admin/orders/${order.id}`} className="text-[#171717] hover:text-copper transition-colors font-medium">
+                      <Link href={`/admin/orders/${order.id}`} className="text-[#1B365D] hover:text-copper transition-colors font-medium">
                         {order.orderNumber}
                       </Link>
-                      <p className="text-xs text-[#171717]/40">{formatDate(order.createdAt)}</p>
+                      <p className="text-xs text-[#1B365D]/40">{formatDate(order.createdAt)}</p>
                     </td>
                     <td className="py-3">
-                      <span className={`text-xs capitalize ${STATUS_COLORS[order.status] ?? "text-[#171717]/50"}`}>
+                      <span className={`text-xs capitalize ${STATUS_COLORS[order.status] ?? "text-[#1B365D]/50"}`}>
                         {order.status.replace(/_/g, " ")}
                       </span>
                     </td>
-                    <td className="py-3 text-right text-[#171717]">
+                    <td className="py-3 text-right text-[#1B365D]">
                       {formatCurrency(order.total, order.currency)}
                     </td>
                   </tr>
@@ -210,37 +210,37 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* Recent Custom Orders */}
-        <div className="border border-[#171717]/10 bg-white p-6">
+        <div className="border border-[#1B365D]/10 bg-white p-6">
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="font-heading text-lg text-[#171717]">Recent Commissions</h2>
+            <h2 className="font-heading text-lg text-[#1B365D]">Recent Commissions</h2>
             <Link href="/admin/custom-orders" className="text-xs text-copper/70 hover:text-copper transition-colors">
               View all →
             </Link>
           </div>
           {data.recentCustomOrders.length === 0 ? (
-            <p className="text-sm text-[#171717]/40">No custom orders yet.</p>
+            <p className="text-sm text-[#1B365D]/40">No custom orders yet.</p>
           ) : (
             <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#171717]/10">
-                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Order</th>
-                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Customer</th>
-                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Status</th>
+                <tr className="border-b border-[#1B365D]/10">
+                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Order</th>
+                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Customer</th>
+                  <th className="pb-2.5 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#171717]/5">
+              <tbody className="divide-y divide-[#1B365D]/5">
                 {data.recentCustomOrders.map((order) => (
                   <tr key={order.id}>
                     <td className="py-3">
-                      <Link href={`/admin/custom-orders/${order.id}`} className="text-[#171717] hover:text-copper transition-colors font-medium">
+                      <Link href={`/admin/custom-orders/${order.id}`} className="text-[#1B365D] hover:text-copper transition-colors font-medium">
                         {order.orderNumber}
                       </Link>
-                      <p className="text-xs capitalize text-[#171717]/40">{order.productType}</p>
+                      <p className="text-xs capitalize text-[#1B365D]/40">{order.productType}</p>
                     </td>
-                    <td className="py-3 text-[#171717]/70">{order.customerName}</td>
+                    <td className="py-3 text-[#1B365D]/70">{order.customerName}</td>
                     <td className="py-3">
-                      <span className={`text-xs capitalize ${STATUS_COLORS[order.status] ?? "text-[#171717]/50"}`}>
+                      <span className={`text-xs capitalize ${STATUS_COLORS[order.status] ?? "text-[#1B365D]/50"}`}>
                         {order.status.replace(/_/g, " ")}
                       </span>
                     </td>
@@ -272,13 +272,13 @@ function MetricCard({
   return (
     <Link
       href={href}
-      className="block border border-[#171717]/10 bg-white p-5 transition-colors hover:border-copper/30 hover:bg-copper/5"
+      className="block border border-[#1B365D]/10 bg-white p-5 transition-colors hover:border-copper/30 hover:bg-copper/5"
     >
-      <p className="text-xs uppercase tracking-[0.2em] text-[#171717]/40">{label}</p>
-      <p className={`mt-2 font-heading text-3xl ${alert ? "text-copper" : "text-[#171717]"}`}>
+      <p className="text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">{label}</p>
+      <p className={`mt-2 font-heading text-3xl ${alert ? "text-copper" : "text-[#1B365D]"}`}>
         {value}
       </p>
-      <p className="mt-1 text-xs text-[#171717]/40">{sub}</p>
+      <p className="mt-1 text-xs text-[#1B365D]/40">{sub}</p>
     </Link>
   );
 }

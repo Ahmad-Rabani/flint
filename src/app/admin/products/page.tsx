@@ -31,12 +31,12 @@ export default async function AdminProductsPage({ searchParams }: Props) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Catalogue</p>
-          <h1 className="mt-1 font-heading text-4xl text-[#171717]">Products</h1>
-          <p className="mt-1 text-sm text-[#171717]/50">{total} total</p>
+          <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Products</h1>
+          <p className="mt-1 text-sm text-[#1B365D]/50">{total} total</p>
         </div>
         <Link
           href="/admin/products/new"
-          className="border border-[#171717] bg-[#171717] px-4 py-2 text-sm text-ivory hover:bg-[#171717]/90 transition-colors"
+          className="border border-[#1B365D] bg-[#1B365D] px-4 py-2 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors"
         >
           + New Product
         </Link>
@@ -48,12 +48,12 @@ export default async function AdminProductsPage({ searchParams }: Props) {
           name="q"
           defaultValue={q}
           placeholder="Search products…"
-          className="border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none w-56"
+          className="border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none w-56"
         />
         <select
           name="status"
           defaultValue={status}
-          className="border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] focus:border-copper focus:outline-none"
+          className="border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] focus:border-copper focus:outline-none"
         >
           <option value="">All statuses</option>
           <option value="draft">Draft</option>
@@ -63,39 +63,39 @@ export default async function AdminProductsPage({ searchParams }: Props) {
         </select>
         <button
           type="submit"
-          className="border border-[#171717]/20 px-4 py-2 text-sm text-[#171717]/60 hover:border-copper hover:text-copper transition-colors"
+          className="border border-[#1B365D]/20 px-4 py-2 text-sm text-[#1B365D]/60 hover:border-copper hover:text-copper transition-colors"
         >
           Search
         </button>
         {(q || status) && (
-          <Link href="/admin/products" className="px-4 py-2 text-sm text-[#171717]/40 hover:text-[#171717] transition-colors">
+          <Link href="/admin/products" className="px-4 py-2 text-sm text-[#1B365D]/40 hover:text-[#1B365D] transition-colors">
             Clear
           </Link>
         )}
       </form>
 
       {/* Table */}
-      <div className="mt-6 overflow-x-auto border border-[#171717]/10 bg-white">
+      <div className="mt-6 overflow-x-auto border border-[#1B365D]/10 bg-white">
         {items.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#171717]/30">
+          <div className="p-12 text-center text-sm text-[#1B365D]/30">
             {q || status ? "No products match your filters." : "No products yet."}
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Product</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">SKU</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Price</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Stock</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Status</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Created</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40" />
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Product</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">SKU</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Price</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Stock</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Status</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Created</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {items.map((product) => (
-                <tr key={product.id} className="hover:bg-[#171717]/[0.02] transition-colors">
+                <tr key={product.id} className="hover:bg-[#1B365D]/[0.02] transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       {product.imageUrl ? (
@@ -103,30 +103,30 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                         <img
                           src={product.imageUrl}
                           alt={product.name}
-                          className="h-10 w-10 object-cover border border-[#171717]/10 shrink-0"
+                          className="h-10 w-10 object-cover border border-[#1B365D]/10 shrink-0"
                         />
                       ) : (
-                        <div className="h-10 w-10 border border-[#171717]/10 bg-[#171717]/5 shrink-0 flex items-center justify-center text-[#171717]/20 text-xs">
+                        <div className="h-10 w-10 border border-[#1B365D]/10 bg-[#1B365D]/5 shrink-0 flex items-center justify-center text-[#1B365D]/20 text-xs">
                           —
                         </div>
                       )}
                       <div>
                         <Link
                           href={`/admin/products/${product.id}`}
-                          className="font-medium text-[#171717] hover:text-copper transition-colors"
+                          className="font-medium text-[#1B365D] hover:text-copper transition-colors"
                         >
                           {product.name}
                         </Link>
-                        <p className="text-xs text-[#171717]/40">{product.slug}</p>
+                        <p className="text-xs text-[#1B365D]/40">{product.slug}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs text-[#171717]/60">{product.sku}</td>
-                  <td className="px-4 py-3 text-[#171717]">{formatCurrency(product.price)}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-[#1B365D]/60">{product.sku}</td>
+                  <td className="px-4 py-3 text-[#1B365D]">{formatCurrency(product.price)}</td>
                   <td className="px-4 py-3">
                     <span className={cn(
                       "text-sm font-medium",
-                      product.stock <= product.minStockLevel ? "text-red-600" : "text-[#171717]"
+                      product.stock <= product.minStockLevel ? "text-red-600" : "text-[#1B365D]"
                     )}>
                       {product.stock}
                     </span>
@@ -142,7 +142,7 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                       {product.status.replace(/_/g, " ")}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-xs text-[#171717]/40">
+                  <td className="px-4 py-3 text-xs text-[#1B365D]/40">
                     {formatDate(product.createdAt)}
                   </td>
                   <td className="px-4 py-3 text-right">
@@ -170,8 +170,8 @@ export default async function AdminProductsPage({ searchParams }: Props) {
               className={cn(
                 "border px-3 py-1.5 text-sm transition-colors",
                 p === page
-                  ? "border-[#171717] bg-[#171717] text-ivory"
-                  : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper"
+                  ? "border-[#1B365D] bg-[#1B365D] text-ivory"
+                  : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper"
               )}
             >
               {p}

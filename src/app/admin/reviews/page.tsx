@@ -52,7 +52,7 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Catalogue</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Reviews</h1>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Reviews</h1>
 
       <div className="mt-5 flex gap-2">
         {filters.map((f) => (
@@ -61,8 +61,8 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
             href={`/admin/reviews?filter=${f.value}`}
             className={`border px-3 py-1.5 text-sm transition-colors ${
               filter === f.value
-                ? "border-[#171717] bg-[#171717] text-ivory"
-                : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper"
+                ? "border-[#1B365D] bg-[#1B365D] text-ivory"
+                : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper"
             }`}
           >
             {f.label}
@@ -70,34 +70,34 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
         ))}
       </div>
 
-      <div className="mt-6 border border-[#171717]/10 bg-white overflow-x-auto">
+      <div className="mt-6 border border-[#1B365D]/10 bg-white overflow-x-auto">
         {items.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#171717]/30">
+          <div className="p-12 text-center text-sm text-[#1B365D]/30">
             No {filter} reviews.
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Product</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Rating</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Review</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Date</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40">Actions</th>
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Product</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Rating</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Review</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Date</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {items.map((r) => (
-                <tr key={r.id} className="hover:bg-[#171717]/[0.02] transition-colors">
-                  <td className="px-4 py-3 text-[#171717] font-medium max-w-[200px]">{r.productName}</td>
+                <tr key={r.id} className="hover:bg-[#1B365D]/[0.02] transition-colors">
+                  <td className="px-4 py-3 text-[#1B365D] font-medium max-w-[200px]">{r.productName}</td>
                   <td className="px-4 py-3">
                     <span className="text-copper">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
                   </td>
                   <td className="px-4 py-3 max-w-xs">
-                    {r.title && <p className="font-medium text-[#171717]">{r.title}</p>}
-                    <p className="text-[#171717]/60 text-xs line-clamp-2">{r.body}</p>
+                    {r.title && <p className="font-medium text-[#1B365D]">{r.title}</p>}
+                    <p className="text-[#1B365D]/60 text-xs line-clamp-2">{r.body}</p>
                   </td>
-                  <td className="px-4 py-3 text-xs text-[#171717]/40 whitespace-nowrap">{formatDate(r.createdAt)}</td>
+                  <td className="px-4 py-3 text-xs text-[#1B365D]/40 whitespace-nowrap">{formatDate(r.createdAt)}</td>
                   <td className="px-4 py-3 text-right">
                     <ReviewActions
                       id={r.id}

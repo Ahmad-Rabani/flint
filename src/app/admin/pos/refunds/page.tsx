@@ -31,8 +31,8 @@ export default async function PosRefundsPage({ searchParams }: Props) {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">POS</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Refunds</h1>
-      <p className="mt-1 text-sm text-[#171717]/50">
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Refunds</h1>
+      <p className="mt-1 text-sm text-[#1B365D]/50">
         Completed register sales. A refund restores stock and marks the payment refunded.
       </p>
       <PosSubnav current="/admin/pos/refunds" />
@@ -42,23 +42,23 @@ export default async function PosRefundsPage({ searchParams }: Props) {
           name="q"
           defaultValue={q}
           placeholder="Receipt number"
-          className="h-11 w-64 border border-[#171717]/20 bg-white px-3 text-sm text-[#171717] outline-none placeholder:text-[#171717]/30 focus:border-copper"
+          className="h-11 w-64 border border-[#1B365D]/20 bg-white px-3 text-sm text-[#1B365D] outline-none placeholder:text-[#1B365D]/30 focus:border-copper"
         />
         <button
           type="submit"
-          className="inline-flex min-h-11 items-center border border-[#171717]/20 px-4 text-sm text-[#171717]/70 hover:border-copper hover:text-copper"
+          className="inline-flex min-h-11 items-center border border-[#1B365D]/20 px-4 text-sm text-[#1B365D]/70 hover:border-copper hover:text-copper"
         >
           Search
         </button>
         {q && (
-          <Link href="/admin/pos/refunds" className="inline-flex min-h-11 items-center px-2 text-sm text-[#171717]/45">
+          <Link href="/admin/pos/refunds" className="inline-flex min-h-11 items-center px-2 text-sm text-[#1B365D]/45">
             Clear
           </Link>
         )}
       </form>
 
       {!canRefund && (
-        <p className="mt-4 text-sm text-[#171717]/50">Refunds on this register require the refund permission.</p>
+        <p className="mt-4 text-sm text-[#1B365D]/50">Refunds on this register require the refund permission.</p>
       )}
 
       <PosSalesTable

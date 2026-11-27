@@ -491,7 +491,7 @@ function Step1ProductType({
                   quality={92}
                   className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.05]"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-ink/10" />
 
                 {selected && (
                   <span className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center bg-copper">
@@ -579,7 +579,7 @@ function Step2Style({
                   quality={90}
                   className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/15 to-transparent" />
                 {selected && (
                   <span className="absolute right-3 top-3 z-10 grid h-7 w-7 place-items-center bg-copper">
                     <svg className="h-3.5 w-3.5 text-white" viewBox="0 0 12 12" fill="none">
@@ -694,7 +694,7 @@ function OptionField({
             const colorMap: Record<string, string> = {
               natural: "#C8A97E",
               espresso: "#2C1A0E",
-              copper: "#B8734F",
+              copper: "#FF6B00",
               charcoal: "#2D2D2D",
             };
             return (
@@ -852,7 +852,7 @@ function Step4Images({
                   </div>
                 )}
                 {!img.key && (
-                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/25">
+                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-ink/25">
                     <svg className="h-5 w-5 animate-spin text-copper" viewBox="0 0 24 24" fill="none">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
@@ -865,7 +865,7 @@ function Step4Images({
                     event.stopPropagation();
                     onRemove(img.id);
                   }}
-                  className="absolute right-2 top-2 grid h-7 w-7 cursor-pointer place-items-center bg-black/70 text-white opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100"
+                  className="absolute right-2 top-2 grid h-7 w-7 cursor-pointer place-items-center bg-ink/70 text-white opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100"
                   aria-label="Remove image"
                 >
                   <svg className="h-3 w-3" viewBox="0 0 12 12" fill="none">

@@ -22,8 +22,8 @@ export function InventorySubnav({ current, canAdjust }: { current: string; canAd
             className={cn(
               "border px-3 py-1.5 text-sm transition-colors",
               active
-                ? "border-[#171717] bg-[#171717] text-ivory"
-                : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper",
+                ? "border-[#1B365D] bg-[#1B365D] text-ivory"
+                : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper",
             )}
           >
             {link.label}

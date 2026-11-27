@@ -87,11 +87,11 @@ export function ProductImageUploader({ images, onChange }: Props) {
         }}
         className={cn(
           "border border-dashed px-6 py-10 text-center transition-colors",
-          dragOver ? "border-copper bg-copper/5" : "border-[#171717]/25 bg-white",
+          dragOver ? "border-copper bg-copper/5" : "border-[#1B365D]/25 bg-white",
         )}
       >
         <ImagePlus className="mx-auto mb-3 h-8 w-8 text-copper/70" strokeWidth={1.25} />
-        <p className="text-sm text-[#171717]">
+        <p className="text-sm text-[#1B365D]">
           Drag & drop product photos here, or{" "}
           <button
             type="button"
@@ -102,7 +102,7 @@ export function ProductImageUploader({ images, onChange }: Props) {
             browse files
           </button>
         </p>
-        <p className="mt-2 text-xs text-[#171717]/45">
+        <p className="mt-2 text-xs text-[#1B365D]/45">
           JPEG, PNG, WebP or GIF · up to 8MB each · first image is the primary storefront photo
         </p>
         <input
@@ -127,7 +127,7 @@ export function ProductImageUploader({ images, onChange }: Props) {
           {images.map((img, i) => (
             <li
               key={`${img.key}-${i}`}
-              className="group relative aspect-square overflow-hidden border border-[#171717]/10 bg-[#f0ece5]"
+              className="group relative aspect-square overflow-hidden border border-[#1B365D]/10 bg-[#f0ece5]"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={img.url} alt={img.alt || `Product image ${i + 1}`} className="h-full w-full object-cover" />
@@ -168,11 +168,11 @@ export function ProductImageUploader({ images, onChange }: Props) {
       )}
 
       <div>
-        <p className="mb-1.5 text-xs uppercase tracking-widest text-[#171717]/45">
+        <p className="mb-1.5 text-xs uppercase tracking-widest text-[#1B365D]/45">
           Or paste image URLs
         </p>
         <input
-          className="w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none"
+          className="w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none"
           placeholder="https://example.com/photo.jpg"
           onKeyDown={(e) => {
             if (e.key !== "Enter") return;
@@ -184,7 +184,7 @@ export function ProductImageUploader({ images, onChange }: Props) {
             input.value = "";
           }}
         />
-        <p className="mt-1 text-[11px] text-[#171717]/40">Press Enter to add a URL</p>
+        <p className="mt-1 text-[11px] text-[#1B365D]/40">Press Enter to add a URL</p>
       </div>
     </div>
   );

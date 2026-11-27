@@ -19,8 +19,8 @@ export function PosSubnav({ current }: { current: string }) {
             className={cn(
               "inline-flex min-h-11 items-center border px-4 text-sm transition-colors",
               active
-                ? "border-[#171717] bg-[#171717] text-ivory"
-                : "border-[#171717]/20 text-[#171717]/70 hover:border-copper hover:text-copper",
+                ? "border-[#1B365D] bg-[#1B365D] text-ivory"
+                : "border-[#1B365D]/20 text-[#1B365D]/70 hover:border-copper hover:text-copper",
             )}
           >
             {link.label}

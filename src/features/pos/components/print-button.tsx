@@ -5,7 +5,7 @@ export function PrintButton({ label = "Print" }: { label?: string }) {
     <button
       type="button"
       onClick={() => window.print()}
-      className="inline-flex min-h-11 items-center border border-[#171717] bg-[#171717] px-5 text-sm text-ivory transition-colors hover:bg-[#171717]/90"
+      className="inline-flex min-h-11 items-center border border-[#1B365D] bg-[#1B365D] px-5 text-sm text-ivory transition-colors hover:bg-[#1B365D]/90"
     >
       {label}
     </button>

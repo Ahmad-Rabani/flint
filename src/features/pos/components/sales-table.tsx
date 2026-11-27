@@ -18,7 +18,7 @@ function formatWhen(iso: string) {
 
 const STATUS_CLASS: Record<PosSaleRow["status"], string> = {
   completed: "bg-emerald-50 text-emerald-800",
-  refunded: "bg-[#171717]/5 text-[#171717]/55",
+  refunded: "bg-[#1B365D]/5 text-[#1B365D]/55",
   voided: "bg-red-50 text-red-700",
 };
 
@@ -35,22 +35,22 @@ export function PosSalesTable({
 }) {
   if (rows.length === 0) {
     return (
-      <div className="mt-5 border border-[#171717]/10 bg-white p-12 text-center text-sm text-[#171717]/45">
+      <div className="mt-5 border border-[#1B365D]/10 bg-white p-12 text-center text-sm text-[#1B365D]/45">
         {emptyLabel}
       </div>
     );
   }
 
   return (
-    <div className="mt-5 overflow-x-auto border border-[#171717]/10 bg-white">
+    <div className="mt-5 overflow-x-auto border border-[#1B365D]/10 bg-white">
       <table className="w-full min-w-[720px] text-sm">
         <thead>
-          <tr className="border-b border-[#171717]/10">
+          <tr className="border-b border-[#1B365D]/10">
             {["Receipt", "When", "Customer", "Cashier", "Method", "Items", "Total", ""].map((label) => (
               <th
                 key={label || "action"}
                 className={cn(
-                  "px-4 pb-3 pt-4 text-xs font-normal uppercase tracking-widest text-[#171717]/40",
+                  "px-4 pb-3 pt-4 text-xs font-normal uppercase tracking-widest text-[#1B365D]/40",
                   label === "Total" || label === "" ? "text-right" : "text-left",
                 )}
               >
@@ -59,22 +59,22 @@ export function PosSalesTable({
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#171717]/5">
+        <tbody className="divide-y divide-[#1B365D]/5">
           {rows.map((row) => (
-            <tr key={row.id} className="transition-colors hover:bg-[#171717]/[0.02]">
+            <tr key={row.id} className="transition-colors hover:bg-[#1B365D]/[0.02]">
               <td className="px-4 py-3">
-                <Link href={`/admin/pos/sales/${row.id}`} className="font-medium text-[#171717] hover:text-copper">
+                <Link href={`/admin/pos/sales/${row.id}`} className="font-medium text-[#1B365D] hover:text-copper">
                   {row.receiptNumber}
                 </Link>
                 <span className={cn("ml-2 rounded-sm px-2 py-0.5 text-[11px] capitalize", STATUS_CLASS[row.status])}>
                   {row.status}
                 </span>
               </td>
-              <td className="px-4 py-3 text-xs text-[#171717]/55">{formatWhen(row.createdAt)}</td>
-              <td className="px-4 py-3 text-[#171717]/75">{row.customerName}</td>
-              <td className="px-4 py-3 text-[#171717]/55">{row.cashierName}</td>
-              <td className="px-4 py-3 text-[#171717]/70">{PAYMENT_LABELS[row.paymentMethod]}</td>
-              <td className="px-4 py-3 text-[#171717]/55">{row.itemCount}</td>
+              <td className="px-4 py-3 text-xs text-[#1B365D]/55">{formatWhen(row.createdAt)}</td>
+              <td className="px-4 py-3 text-[#1B365D]/75">{row.customerName}</td>
+              <td className="px-4 py-3 text-[#1B365D]/55">{row.cashierName}</td>
+              <td className="px-4 py-3 text-[#1B365D]/70">{PAYMENT_LABELS[row.paymentMethod]}</td>
+              <td className="px-4 py-3 text-[#1B365D]/55">{row.itemCount}</td>
               <td className="px-4 py-3 text-right font-medium">{formatCurrency(row.total, currency)}</td>
               <td className="px-4 py-3 text-right">
                 <div className="flex items-center justify-end gap-2">
@@ -121,8 +121,8 @@ export function PosPager({
           className={cn(
             "inline-flex min-h-11 min-w-11 items-center justify-center border px-3 text-sm transition-colors",
             current === page
-              ? "border-[#171717] bg-[#171717] text-ivory"
-              : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper",
+              ? "border-[#1B365D] bg-[#1B365D] text-ivory"
+              : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper",
           )}
         >
           {current}

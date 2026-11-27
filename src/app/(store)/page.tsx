@@ -121,8 +121,8 @@ export default async function HomePage() {
       </section>
 
       {/* Trust strip sits below the first viewport */}
-      <section className="border-b border-[#171717]/08 bg-[#f6f3ee]">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-[#171717]/08 sm:grid-cols-4">
+      <section className="border-b border-[#1B365D]/08 bg-[#f6f3ee]">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-[#1B365D]/08 sm:grid-cols-4">
           {[
             { value: "10+", label: "Years of craft" },
             { value: "1,200+", label: "Blades forged" },
@@ -130,8 +130,8 @@ export default async function HomePage() {
             { value: "Lifetime", label: "Guarantee" },
           ].map((stat) => (
             <div key={stat.label} className="bg-[#f6f3ee] px-5 py-7 sm:px-8 sm:py-8">
-              <p className="font-heading text-2xl text-[#171717] sm:text-3xl">{stat.value}</p>
-              <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-[#171717]/45">
+              <p className="font-heading text-2xl text-[#1B365D] sm:text-3xl">{stat.value}</p>
+              <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-[#1B365D]/45">
                 {stat.label}
               </p>
             </div>
@@ -148,17 +148,17 @@ export default async function HomePage() {
                 The atelier
               </p>
               <div className="editorial-rule mb-6 mt-4" />
-              <h2 className="font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#171717]">
+              <h2 className="font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#1B365D]">
                 {introSection?.title ?? "An atelier for blades"}
               </h2>
-              <p className="mt-5 max-w-md text-[15px] leading-relaxed text-[#171717]/60 sm:text-base">
+              <p className="mt-5 max-w-md text-[15px] leading-relaxed text-[#1B365D]/60 sm:text-base">
                 {introSection?.body ??
                   "Every FLINT piece begins as raw steel and ends as a tool with presence — balanced, finished by hand, and made to be used for decades."}
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
                   href={introSection?.ctaHref ?? "/craft"}
-                  className="inline-flex min-h-11 items-center gap-2 bg-[#171717] px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory transition-colors hover:bg-[#2a2a2a]"
+                  className="inline-flex min-h-11 items-center gap-2 bg-[#1B365D] px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory transition-colors hover:bg-[#243F6B]"
                 >
                   {introSection?.ctaLabel ?? "Discover our process"}
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -179,8 +179,8 @@ export default async function HomePage() {
                   { term: "Promise", detail: "Lifetime craftsmanship" },
                 ].map((row) => (
                   <div key={row.term}>
-                    <dt className="text-[10px] uppercase tracking-[0.16em] text-[#171717]/40">{row.term}</dt>
-                    <dd className="mt-1 text-sm text-[#171717]">{row.detail}</dd>
+                    <dt className="text-[10px] uppercase tracking-[0.16em] text-[#1B365D]/40">{row.term}</dt>
+                    <dd className="mt-1 text-sm text-[#1B365D]">{row.detail}</dd>
                   </div>
                 ))}
               </dl>
@@ -198,7 +198,7 @@ export default async function HomePage() {
                 className="h-auto w-full max-w-lg mix-blend-multiply object-contain"
                 priority={false}
               />
-              <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#171717]/35">
+              <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#1B365D]/35">
                 Signature Damascus · handmade
               </p>
             </div>
@@ -213,14 +213,14 @@ export default async function HomePage() {
             <div className="mb-10 flex items-end justify-between gap-4">
               <div>
                 <div className="editorial-rule mb-4" />
-                <h2 className="font-heading text-3xl text-[#171717] md:text-4xl">Collections</h2>
-                <p className="mt-2 max-w-md text-sm text-[#171717]/55">
+                <h2 className="font-heading text-3xl text-[#1B365D] md:text-4xl">Collections</h2>
+                <p className="mt-2 max-w-md text-sm text-[#1B365D]/55">
                   Curated lines from kitchen steel to trail-ready blades.
                 </p>
               </div>
               <Link
                 href="/collections"
-                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
+                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#1B365D]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
               >
                 All collections
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -260,13 +260,13 @@ export default async function HomePage() {
                       <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-copper">
                         Collection
                       </p>
-                      <h3 className="mt-1.5 font-heading text-2xl text-[#171717]">{col.name}</h3>
+                      <h3 className="mt-1.5 font-heading text-2xl text-[#1B365D]">{col.name}</h3>
                       {col.description && (
-                        <p className="mt-1.5 text-sm leading-relaxed text-[#171717]/55">
+                        <p className="mt-1.5 text-sm leading-relaxed text-[#1B365D]/55">
                           {col.description}
                         </p>
                       )}
-                      <span className="mt-4 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/60 transition-colors group-hover:text-copper">
+                      <span className="mt-4 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#1B365D]/60 transition-colors group-hover:text-copper">
                         Explore
                         <ArrowRight className="h-3.5 w-3.5" />
                       </span>
@@ -279,7 +279,7 @@ export default async function HomePage() {
             <div className="mt-8 text-center sm:hidden">
               <Link
                 href="/collections"
-                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50"
+                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#1B365D]/50"
               >
                 All collections
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -296,14 +296,14 @@ export default async function HomePage() {
             <div className="mb-10 flex items-end justify-between gap-4">
               <div>
                 <div className="editorial-rule mb-4" />
-                <h2 className="font-heading text-3xl text-[#171717] md:text-4xl">Bestsellers</h2>
-                <p className="mt-2 max-w-md text-sm text-[#171717]/55">
+                <h2 className="font-heading text-3xl text-[#1B365D] md:text-4xl">Bestsellers</h2>
+                <p className="mt-2 max-w-md text-sm text-[#1B365D]/55">
                   The blades our customers keep coming back for.
                 </p>
               </div>
               <Link
                 href="/catalogue?sort=bestselling"
-                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
+                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#1B365D]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
               >
                 View all
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -319,7 +319,7 @@ export default async function HomePage() {
             <div className="mt-8 text-center sm:hidden">
               <Link
                 href="/catalogue?sort=bestselling"
-                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50"
+                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#1B365D]/50"
               >
                 View all bestsellers
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -350,13 +350,13 @@ export default async function HomePage() {
 
       {/* ── New Arrivals ────────────────────────────────────────────────────── */}
       {newArrivals.length > 0 && (
-        <section className="relative overflow-hidden border-y border-[#171717]/06 bg-[#efeae2] py-16 md:py-24">
+        <section className="relative overflow-hidden border-y border-[#1B365D]/06 bg-[#efeae2] py-16 md:py-24">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 opacity-60"
             style={{
               backgroundImage:
-                "radial-gradient(circle at 12% 18%, rgba(184,115,79,0.08), transparent 42%), radial-gradient(circle at 88% 0%, rgba(23,23,23,0.04), transparent 36%)",
+                "radial-gradient(circle at 12% 18%, rgba(255, 107, 0,0.08), transparent 42%), radial-gradient(circle at 88% 0%, rgba(27, 54, 93,0.04), transparent 36%)",
             }}
           />
           <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
@@ -366,14 +366,14 @@ export default async function HomePage() {
                   Fresh from the forge
                 </p>
                 <div className="editorial-rule mb-4 mt-4" />
-                <h2 className="font-heading text-3xl text-[#171717] md:text-4xl">New Arrivals</h2>
-                <p className="mt-2 max-w-md text-sm text-[#171717]/55">
+                <h2 className="font-heading text-3xl text-[#1B365D] md:text-4xl">New Arrivals</h2>
+                <p className="mt-2 max-w-md text-sm text-[#1B365D]/55">
                   Newly finished blades — just released from the atelier.
                 </p>
               </div>
               <Link
                 href="/catalogue?sort=newest"
-                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
+                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#1B365D]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
               >
                 See all
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -389,7 +389,7 @@ export default async function HomePage() {
             <div className="mt-8 text-center sm:hidden">
               <Link
                 href="/catalogue?sort=newest"
-                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50"
+                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#1B365D]/50"
               >
                 See all new arrivals
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -496,7 +496,7 @@ export default async function HomePage() {
           className="pointer-events-none absolute inset-0 opacity-70"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 8% 12%, rgba(184,115,79,0.07), transparent 40%), radial-gradient(circle at 92% 88%, rgba(23,23,23,0.035), transparent 38%)",
+              "radial-gradient(circle at 8% 12%, rgba(255, 107, 0,0.07), transparent 40%), radial-gradient(circle at 92% 88%, rgba(27, 54, 93,0.035), transparent 38%)",
           }}
         />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
@@ -506,11 +506,11 @@ export default async function HomePage() {
                 Our process
               </p>
               <div className="editorial-rule mb-5 mt-4" />
-              <h2 className="max-w-[16ch] font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#171717]">
+              <h2 className="max-w-[16ch] font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#1B365D]">
                 {craftSection?.title ?? "Crafted with intention at every step."}
               </h2>
             </div>
-            <p className="max-w-xs text-sm leading-relaxed text-[#171717]/55 md:pb-1">
+            <p className="max-w-xs text-sm leading-relaxed text-[#1B365D]/55 md:pb-1">
               {craftSection?.subtitle ??
                 "From raw steel to finished blade — an unbroken chain of human skill."}
             </p>
@@ -546,16 +546,16 @@ export default async function HomePage() {
                     <span
                       className={
                         light
-                          ? "absolute left-4 top-4 font-heading text-2xl text-[#171717]/55"
+                          ? "absolute left-4 top-4 font-heading text-2xl text-[#1B365D]/55"
                           : "absolute left-4 top-4 font-heading text-2xl text-ivory/90"
                       }
                     >
                       {step.num}
                     </span>
                   </div>
-                  <div className="mt-5 border-t border-[#171717]/10 pt-5">
-                    <h3 className="font-heading text-xl text-[#171717]">{step.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#171717]/55">{step.desc}</p>
+                  <div className="mt-5 border-t border-[#1B365D]/10 pt-5">
+                    <h3 className="font-heading text-xl text-[#1B365D]">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-[#1B365D]/55">{step.desc}</p>
                   </div>
                 </article>
               );
@@ -565,7 +565,7 @@ export default async function HomePage() {
           <div className="mt-12 flex justify-center md:mt-14">
             <Link
               href="/craft"
-              className="inline-flex min-h-11 cursor-pointer items-center gap-2 border border-[#171717]/15 bg-transparent px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-[#171717] transition-colors hover:border-copper hover:text-copper"
+              className="inline-flex min-h-11 cursor-pointer items-center gap-2 border border-[#1B365D]/15 bg-transparent px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-[#1B365D] transition-colors hover:border-copper hover:text-copper"
             >
               See how we work
               <ArrowRight className="h-3.5 w-3.5" />
@@ -576,13 +576,13 @@ export default async function HomePage() {
 
       {/* ── Testimonials ────────────────────────────────────────────────────── */}
       {cms.testimonials.length > 0 && (
-        <section className="relative overflow-hidden border-y border-[#171717]/06 bg-[#efeae2] py-16 md:py-24">
+        <section className="relative overflow-hidden border-y border-[#1B365D]/06 bg-[#efeae2] py-16 md:py-24">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 opacity-80"
             style={{
               backgroundImage:
-                "radial-gradient(circle at 12% 18%, rgba(184,115,79,0.08), transparent 40%), radial-gradient(circle at 90% 85%, rgba(23,23,23,0.035), transparent 38%)",
+                "radial-gradient(circle at 12% 18%, rgba(255, 107, 0,0.08), transparent 40%), radial-gradient(circle at 90% 85%, rgba(27, 54, 93,0.035), transparent 38%)",
             }}
           />
           <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
@@ -592,11 +592,11 @@ export default async function HomePage() {
                   Voices from the field
                 </p>
                 <div className="editorial-rule mb-5 mt-4" />
-                <h2 className="max-w-[16ch] font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#171717]">
+                <h2 className="max-w-[16ch] font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#1B365D]">
                   What our customers say.
                 </h2>
               </div>
-              <p className="max-w-xs text-sm leading-relaxed text-[#171717]/55 md:pb-1">
+              <p className="max-w-xs text-sm leading-relaxed text-[#1B365D]/55 md:pb-1">
                 Chefs, collectors, and guides — the people who put FLINT steel to work.
               </p>
             </div>

@@ -28,7 +28,7 @@ export default async function AdminBannersPage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">CMS</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Banners</h1>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Banners</h1>
       <BannerManager banners={banners} />
     </div>
   );

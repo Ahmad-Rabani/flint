@@ -213,8 +213,8 @@ export function ProductForm({ product, categories }: Props) {
     }
   }
 
-  const inputCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-  const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  const inputCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -281,7 +281,7 @@ export function ProductForm({ product, categories }: Props) {
               required
               minLength={10}
             />
-            <p className="mt-1.5 text-xs text-[#171717]/40">
+            <p className="mt-1.5 text-xs text-[#1B365D]/40">
               This is required separately from Short Description. {form.description.trim().length}/10
             </p>
           </div>
@@ -358,7 +358,7 @@ export function ProductForm({ product, categories }: Props) {
 
         {/* Images */}
         <Section title="Product Photos">
-          <p className="mb-4 text-sm text-[#171717]/55">
+          <p className="mb-4 text-sm text-[#1B365D]/55">
             Upload real product photos (JPEG / PNG / WebP). Avoid SVG placeholders for catalogue
             items — photography sells craftsmanship.
           </p>
@@ -388,7 +388,7 @@ export function ProductForm({ product, categories }: Props) {
                 <button
                   type="button"
                   onClick={() => removeSpec(i)}
-                  className="shrink-0 px-2 text-[#171717]/30 hover:text-red-500 transition-colors text-lg"
+                  className="shrink-0 px-2 text-[#1B365D]/30 hover:text-red-500 transition-colors text-lg"
                 >
                   ×
                 </button>
@@ -436,7 +436,7 @@ export function ProductForm({ product, categories }: Props) {
           <button
             type="submit"
             disabled={isPending}
-            className="mt-4 w-full border border-[#171717] bg-[#171717] py-2.5 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60"
+            className="mt-4 w-full border border-[#1B365D] bg-[#1B365D] py-2.5 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60"
           >
             {isPending ? "Saving…" : product ? "Save Changes" : "Create Product"}
           </button>
@@ -454,9 +454,9 @@ export function ProductForm({ product, categories }: Props) {
 
         {/* Categories */}
         <Section title="Categories">
-          <div className="max-h-48 overflow-y-auto space-y-1.5 border border-[#171717]/10 p-3">
+          <div className="max-h-48 overflow-y-auto space-y-1.5 border border-[#1B365D]/10 p-3">
             {categories.length === 0 && (
-              <p className="text-xs text-[#171717]/30">No categories yet.</p>
+              <p className="text-xs text-[#1B365D]/30">No categories yet.</p>
             )}
             {categories.map((cat) => (
               <label key={cat.id} className="flex items-center gap-2 cursor-pointer">
@@ -472,7 +472,7 @@ export function ProductForm({ product, categories }: Props) {
                     }
                   }}
                 />
-                <span className="text-sm text-[#171717]">{cat.name}</span>
+                <span className="text-sm text-[#1B365D]">{cat.name}</span>
               </label>
             ))}
           </div>
@@ -489,7 +489,7 @@ export function ProductForm({ product, categories }: Props) {
                   checked={form[flag]}
                   onChange={(e) => set(flag, e.target.checked)}
                 />
-                <span className="text-sm text-[#171717] capitalize">
+                <span className="text-sm text-[#1B365D] capitalize">
                   {flag.replace("is", "").replace(/([A-Z])/g, " $1").trim()}
                 </span>
               </label>
@@ -527,8 +527,8 @@ export function ProductForm({ product, categories }: Props) {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="border border-[#171717]/10 bg-white p-5">
-      <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#171717]/40">{title}</h3>
+    <div className="border border-[#1B365D]/10 bg-white p-5">
+      <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">{title}</h3>
       {children}
     </div>
   );

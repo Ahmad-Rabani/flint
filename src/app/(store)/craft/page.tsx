@@ -40,7 +40,7 @@ export default async function CraftPage() {
 
   return (
     <div className="bg-[#f6f3ee]">
-      <div className="border-b border-[#171717]/08 bg-[#171717] pt-24 md:pt-28">
+      <div className="border-b border-[#1B365D]/08 bg-[#1B365D] pt-24 md:pt-28">
         <div className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 md:pb-14 lg:px-10">
           <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
             Process
@@ -79,24 +79,24 @@ export default async function CraftPage() {
                     {step.num}
                   </span>
                 </div>
-                <h2 className="mt-5 font-heading text-xl text-[#171717]">{step.title}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-[#171717]/55">{step.body}</p>
+                <h2 className="mt-5 font-heading text-xl text-[#1B365D]">{step.title}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-[#1B365D]/55">{step.body}</p>
               </article>
             ))}
           </div>
         )}
 
-        <div className="mt-14 flex flex-wrap gap-4 border-t border-[#171717]/08 pt-10">
+        <div className="mt-14 flex flex-wrap gap-4 border-t border-[#1B365D]/08 pt-10">
           <Link
             href="/custom"
-            className="inline-flex min-h-11 cursor-pointer items-center gap-2 bg-[#171717] px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory transition-colors hover:bg-[#2a2a2a]"
+            className="inline-flex min-h-11 cursor-pointer items-center gap-2 bg-[#1B365D] px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory transition-colors hover:bg-[#243F6B]"
           >
             Start a custom order
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
           <Link
             href="/catalogue"
-            className="inline-flex min-h-11 cursor-pointer items-center gap-2 border border-[#171717]/15 px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-[#171717] transition-colors hover:border-copper hover:text-copper"
+            className="inline-flex min-h-11 cursor-pointer items-center gap-2 border border-[#1B365D]/15 px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-[#1B365D] transition-colors hover:border-copper hover:text-copper"
           >
             Shop ready pieces
           </Link>

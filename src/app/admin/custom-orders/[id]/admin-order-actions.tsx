@@ -120,15 +120,15 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
   return (
     <div className="space-y-5">
       {/* Status + Note */}
-      <div className="border border-[#171717]/10 bg-white p-6">
+      <div className="border border-[#1B365D]/10 bg-white p-6">
         <h3 className="mb-5 text-xs uppercase tracking-[0.2em] text-copper/80">Update Status</h3>
         <form onSubmit={handleStatusUpdate} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-xs text-[#171717]/45">Status</label>
+            <label className="mb-1.5 block text-xs text-[#1B365D]/45">Status</label>
             <select
               value={newStatus}
               onChange={(e) => setNewStatus(e.target.value as CustomOrderStatus)}
-              className="w-full border border-[#171717]/20 bg-white px-3 py-2.5 text-sm text-[#171717] outline-none focus:border-copper/60"
+              className="w-full border border-[#1B365D]/20 bg-white px-3 py-2.5 text-sm text-[#1B365D] outline-none focus:border-copper/60"
             >
               {CUSTOM_ORDER_STATUSES.map((s) => (
                 <option key={s} value={s}>
@@ -138,7 +138,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
             </select>
           </div>
           <div>
-            <label className="mb-1.5 block text-xs text-[#171717]/45">
+            <label className="mb-1.5 block text-xs text-[#1B365D]/45">
               Internal note (optional)
             </label>
             <textarea
@@ -146,7 +146,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
               onChange={(e) => setInternalNote(e.target.value)}
               rows={3}
               placeholder="Add a note visible only to staff…"
-              className="w-full resize-none border border-[#171717]/20 bg-white px-3 py-2.5 text-sm text-[#171717] placeholder:text-[#171717]/30 outline-none focus:border-copper/60"
+              className="w-full resize-none border border-[#1B365D]/20 bg-white px-3 py-2.5 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 outline-none focus:border-copper/60"
             />
           </div>
           <button
@@ -163,13 +163,13 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
       </div>
 
       {/* Quotation */}
-      <div className="border border-[#171717]/10 bg-white p-6">
+      <div className="border border-[#1B365D]/10 bg-white p-6">
         <h3 className="mb-5 text-xs uppercase tracking-[0.2em] text-copper/80">Quotation</h3>
 
         {quotation ? (
           <div className="space-y-3 text-sm">
             <div className="flex items-center justify-between">
-              <span className="text-[#171717]/45">{quotation.quotationNumber}</span>
+              <span className="text-[#1B365D]/45">{quotation.quotationNumber}</span>
               <span
                 className={cn(
                   "text-xs capitalize px-2 py-0.5",
@@ -177,27 +177,27 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
                     ? "text-copper bg-copper/10"
                     : quotation.status === "accepted"
                       ? "bg-emerald-50 text-emerald-800"
-                      : "bg-[#171717]/5 text-[#171717]/55",
+                      : "bg-[#1B365D]/5 text-[#1B365D]/55",
                 )}
               >
                 {quotation.status}
               </span>
             </div>
-            <p className="font-heading text-2xl text-[#171717]">
+            <p className="font-heading text-2xl text-[#1B365D]">
               {formatCurrency(quotation.amount, quotation.currency)}
             </p>
             {quotation.depositAmount && quotation.depositAmount > 0 && (
-              <p className="text-xs text-[#171717]/45">
+              <p className="text-xs text-[#1B365D]/45">
                 Deposit: {formatCurrency(quotation.depositAmount, quotation.currency)}
               </p>
             )}
             {quotation.validUntil && (
-              <p className="text-xs text-[#171717]/45">
+              <p className="text-xs text-[#1B365D]/45">
                 Valid until {formatDate(quotation.validUntil)}
               </p>
             )}
             {quotation.message && (
-              <p className="mt-2 text-xs text-[#171717]/55 leading-relaxed">{quotation.message}</p>
+              <p className="mt-2 text-xs text-[#1B365D]/55 leading-relaxed">{quotation.message}</p>
             )}
           </div>
         ) : showQuotForm ? (
@@ -210,7 +210,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
                 value={quotAmount}
                 onChange={(e) => setQuotAmount(e.target.value)}
                 placeholder="e.g. 850"
-                className="w-full border border-[#171717]/20 bg-white px-3 py-2.5 text-sm text-[#171717] placeholder:text-[#171717]/30 outline-none focus:border-copper/60"
+                className="w-full border border-[#1B365D]/20 bg-white px-3 py-2.5 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 outline-none focus:border-copper/60"
               />
             </FormField>
             <FormField label="Deposit amount (optional)">
@@ -220,7 +220,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
                 value={quotDeposit}
                 onChange={(e) => setQuotDeposit(e.target.value)}
                 placeholder="e.g. 250"
-                className="w-full border border-[#171717]/20 bg-white px-3 py-2.5 text-sm text-[#171717] placeholder:text-[#171717]/30 outline-none focus:border-copper/60"
+                className="w-full border border-[#1B365D]/20 bg-white px-3 py-2.5 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 outline-none focus:border-copper/60"
               />
             </FormField>
             <FormField label="Estimated days (optional)">
@@ -230,7 +230,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
                 value={quotDays}
                 onChange={(e) => setQuotDays(e.target.value)}
                 placeholder="e.g. 28"
-                className="w-full border border-[#171717]/20 bg-white px-3 py-2.5 text-sm text-[#171717] placeholder:text-[#171717]/30 outline-none focus:border-copper/60"
+                className="w-full border border-[#1B365D]/20 bg-white px-3 py-2.5 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 outline-none focus:border-copper/60"
               />
             </FormField>
             <FormField label="Valid until (optional)">
@@ -238,7 +238,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
                 type="date"
                 value={quotValidUntil}
                 onChange={(e) => setQuotValidUntil(e.target.value)}
-                className="w-full border border-[#171717]/20 bg-white px-3 py-2.5 text-sm text-[#171717] outline-none focus:border-copper"
+                className="w-full border border-[#1B365D]/20 bg-white px-3 py-2.5 text-sm text-[#1B365D] outline-none focus:border-copper"
               />
             </FormField>
             <FormField label="Message to customer (optional)">
@@ -247,10 +247,10 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
                 onChange={(e) => setQuotMessage(e.target.value)}
                 rows={4}
                 placeholder="Explain the quote, timeline, any caveats…"
-                className="w-full resize-none border border-[#171717]/20 bg-white px-3 py-2.5 text-sm text-[#171717] placeholder:text-[#171717]/30 outline-none focus:border-copper/60"
+                className="w-full resize-none border border-[#1B365D]/20 bg-white px-3 py-2.5 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 outline-none focus:border-copper/60"
               />
             </FormField>
-            <label className="flex cursor-pointer items-center gap-3 text-xs text-[#171717]/55">
+            <label className="flex cursor-pointer items-center gap-3 text-xs text-[#1B365D]/55">
               <input
                 type="checkbox"
                 checked={quotMarkSent}
@@ -273,7 +273,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
               <button
                 type="button"
                 onClick={() => setShowQuotForm(false)}
-                className="px-4 text-xs text-[#171717]/45 transition-colors hover:text-[#171717]"
+                className="px-4 text-xs text-[#1B365D]/45 transition-colors hover:text-[#1B365D]"
               >
                 Cancel
               </button>
@@ -281,7 +281,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
           </form>
         ) : (
           <div>
-            <p className="mb-4 text-xs text-[#171717]/45">No quotation yet.</p>
+            <p className="mb-4 text-xs text-[#1B365D]/45">No quotation yet.</p>
             <button
               onClick={() => setShowQuotForm(true)}
               className="w-full border border-copper/30 py-3 text-xs uppercase tracking-[0.2em] text-copper transition-colors hover:bg-copper/10"
@@ -298,7 +298,7 @@ export function AdminOrderActions({ orderId, currentStatus, hasQuotation, quotat
 function FormField({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs text-[#171717]/45">{label}</label>
+      <label className="mb-1.5 block text-xs text-[#1B365D]/45">{label}</label>
       {children}
     </div>
   );

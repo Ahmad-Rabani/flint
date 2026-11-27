@@ -77,8 +77,8 @@ export function CollectionForm({ collection, products }: Props) {
     });
   }
 
-  const inputCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-  const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  const inputCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -104,16 +104,16 @@ export function CollectionForm({ collection, products }: Props) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <div className="max-h-64 overflow-y-auto border border-[#171717]/10 divide-y divide-[#171717]/5">
+          <div className="max-h-64 overflow-y-auto border border-[#1B365D]/10 divide-y divide-[#1B365D]/5">
             {filteredProducts.length === 0 && (
-              <p className="p-4 text-xs text-[#171717]/30">No products found.</p>
+              <p className="p-4 text-xs text-[#1B365D]/30">No products found.</p>
             )}
             {filteredProducts.map((p) => (
-              <label key={p.id} className="flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-[#171717]/[0.02] transition-colors">
+              <label key={p.id} className="flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-[#1B365D]/[0.02] transition-colors">
                 <input type="checkbox" className="accent-copper" checked={productIds.includes(p.id)} onChange={() => toggleProduct(p.id)} />
                 <div className="min-w-0">
-                  <p className="text-sm text-[#171717]">{p.name}</p>
-                  <p className="font-mono text-xs text-[#171717]/40">{p.sku}</p>
+                  <p className="text-sm text-[#1B365D]">{p.name}</p>
+                  <p className="font-mono text-xs text-[#1B365D]/40">{p.sku}</p>
                 </div>
               </label>
             ))}
@@ -122,16 +122,16 @@ export function CollectionForm({ collection, products }: Props) {
       </div>
 
       <div className="space-y-5">
-        <div className="border border-[#171717]/10 bg-white p-5">
-          <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#171717]/40">Settings</h3>
+        <div className="border border-[#1B365D]/10 bg-white p-5">
+          <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">Settings</h3>
           <div className="space-y-3">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="accent-copper" checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} />
-              <span className="text-sm text-[#171717]">Featured</span>
+              <span className="text-sm text-[#1B365D]">Featured</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="accent-copper" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-              <span className="text-sm text-[#171717]">Active</span>
+              <span className="text-sm text-[#1B365D]">Active</span>
             </label>
             <div>
               <label className={labelCls}>Sort Order</label>
@@ -141,11 +141,11 @@ export function CollectionForm({ collection, products }: Props) {
           <button
             type="submit"
             disabled={isPending}
-            className="mt-5 w-full border border-[#171717] bg-[#171717] py-2.5 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60"
+            className="mt-5 w-full border border-[#1B365D] bg-[#1B365D] py-2.5 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60"
           >
             {isPending ? "Saving…" : collection ? "Save Changes" : "Create Collection"}
           </button>
-          <a href="/admin/collections" className="mt-2 block text-center text-xs text-[#171717]/40 hover:text-[#171717] transition-colors">
+          <a href="/admin/collections" className="mt-2 block text-center text-xs text-[#1B365D]/40 hover:text-[#1B365D] transition-colors">
             Cancel
           </a>
         </div>

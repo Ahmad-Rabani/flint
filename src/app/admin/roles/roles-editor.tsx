@@ -53,27 +53,27 @@ export function RolesEditor({ roles }: { roles: RoleDraft[] }) {
   return (
     <div className="mt-8 space-y-8">
       {drafts.map((role) => (
-        <section key={role.key} className="border border-[#171717]/10 bg-white p-5">
+        <section key={role.key} className="border border-[#1B365D]/10 bg-white p-5">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="font-heading text-2xl text-[#171717]">{role.name}</h2>
-              <p className="mt-1 text-xs uppercase tracking-widest text-[#171717]/35">{role.key}</p>
+              <h2 className="font-heading text-2xl text-[#1B365D]">{role.name}</h2>
+              <p className="mt-1 text-xs uppercase tracking-widest text-[#1B365D]/35">{role.key}</p>
             </div>
             <button
               type="button"
               onClick={() => save(role)}
               disabled={pendingKey === role.key}
-              className="border border-[#171717] bg-[#171717] px-4 py-2 text-sm text-ivory transition-colors hover:bg-[#171717]/90 disabled:opacity-60"
+              className="border border-[#1B365D] bg-[#1B365D] px-4 py-2 text-sm text-ivory transition-colors hover:bg-[#1B365D]/90 disabled:opacity-60"
             >
               {pendingKey === role.key ? "Saving…" : "Save role"}
             </button>
           </div>
-          <label className="mt-4 block text-xs uppercase tracking-widest text-[#171717]/50">
+          <label className="mt-4 block text-xs uppercase tracking-widest text-[#1B365D]/50">
             Description
             <input
               value={role.description}
               onChange={(event) => update(role.key, { description: event.target.value })}
-              className="mt-1.5 w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm normal-case tracking-normal text-[#171717] focus:border-copper focus:outline-none"
+              className="mt-1.5 w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm normal-case tracking-normal text-[#1B365D] focus:border-copper focus:outline-none"
             />
           </label>
           <div className="mt-4">

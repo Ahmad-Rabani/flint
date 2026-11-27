@@ -75,7 +75,7 @@ export default async function CataloguePage({ searchParams }: Props) {
 
   return (
     <div className="bg-[#f6f3ee]">
-      <div className="border-b border-[#171717]/08 bg-[#171717] pt-24 md:pt-28">
+      <div className="border-b border-[#1B365D]/08 bg-[#1B365D] pt-24 md:pt-28">
         <div className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 md:pb-14 lg:px-10">
           <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
             Shop
@@ -105,7 +105,7 @@ export default async function CataloguePage({ searchParams }: Props) {
           </aside>
 
           <div className="min-w-0 flex-1">
-            <div className="mb-7 flex flex-wrap items-center gap-3 border-b border-[#171717]/08 pb-5">
+            <div className="mb-7 flex flex-wrap items-center gap-3 border-b border-[#1B365D]/08 pb-5">
               <div className="lg:hidden">
                 <CatalogueFilters
                   categories={categories}
@@ -114,12 +114,12 @@ export default async function CataloguePage({ searchParams }: Props) {
                 />
               </div>
 
-              <p className="hidden text-xs text-[#171717]/45 sm:block">
+              <p className="hidden text-xs text-[#1B365D]/45 sm:block">
                 Showing {items.length} of {total}
               </p>
 
               <div className="ml-auto flex flex-wrap items-center gap-2">
-                <span className="text-[10px] uppercase tracking-[0.16em] text-[#171717]/40">
+                <span className="text-[10px] uppercase tracking-[0.16em] text-[#1B365D]/40">
                   Sort
                 </span>
                 {SORT_OPTIONS.map((opt) => (
@@ -133,7 +133,7 @@ export default async function CataloguePage({ searchParams }: Props) {
                     className={
                       sort === opt.value
                         ? "cursor-pointer border border-copper bg-copper/5 px-3 py-1.5 text-xs text-copper"
-                        : "cursor-pointer border border-[#171717]/12 px-3 py-1.5 text-xs text-[#171717]/55 transition-colors hover:border-[#171717]/35 hover:text-[#171717]"
+                        : "cursor-pointer border border-[#1B365D]/12 px-3 py-1.5 text-xs text-[#1B365D]/55 transition-colors hover:border-[#1B365D]/35 hover:text-[#1B365D]"
                     }
                   >
                     {opt.label}
@@ -150,8 +150,8 @@ export default async function CataloguePage({ searchParams }: Props) {
               </div>
             ) : (
               <div className="py-24 text-center">
-                <p className="font-heading text-2xl text-[#171717]">Nothing found.</p>
-                <p className="mt-3 text-sm text-[#171717]/50">
+                <p className="font-heading text-2xl text-[#1B365D]">Nothing found.</p>
+                <p className="mt-3 text-sm text-[#1B365D]/50">
                   Try adjusting your filters or search term.
                 </p>
                 <Link
@@ -171,7 +171,7 @@ export default async function CataloguePage({ searchParams }: Props) {
                 {page > 1 && (
                   <Link
                     href={pageHref(page - 1)}
-                    className="grid h-9 w-9 cursor-pointer place-items-center border border-[#171717]/15 text-[#171717]/55 transition-colors hover:border-[#171717] hover:text-[#171717]"
+                    className="grid h-9 w-9 cursor-pointer place-items-center border border-[#1B365D]/15 text-[#1B365D]/55 transition-colors hover:border-[#1B365D] hover:text-[#1B365D]"
                     aria-label="Previous page"
                   >
                     <ChevronLeft className="h-4 w-4" />
@@ -182,7 +182,7 @@ export default async function CataloguePage({ searchParams }: Props) {
                   if (Math.abs(p - page) > 2 && p !== 1 && p !== totalPages) {
                     if (p === 2 || p === totalPages - 1) {
                       return (
-                        <span key={p} className="px-1 text-xs text-[#171717]/35">
+                        <span key={p} className="px-1 text-xs text-[#1B365D]/35">
                           …
                         </span>
                       );
@@ -196,7 +196,7 @@ export default async function CataloguePage({ searchParams }: Props) {
                       className={
                         p === page
                           ? "grid h-9 min-w-9 cursor-pointer place-items-center border border-copper bg-copper/5 px-2 text-xs text-copper"
-                          : "grid h-9 min-w-9 cursor-pointer place-items-center border border-[#171717]/15 px-2 text-xs text-[#171717]/55 transition-colors hover:border-[#171717] hover:text-[#171717]"
+                          : "grid h-9 min-w-9 cursor-pointer place-items-center border border-[#1B365D]/15 px-2 text-xs text-[#1B365D]/55 transition-colors hover:border-[#1B365D] hover:text-[#1B365D]"
                       }
                       aria-current={p === page ? "page" : undefined}
                     >
@@ -207,7 +207,7 @@ export default async function CataloguePage({ searchParams }: Props) {
                 {page < totalPages && (
                   <Link
                     href={pageHref(page + 1)}
-                    className="grid h-9 w-9 cursor-pointer place-items-center border border-[#171717]/15 text-[#171717]/55 transition-colors hover:border-[#171717] hover:text-[#171717]"
+                    className="grid h-9 w-9 cursor-pointer place-items-center border border-[#1B365D]/15 text-[#1B365D]/55 transition-colors hover:border-[#1B365D] hover:text-[#1B365D]"
                     aria-label="Next page"
                   >
                     <ChevronRight className="h-4 w-4" />

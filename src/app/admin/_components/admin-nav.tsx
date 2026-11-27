@@ -279,12 +279,12 @@ export function AdminNav(props: Props) {
   return (
     <>
       {/* Desktop sidebar — fixed height, no outer scrollbar */}
-      <aside className="hidden h-full max-h-dvh w-56 shrink-0 flex-col overflow-hidden border-r border-white/10 bg-[#171717] lg:flex">
+      <aside className="hidden h-full max-h-dvh w-56 shrink-0 flex-col overflow-hidden border-r border-white/10 bg-[#1B365D] lg:flex">
         <SidebarContent {...props} pathname={pathname} />
       </aside>
 
       {/* Mobile header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-30 border-b border-white/10 bg-[#171717] px-5 py-3.5 flex items-center justify-between">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-30 border-b border-white/10 bg-[#1B365D] px-5 py-3.5 flex items-center justify-between">
         <BrandLogo variant="mark" tone="orange" href="/admin" imgClassName="h-8 w-8" />
         <button
           onClick={() => setMobileOpen(true)}
@@ -299,10 +299,10 @@ export function AdminNav(props: Props) {
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-ink/60 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
-          <aside className="relative z-10 w-64 bg-[#171717] border-r border-white/10 overflow-y-auto">
+          <aside className="relative z-10 w-64 bg-[#1B365D] border-r border-white/10 overflow-y-auto">
             <button
               onClick={() => setMobileOpen(false)}
               className="absolute right-4 top-4 text-white/50 hover:text-white"

@@ -35,8 +35,8 @@ export function InventoryPagination({
     cn(
       "border px-3 py-1.5 text-sm transition-colors",
       active
-        ? "border-[#171717] bg-[#171717] text-ivory"
-        : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper",
+        ? "border-[#1B365D] bg-[#1B365D] text-ivory"
+        : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper",
     );
 
   return (
@@ -46,13 +46,13 @@ export function InventoryPagination({
           Previous
         </Link>
       )}
-      {start > 1 && <span className="px-1 text-sm text-[#171717]/30">…</span>}
+      {start > 1 && <span className="px-1 text-sm text-[#1B365D]/30">…</span>}
       {pages.map((item) => (
         <Link key={item} href={makeHref(item)} className={linkClass(item === page)}>
           {item}
         </Link>
       ))}
-      {end < totalPages && <span className="px-1 text-sm text-[#171717]/30">…</span>}
+      {end < totalPages && <span className="px-1 text-sm text-[#1B365D]/30">…</span>}
       {page < totalPages && (
         <Link href={makeHref(page + 1)} className={linkClass(false)}>
           Next

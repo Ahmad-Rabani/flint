@@ -42,7 +42,7 @@ export default async function EditOptionPage({ params }: Props) {
     <div>
       <Link href="/admin/customization-options" className="text-xs uppercase tracking-widest text-copper/60 hover:text-copper transition-colors">← Customization Options</Link>
       <p className="mt-4 text-xs uppercase tracking-[0.3em] text-copper/70">Catalogue</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">{option.name}</h1>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">{option.name}</h1>
       <OptionForm option={option} />
     </div>
   );

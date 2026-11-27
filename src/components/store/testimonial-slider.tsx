@@ -16,7 +16,7 @@ function RatingStars({ rating }: { rating: number }) {
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
-          className={cn("h-3.5 w-3.5", i < rating ? "text-copper" : "text-[#171717]/15")}
+          className={cn("h-3.5 w-3.5", i < rating ? "text-copper" : "text-[#1B365D]/15")}
           fill="currentColor"
           viewBox="0 0 20 20"
           aria-hidden
@@ -97,7 +97,7 @@ export function TestimonialSlider({ testimonials }: Props) {
           onClick={prev}
           aria-label="Previous testimonials"
           disabled={count <= visible}
-          className="hidden h-12 w-12 shrink-0 cursor-pointer place-items-center border border-[#171717]/15 bg-white text-[#171717] transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 md:grid"
+          className="hidden h-12 w-12 shrink-0 cursor-pointer place-items-center border border-[#1B365D]/15 bg-white text-[#1B365D] transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 md:grid"
         >
           <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
         </button>
@@ -131,7 +131,7 @@ export function TestimonialSlider({ testimonials }: Props) {
                 <figure
                   key={item._id}
                   className={cn(
-                    "flex min-h-[16.5rem] shrink-0 flex-col border border-[#171717]/10 bg-white p-6 transition-all duration-500 sm:min-h-[18rem] sm:p-7 lg:min-h-[19rem] lg:p-8",
+                    "flex min-h-[16.5rem] shrink-0 flex-col border border-[#1B365D]/10 bg-white p-6 transition-all duration-500 sm:min-h-[18rem] sm:p-7 lg:min-h-[19rem] lg:p-8",
                     inView ? "opacity-100" : "opacity-50",
                   )}
                   style={{ flexBasis: slideBasis, width: slideBasis }}
@@ -141,11 +141,11 @@ export function TestimonialSlider({ testimonials }: Props) {
                     <RatingStars rating={item.rating} />
                   </div>
 
-                  <blockquote className="mt-5 flex-1 font-heading text-[1.15rem] leading-[1.35] text-[#171717] sm:text-[1.3rem] lg:text-[1.4rem]">
+                  <blockquote className="mt-5 flex-1 font-heading text-[1.15rem] leading-[1.35] text-[#1B365D] sm:text-[1.3rem] lg:text-[1.4rem]">
                     &ldquo;{item.quote}&rdquo;
                   </blockquote>
 
-                  <figcaption className="mt-6 flex items-center gap-3 border-t border-[#171717]/08 pt-5">
+                  <figcaption className="mt-6 flex items-center gap-3 border-t border-[#1B365D]/08 pt-5">
                     {item.avatar ? (
                       <Image
                         src={item.avatar.url}
@@ -160,9 +160,9 @@ export function TestimonialSlider({ testimonials }: Props) {
                       </div>
                     )}
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-[#171717]">{item.authorName}</p>
+                      <p className="truncate text-sm font-medium text-[#1B365D]">{item.authorName}</p>
                       {item.authorTitle && (
-                        <p className="mt-0.5 truncate text-xs text-[#171717]/45">{item.authorTitle}</p>
+                        <p className="mt-0.5 truncate text-xs text-[#1B365D]/45">{item.authorTitle}</p>
                       )}
                     </div>
                   </figcaption>
@@ -177,7 +177,7 @@ export function TestimonialSlider({ testimonials }: Props) {
           onClick={next}
           aria-label="Next testimonials"
           disabled={count <= visible}
-          className="hidden h-12 w-12 shrink-0 cursor-pointer place-items-center border border-[#171717]/15 bg-white text-[#171717] transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 md:grid"
+          className="hidden h-12 w-12 shrink-0 cursor-pointer place-items-center border border-[#1B365D]/15 bg-white text-[#1B365D] transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 md:grid"
         >
           <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
         </button>
@@ -189,7 +189,7 @@ export function TestimonialSlider({ testimonials }: Props) {
             type="button"
             onClick={prev}
             aria-label="Previous testimonials"
-            className="grid h-10 w-10 cursor-pointer place-items-center border border-[#171717]/15 bg-white text-[#171717] transition-colors hover:border-copper hover:text-copper"
+            className="grid h-10 w-10 cursor-pointer place-items-center border border-[#1B365D]/15 bg-white text-[#1B365D] transition-colors hover:border-copper hover:text-copper"
           >
             <ChevronLeft className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -197,7 +197,7 @@ export function TestimonialSlider({ testimonials }: Props) {
             type="button"
             onClick={next}
             aria-label="Next testimonials"
-            className="grid h-10 w-10 cursor-pointer place-items-center border border-[#171717]/15 bg-white text-[#171717] transition-colors hover:border-copper hover:text-copper"
+            className="grid h-10 w-10 cursor-pointer place-items-center border border-[#1B365D]/15 bg-white text-[#1B365D] transition-colors hover:border-copper hover:text-copper"
           >
             <ChevronRight className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -213,13 +213,13 @@ export function TestimonialSlider({ testimonials }: Props) {
               onClick={() => setIndex(i)}
               className={cn(
                 "h-1.5 cursor-pointer rounded-full transition-all duration-500",
-                i === index ? "w-8 bg-copper" : "w-2 bg-[#171717]/20 hover:bg-[#171717]/40",
+                i === index ? "w-8 bg-copper" : "w-2 bg-[#1B365D]/20 hover:bg-[#1B365D]/40",
               )}
             />
           ))}
         </div>
 
-        <p className="hidden text-[10px] uppercase tracking-[0.2em] text-[#171717]/40 sm:block">
+        <p className="hidden text-[10px] uppercase tracking-[0.2em] text-[#1B365D]/40 sm:block">
           {String(index + 1).padStart(2, "0")} / {String(maxIndex + 1).padStart(2, "0")}
         </p>
       </div>

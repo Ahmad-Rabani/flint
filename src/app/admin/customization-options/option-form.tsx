@@ -102,8 +102,8 @@ export function OptionForm({ option }: Props) {
     });
   }
 
-  const inputCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-  const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  const inputCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 max-w-3xl space-y-6">
@@ -139,7 +139,7 @@ export function OptionForm({ option }: Props) {
           {PRODUCT_TYPES.map((type) => (
             <label key={type} className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="accent-copper" checked={productTypes.includes(type)} onChange={() => toggleType(type)} />
-              <span className="text-sm capitalize text-[#171717]">{type}</span>
+              <span className="text-sm capitalize text-[#1B365D]">{type}</span>
             </label>
           ))}
         </div>
@@ -148,11 +148,11 @@ export function OptionForm({ option }: Props) {
       <div className="flex gap-6">
         <label className="flex items-center gap-2 cursor-pointer">
           <input type="checkbox" className="accent-copper" checked={isRequired} onChange={(e) => setIsRequired(e.target.checked)} />
-          <span className="text-sm text-[#171717]">Required</span>
+          <span className="text-sm text-[#1B365D]">Required</span>
         </label>
         <label className="flex items-center gap-2 cursor-pointer">
           <input type="checkbox" className="accent-copper" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-          <span className="text-sm text-[#171717]">Active</span>
+          <span className="text-sm text-[#1B365D]">Active</span>
         </label>
       </div>
 
@@ -161,18 +161,18 @@ export function OptionForm({ option }: Props) {
         <label className={labelCls}>Option Values</label>
         <div className="space-y-2 mb-3">
           {values.length === 0 && (
-            <p className="text-xs text-[#171717]/30 py-2">No values yet. For select/color types, add values below.</p>
+            <p className="text-xs text-[#1B365D]/30 py-2">No values yet. For select/color types, add values below.</p>
           )}
           {values.map((v, i) => (
             <div key={i} className="flex gap-2 items-center">
               <input className={`${inputCls} flex-1`} placeholder="Label" value={v.label} onChange={(e) => updateValue(i, "label", e.target.value)} />
               <input className={`${inputCls} flex-1 font-mono`} placeholder="Value" value={v.value} onChange={(e) => updateValue(i, "value", e.target.value)} />
-              <input type="number" step="0.01" className="w-24 border border-[#171717]/20 bg-white px-2 py-2 text-sm text-[#171717] focus:border-copper focus:outline-none" placeholder="±price" value={v.priceDelta} onChange={(e) => updateValue(i, "priceDelta", e.target.value)} />
-              <label className="shrink-0 flex items-center gap-1 text-xs text-[#171717]/50 cursor-pointer">
+              <input type="number" step="0.01" className="w-24 border border-[#1B365D]/20 bg-white px-2 py-2 text-sm text-[#1B365D] focus:border-copper focus:outline-none" placeholder="±price" value={v.priceDelta} onChange={(e) => updateValue(i, "priceDelta", e.target.value)} />
+              <label className="shrink-0 flex items-center gap-1 text-xs text-[#1B365D]/50 cursor-pointer">
                 <input type="checkbox" className="accent-copper" checked={v.isDefault} onChange={(e) => updateValue(i, "isDefault", e.target.checked)} />
                 Default
               </label>
-              <button type="button" onClick={() => removeValue(i)} className="shrink-0 text-[#171717]/30 hover:text-red-500 text-lg px-1">×</button>
+              <button type="button" onClick={() => removeValue(i)} className="shrink-0 text-[#1B365D]/30 hover:text-red-500 text-lg px-1">×</button>
             </div>
           ))}
         </div>
@@ -182,10 +182,10 @@ export function OptionForm({ option }: Props) {
       </div>
 
       <div className="flex gap-3">
-        <button type="submit" disabled={isPending} className="border border-[#171717] bg-[#171717] px-5 py-2.5 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60">
+        <button type="submit" disabled={isPending} className="border border-[#1B365D] bg-[#1B365D] px-5 py-2.5 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60">
           {isPending ? "Saving…" : option ? "Save Changes" : "Create Option"}
         </button>
-        <a href="/admin/customization-options" className="border border-[#171717]/20 px-5 py-2.5 text-sm text-[#171717]/60 hover:border-[#171717]/40 transition-colors">
+        <a href="/admin/customization-options" className="border border-[#1B365D]/20 px-5 py-2.5 text-sm text-[#1B365D]/60 hover:border-[#1B365D]/40 transition-colors">
           Cancel
         </a>
       </div>

@@ -67,10 +67,10 @@ export default async function AdminOrderDetailPage({ params }: Props) {
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Order</p>
-          <h1 className="mt-1 font-heading text-4xl text-[#171717]">{order.orderNumber}</h1>
-          <p className="mt-1 text-sm text-[#171717]/50">{formatDate(order.createdAt)} · {order.source}</p>
+          <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">{order.orderNumber}</h1>
+          <p className="mt-1 text-sm text-[#1B365D]/50">{formatDate(order.createdAt)} · {order.source}</p>
         </div>
-        <span className="border border-[#171717]/20 px-3 py-1.5 text-xs capitalize text-[#171717]/60">
+        <span className="border border-[#1B365D]/20 px-3 py-1.5 text-xs capitalize text-[#1B365D]/60">
           {order.status.replace(/_/g, " ")}
         </span>
       </div>
@@ -82,23 +82,23 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#171717]/10">
-                  <th className="pb-2 text-left text-xs font-normal text-[#171717]/40">Product</th>
-                  <th className="pb-2 text-right text-xs font-normal text-[#171717]/40">Unit</th>
-                  <th className="pb-2 text-right text-xs font-normal text-[#171717]/40">Qty</th>
-                  <th className="pb-2 text-right text-xs font-normal text-[#171717]/40">Total</th>
+                <tr className="border-b border-[#1B365D]/10">
+                  <th className="pb-2 text-left text-xs font-normal text-[#1B365D]/40">Product</th>
+                  <th className="pb-2 text-right text-xs font-normal text-[#1B365D]/40">Unit</th>
+                  <th className="pb-2 text-right text-xs font-normal text-[#1B365D]/40">Qty</th>
+                  <th className="pb-2 text-right text-xs font-normal text-[#1B365D]/40">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#171717]/5">
+              <tbody className="divide-y divide-[#1B365D]/5">
                 {order.items.map((item, i) => (
                   <tr key={i}>
                     <td className="py-3">
-                      <p className="text-[#171717] font-medium">{item.name}</p>
-                      <p className="font-mono text-xs text-[#171717]/40">{item.sku}</p>
+                      <p className="text-[#1B365D] font-medium">{item.name}</p>
+                      <p className="font-mono text-xs text-[#1B365D]/40">{item.sku}</p>
                     </td>
-                    <td className="py-3 text-right text-[#171717]/60">{formatCurrency(item.unitPrice, order.currency)}</td>
-                    <td className="py-3 text-right text-[#171717]/60">{item.quantity}</td>
-                    <td className="py-3 text-right text-[#171717] font-medium">{formatCurrency(item.lineTotal, order.currency)}</td>
+                    <td className="py-3 text-right text-[#1B365D]/60">{formatCurrency(item.unitPrice, order.currency)}</td>
+                    <td className="py-3 text-right text-[#1B365D]/60">{item.quantity}</td>
+                    <td className="py-3 text-right text-[#1B365D] font-medium">{formatCurrency(item.lineTotal, order.currency)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -110,30 +110,30 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           <Section title="Totals">
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <dt className="text-[#171717]/50">Subtotal</dt>
-                <dd className="text-[#171717]">{formatCurrency(order.subtotal, order.currency)}</dd>
+                <dt className="text-[#1B365D]/50">Subtotal</dt>
+                <dd className="text-[#1B365D]">{formatCurrency(order.subtotal, order.currency)}</dd>
               </div>
               {order.discountAmount > 0 && (
                 <div className="flex justify-between">
-                  <dt className="text-[#171717]/50">Discount {order.couponCode && `(${order.couponCode})`}</dt>
+                  <dt className="text-[#1B365D]/50">Discount {order.couponCode && `(${order.couponCode})`}</dt>
                   <dd className="text-green-600">-{formatCurrency(order.discountAmount, order.currency)}</dd>
                 </div>
               )}
               {order.taxAmount > 0 && (
                 <div className="flex justify-between">
-                  <dt className="text-[#171717]/50">Tax</dt>
-                  <dd className="text-[#171717]">{formatCurrency(order.taxAmount, order.currency)}</dd>
+                  <dt className="text-[#1B365D]/50">Tax</dt>
+                  <dd className="text-[#1B365D]">{formatCurrency(order.taxAmount, order.currency)}</dd>
                 </div>
               )}
               {order.shippingAmount > 0 && (
                 <div className="flex justify-between">
-                  <dt className="text-[#171717]/50">Shipping</dt>
-                  <dd className="text-[#171717]">{formatCurrency(order.shippingAmount, order.currency)}</dd>
+                  <dt className="text-[#1B365D]/50">Shipping</dt>
+                  <dd className="text-[#1B365D]">{formatCurrency(order.shippingAmount, order.currency)}</dd>
                 </div>
               )}
-              <div className="flex justify-between border-t border-[#171717]/10 pt-2 font-medium">
-                <dt className="text-[#171717]">Total</dt>
-                <dd className="text-[#171717]">{formatCurrency(order.total, order.currency)}</dd>
+              <div className="flex justify-between border-t border-[#1B365D]/10 pt-2 font-medium">
+                <dt className="text-[#1B365D]">Total</dt>
+                <dd className="text-[#1B365D]">{formatCurrency(order.total, order.currency)}</dd>
               </div>
             </dl>
           </Section>
@@ -141,8 +141,8 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           {/* Shipping address */}
           {order.shippingAddress && (
             <Section title="Shipping Address">
-              <address className="not-italic text-sm text-[#171717]/70 space-y-0.5">
-                <p className="font-medium text-[#171717]">{order.shippingAddress.fullName}</p>
+              <address className="not-italic text-sm text-[#1B365D]/70 space-y-0.5">
+                <p className="font-medium text-[#1B365D]">{order.shippingAddress.fullName}</p>
                 <p>{order.shippingAddress.line1}</p>
                 {order.shippingAddress.line2 && <p>{order.shippingAddress.line2}</p>}
                 <p>{order.shippingAddress.city}{order.shippingAddress.state && `, ${order.shippingAddress.state}`} {order.shippingAddress.postalCode}</p>
@@ -154,7 +154,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
 
           {order.notes && (
             <Section title="Customer Notes">
-              <p className="text-sm text-[#171717]/70">{order.notes}</p>
+              <p className="text-sm text-[#1B365D]/70">{order.notes}</p>
             </Section>
           )}
         </div>
@@ -171,14 +171,14 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             <dl className="space-y-2 text-sm">
               {order.guestEmail && (
                 <div>
-                  <dt className="text-xs text-[#171717]/40">Email</dt>
-                  <dd className="text-[#171717]">{order.guestEmail}</dd>
+                  <dt className="text-xs text-[#1B365D]/40">Email</dt>
+                  <dd className="text-[#1B365D]">{order.guestEmail}</dd>
                 </div>
               )}
               {order.paymentMethod && (
                 <div>
-                  <dt className="text-xs text-[#171717]/40">Payment Method</dt>
-                  <dd className="capitalize text-[#171717]">{order.paymentMethod}</dd>
+                  <dt className="text-xs text-[#1B365D]/40">Payment Method</dt>
+                  <dd className="capitalize text-[#1B365D]">{order.paymentMethod}</dd>
                 </div>
               )}
             </dl>
@@ -191,8 +191,8 @@ export default async function AdminOrderDetailPage({ params }: Props) {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="border border-[#171717]/10 bg-white p-5">
-      <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#171717]/40">{title}</h3>
+    <div className="border border-[#1B365D]/10 bg-white p-5">
+      <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">{title}</h3>
       {children}
     </div>
   );

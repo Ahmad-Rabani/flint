@@ -39,7 +39,7 @@ export default async function CollectionDetailPage({ params }: Props) {
 
   return (
     <div className="bg-[#f6f3ee]">
-      <div className="relative overflow-hidden bg-[#171717] pt-24 md:pt-28">
+      <div className="relative overflow-hidden bg-[#1B365D] pt-24 md:pt-28">
         <div className="absolute inset-0">
           <Image
             src={cover}
@@ -51,7 +51,7 @@ export default async function CollectionDetailPage({ params }: Props) {
             className="object-cover object-center opacity-30"
             aria-hidden
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#171717] via-[#171717]/88 to-[#171717]/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1B365D] via-[#1B365D]/88 to-[#1B365D]/55" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-5 pb-12 sm:px-6 md:pb-16 lg:px-10">
@@ -89,7 +89,7 @@ export default async function CollectionDetailPage({ params }: Props) {
           </div>
         ) : (
           <div className="py-20 text-center">
-            <p className="font-heading text-2xl text-[#171717]">No pieces in this collection yet.</p>
+            <p className="font-heading text-2xl text-[#1B365D]">No pieces in this collection yet.</p>
             <Link
               href="/catalogue"
               className="mt-6 inline-flex cursor-pointer text-[11px] font-medium uppercase tracking-[0.16em] text-copper"

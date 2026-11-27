@@ -15,7 +15,7 @@ export default async function NewProductPage() {
         ← Products
       </Link>
       <p className="mt-4 text-xs uppercase tracking-[0.3em] text-copper/70">Catalogue</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">New Product</h1>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">New Product</h1>
       <ProductForm categories={categories} />
     </div>
   );

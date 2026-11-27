@@ -13,10 +13,10 @@ type Props = {
 
 const BADGE_STYLES: Record<string, string> = {
   New: "bg-copper text-white",
-  Bestseller: "bg-[#171717] text-ivory",
-  Limited: "bg-[#2a1a10] text-copper",
+  Bestseller: "bg-[#1B365D] text-ivory",
+  Limited: "bg-[#132844] text-copper",
   Custom: "bg-[#1a2214] text-[#7cad60]",
-  Outdoor: "bg-[#171717] text-ivory",
+  Outdoor: "bg-[#1B365D] text-ivory",
   Featured: "bg-copper text-white",
 };
 
@@ -99,7 +99,7 @@ export function ProductCard({ product, priority = false, className }: Props) {
                 key={`${badge}-${index}`}
                 className={cn(
                   "px-2 py-1 text-[9px] font-semibold uppercase tracking-widest leading-none",
-                  BADGE_STYLES[badge] ?? "bg-[#171717] text-ivory",
+                  BADGE_STYLES[badge] ?? "bg-[#1B365D] text-ivory",
                 )}
               >
                 {badge}
@@ -109,7 +109,7 @@ export function ProductCard({ product, priority = false, className }: Props) {
         )}
 
         {isOutOfStock && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#171717]/45 backdrop-blur-[1px]">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#1B365D]/45 backdrop-blur-[1px]">
             <span className="border border-ivory/30 px-3 py-1.5 text-[10px] uppercase tracking-widest text-ivory/85">
               Sold out
             </span>
@@ -121,13 +121,13 @@ export function ProductCard({ product, priority = false, className }: Props) {
 
       <div className="mt-4 flex flex-1 flex-col">
         {product.materials.length > 0 && (
-          <p className="mb-1.5 text-[10px] uppercase tracking-[0.16em] text-[#171717]/40">
+          <p className="mb-1.5 text-[10px] uppercase tracking-[0.16em] text-[#1B365D]/40">
             {product.materials.slice(0, 2).join(" · ")}
           </p>
         )}
         <Link
           href={`/products/${product.slug}`}
-          className="block text-[15px] font-medium leading-snug text-[#171717] transition-colors hover:text-copper"
+          className="block text-[15px] font-medium leading-snug text-[#1B365D] transition-colors hover:text-copper"
         >
           {product.name}
         </Link>
@@ -136,13 +136,13 @@ export function ProductCard({ product, priority = false, className }: Props) {
           <span
             className={cn(
               "font-heading text-lg",
-              isOnSale ? "text-copper" : "text-[#171717]",
+              isOnSale ? "text-copper" : "text-[#1B365D]",
             )}
           >
             {formatCurrency(product.price)}
           </span>
           {isOnSale && (
-            <span className="text-xs text-[#171717]/40 line-through">
+            <span className="text-xs text-[#1B365D]/40 line-through">
               {formatCurrency(product.compareAtPrice!)}
             </span>
           )}
@@ -159,7 +159,7 @@ export function ProductCard({ product, priority = false, className }: Props) {
                   key={i}
                   className={cn(
                     "h-2.5 w-2.5",
-                    i < Math.round(product.averageRating) ? "text-copper" : "text-[#171717]/15",
+                    i < Math.round(product.averageRating) ? "text-copper" : "text-[#1B365D]/15",
                   )}
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -168,7 +168,7 @@ export function ProductCard({ product, priority = false, className }: Props) {
                 </svg>
               ))}
             </div>
-            <span className="text-[10px] text-[#171717]/40">({product.reviewCount})</span>
+            <span className="text-[10px] text-[#1B365D]/40">({product.reviewCount})</span>
           </div>
         )}
 

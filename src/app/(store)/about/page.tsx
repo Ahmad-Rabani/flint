@@ -16,7 +16,7 @@ export default async function AboutPage() {
 
   return (
     <div className="bg-[#f6f3ee]">
-      <div className="border-b border-[#171717]/08 bg-[#171717] pt-24 md:pt-28">
+      <div className="border-b border-[#1B365D]/08 bg-[#1B365D] pt-24 md:pt-28">
         <div className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 md:pb-14 lg:px-10">
           <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
             The atelier
@@ -41,7 +41,7 @@ export default async function AboutPage() {
                 dangerouslySetInnerHTML={{ __html: page.content }}
               />
             ) : (
-              <div className="space-y-5 text-[15px] leading-relaxed text-[#171717]/65">
+              <div className="space-y-5 text-[15px] leading-relaxed text-[#1B365D]/65">
                 <p>
                   FLINT began as a small forge practice and grew into an atelier for people who want
                   tools with presence — balanced, finished by hand, and made to be used for decades.
@@ -61,14 +61,14 @@ export default async function AboutPage() {
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
                 href="/craft"
-                className="inline-flex min-h-11 cursor-pointer items-center gap-2 bg-[#171717] px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory transition-colors hover:bg-[#2a2a2a]"
+                className="inline-flex min-h-11 cursor-pointer items-center gap-2 bg-[#1B365D] px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory transition-colors hover:bg-[#243F6B]"
               >
                 See our process
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
               <Link
                 href="/custom"
-                className="inline-flex min-h-11 cursor-pointer items-center gap-2 border border-[#171717]/15 px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-[#171717] transition-colors hover:border-copper hover:text-copper"
+                className="inline-flex min-h-11 cursor-pointer items-center gap-2 border border-[#1B365D]/15 px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-[#1B365D] transition-colors hover:border-copper hover:text-copper"
               >
                 Commission a blade
               </Link>

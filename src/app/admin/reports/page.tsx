@@ -33,71 +33,71 @@ export default async function AdminReportsPage({ searchParams }: Props) {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-4 text-sm">
-        <Link href={reportHref("/admin/reports/orders", range)} className="text-[#171717] underline decoration-[#171717]/25 underline-offset-4 hover:text-copper">
+        <Link href={reportHref("/admin/reports/orders", range)} className="text-[#1B365D] underline decoration-[#1B365D]/25 underline-offset-4 hover:text-copper">
           Order report
         </Link>
-        <Link href={reportHref("/admin/reports/inventory", range)} className="text-[#171717] underline decoration-[#171717]/25 underline-offset-4 hover:text-copper">
+        <Link href={reportHref("/admin/reports/inventory", range)} className="text-[#1B365D] underline decoration-[#1B365D]/25 underline-offset-4 hover:text-copper">
           Inventory report
         </Link>
-        <Link href={reportHref("/admin/reports/pos", range)} className="text-[#171717] underline decoration-[#171717]/25 underline-offset-4 hover:text-copper">
+        <Link href={reportHref("/admin/reports/pos", range)} className="text-[#1B365D] underline decoration-[#1B365D]/25 underline-offset-4 hover:text-copper">
           POS report
         </Link>
       </div>
 
-      <h2 className="mt-8 font-heading text-2xl text-[#171717]">Daily sales</h2>
+      <h2 className="mt-8 font-heading text-2xl text-[#1B365D]">Daily sales</h2>
       {!hasSales ? (
         <EmptyNote>No paid orders or completed POS sales in this date range.</EmptyNote>
       ) : (
-        <div className="mt-4 overflow-x-auto border border-[#171717]/10 bg-white">
+        <div className="mt-4 overflow-x-auto border border-[#1B365D]/10 bg-white">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">Date</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Online</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">POS</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Total</th>
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Date</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Online</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">POS</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Total</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {report.series.map((row) => (
                 <tr key={row.date}>
-                  <td className="px-4 py-3 text-[#171717]">{formatReportDay(row.date)}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]/80">{money(row.onlineRevenue)}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]/80">{money(row.posRevenue)}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]">{money(row.totalRevenue)}</td>
+                  <td className="px-4 py-3 text-[#1B365D]">{formatReportDay(row.date)}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D]/80">{money(row.onlineRevenue)}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D]/80">{money(row.posRevenue)}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D]">{money(row.totalRevenue)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
           {report.seriesTruncated ? (
-            <p className="border-t border-[#171717]/10 px-4 py-3 text-xs text-[#171717]/45">
+            <p className="border-t border-[#1B365D]/10 px-4 py-3 text-xs text-[#1B365D]/45">
               This range is longer than 92 days, so only days with sales are listed.
             </p>
           ) : null}
         </div>
       )}
 
-      <h2 className="mt-8 font-heading text-2xl text-[#171717]">Top products</h2>
+      <h2 className="mt-8 font-heading text-2xl text-[#1B365D]">Top products</h2>
       {report.topProducts.length === 0 ? (
         <EmptyNote>No products sold in this date range.</EmptyNote>
       ) : (
-        <div className="mt-4 overflow-x-auto border border-[#171717]/10 bg-white">
+        <div className="mt-4 overflow-x-auto border border-[#1B365D]/10 bg-white">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">Product</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">SKU</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Qty</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Revenue</th>
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Product</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">SKU</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Qty</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Revenue</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {report.topProducts.map((row) => (
                 <tr key={`${row.sku}-${row.name}`}>
-                  <td className="px-4 py-3 text-[#171717]">{row.name}</td>
-                  <td className="px-4 py-3 text-[#171717]/60">{row.sku}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]/80">{row.quantity}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]">{money(row.revenue)}</td>
+                  <td className="px-4 py-3 text-[#1B365D]">{row.name}</td>
+                  <td className="px-4 py-3 text-[#1B365D]/60">{row.sku}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D]/80">{row.quantity}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D]">{money(row.revenue)}</td>
                 </tr>
               ))}
             </tbody>

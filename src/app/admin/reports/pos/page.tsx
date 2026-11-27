@@ -37,25 +37,25 @@ export default async function PosReportPage({ searchParams }: Props) {
         <EmptyNote>No POS sales in this date range.</EmptyNote>
       ) : (
         <section className="mt-8">
-          <h2 className="font-heading text-2xl text-[#171717]">Payment methods</h2>
+          <h2 className="font-heading text-2xl text-[#1B365D]">Payment methods</h2>
           {methods.length === 0 ? (
             <EmptyNote>No completed sales to break down by payment method.</EmptyNote>
           ) : (
-            <div className="mt-4 overflow-x-auto border border-[#171717]/10 bg-white">
+            <div className="mt-4 overflow-x-auto border border-[#1B365D]/10 bg-white">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-[#171717]/10">
-                    <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">Method</th>
-                    <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Sales</th>
-                    <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Total</th>
+                  <tr className="border-b border-[#1B365D]/10">
+                    <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Method</th>
+                    <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Sales</th>
+                    <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Total</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#171717]/5">
+                <tbody className="divide-y divide-[#1B365D]/5">
                   {methods.map((row) => (
                     <tr key={row.method}>
-                      <td className="px-4 py-3 capitalize text-[#171717]">{row.method.replace(/_/g, " ")}</td>
-                      <td className="px-4 py-3 text-right text-[#171717]/80">{row.count}</td>
-                      <td className="px-4 py-3 text-right text-[#171717]">{money(row.total)}</td>
+                      <td className="px-4 py-3 capitalize text-[#1B365D]">{row.method.replace(/_/g, " ")}</td>
+                      <td className="px-4 py-3 text-right text-[#1B365D]/80">{row.count}</td>
+                      <td className="px-4 py-3 text-right text-[#1B365D]">{money(row.total)}</td>
                     </tr>
                   ))}
                 </tbody>

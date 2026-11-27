@@ -29,7 +29,7 @@ export function AdminShell({ nav, children, toaster }: Props) {
   }, []);
 
   return (
-    <div className="flex h-dvh max-h-dvh overflow-hidden bg-[#171717]">
+    <div className="flex h-dvh max-h-dvh overflow-hidden bg-[#1B365D]">
       {nav}
       <main
         className={cn(

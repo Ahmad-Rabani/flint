@@ -119,7 +119,7 @@ function FiltersContent({
             type="checkbox"
             checked={inStock}
             onChange={(e) => setInStock(e.target.checked)}
-            className="w-4 h-4 accent-[#B8734F]"
+            className="w-4 h-4 accent-[#FF6B00]"
           />
           <span className="text-sm text-muted-foreground">In stock only</span>
         </label>

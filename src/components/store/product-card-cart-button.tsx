@@ -57,8 +57,8 @@ export function ProductCardCartButton({
       className={cn(
         "inline-flex min-h-11 w-full items-center justify-center gap-2 px-3 text-[11px] font-medium uppercase tracking-[0.14em] transition-colors",
         outOfStock
-          ? "cursor-not-allowed bg-[#171717]/10 text-[#171717]/35"
-          : "cursor-pointer bg-[#171717] text-ivory hover:bg-copper",
+          ? "cursor-not-allowed bg-[#1B365D]/10 text-[#1B365D]/35"
+          : "cursor-pointer bg-[#1B365D] text-ivory hover:bg-copper",
         className,
       )}
       aria-label={outOfStock ? `${name} is sold out` : `Add ${name} to cart`}

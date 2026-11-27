@@ -58,11 +58,11 @@ export function HomepageSectionForm({ section }: { section: Section }) {
     });
   }
 
-  const inputCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-  const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  const inputCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
   return (
-    <div className="border border-[#171717]/10 bg-white">
+    <div className="border border-[#1B365D]/10 bg-white">
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -70,14 +70,14 @@ export function HomepageSectionForm({ section }: { section: Section }) {
       >
         <div className="flex items-center gap-3">
           <span className={`inline-block h-2 w-2 rounded-full ${section.isActive ? "bg-green-500" : "bg-gray-300"}`} />
-          <span className="font-medium text-[#171717]">{section.key}</span>
-          {section.title && <span className="text-sm text-[#171717]/50">{section.title}</span>}
+          <span className="font-medium text-[#1B365D]">{section.key}</span>
+          {section.title && <span className="text-sm text-[#1B365D]/50">{section.title}</span>}
         </div>
-        <span className="text-[#171717]/30 text-sm">{isOpen ? "▲" : "▼"}</span>
+        <span className="text-[#1B365D]/30 text-sm">{isOpen ? "▲" : "▼"}</span>
       </button>
 
       {isOpen && (
-        <form onSubmit={handleSubmit} className="border-t border-[#171717]/10 px-5 py-5 space-y-4">
+        <form onSubmit={handleSubmit} className="border-t border-[#1B365D]/10 px-5 py-5 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className={labelCls}>Title</label>
@@ -105,17 +105,17 @@ export function HomepageSectionForm({ section }: { section: Section }) {
           <div className="flex items-center gap-6">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="accent-copper" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-              <span className="text-sm text-[#171717]">Active</span>
+              <span className="text-sm text-[#1B365D]">Active</span>
             </label>
             <div className="flex items-center gap-2">
-              <label className="text-xs text-[#171717]/50 uppercase tracking-widest">Order:</label>
-              <input type="number" className="w-16 border border-[#171717]/20 px-2 py-1 text-sm text-[#171717] focus:border-copper focus:outline-none" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} />
+              <label className="text-xs text-[#1B365D]/50 uppercase tracking-widest">Order:</label>
+              <input type="number" className="w-16 border border-[#1B365D]/20 px-2 py-1 text-sm text-[#1B365D] focus:border-copper focus:outline-none" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} />
             </div>
           </div>
           <button
             type="submit"
             disabled={isPending}
-            className="border border-[#171717] bg-[#171717] px-5 py-2 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60"
+            className="border border-[#1B365D] bg-[#1B365D] px-5 py-2 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60"
           >
             {isPending ? "Saving…" : "Save Section"}
           </button>

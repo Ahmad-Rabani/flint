@@ -52,8 +52,8 @@ export function CMSPageForm({ page }: Props) {
     });
   }
 
-  const inputCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-  const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  const inputCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 max-w-3xl space-y-5">
@@ -68,7 +68,7 @@ export function CMSPageForm({ page }: Props) {
       <div>
         <label className={labelCls}>Content *</label>
         <textarea className={`${inputCls} min-h-80 resize-y font-mono text-xs`} value={content} onChange={(e) => setContent(e.target.value)} required placeholder="Markdown or HTML content…" />
-        <p className="mt-1 text-xs text-[#171717]/30">Supports basic HTML or Markdown.</p>
+        <p className="mt-1 text-xs text-[#1B365D]/30">Supports basic HTML or Markdown.</p>
       </div>
       <div>
         <label className={labelCls}>SEO Title</label>
@@ -80,13 +80,13 @@ export function CMSPageForm({ page }: Props) {
       </div>
       <label className="flex items-center gap-2 cursor-pointer">
         <input type="checkbox" className="accent-copper" checked={isPublished} onChange={(e) => setIsPublished(e.target.checked)} />
-        <span className="text-sm text-[#171717]">Published (visible on site)</span>
+        <span className="text-sm text-[#1B365D]">Published (visible on site)</span>
       </label>
       <div className="flex gap-3">
-        <button type="submit" disabled={isPending} className="border border-[#171717] bg-[#171717] px-5 py-2.5 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60">
+        <button type="submit" disabled={isPending} className="border border-[#1B365D] bg-[#1B365D] px-5 py-2.5 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60">
           {isPending ? "Saving…" : page ? "Save Changes" : "Create Page"}
         </button>
-        <a href="/admin/cms/pages" className="border border-[#171717]/20 px-5 py-2.5 text-sm text-[#171717]/60 hover:border-[#171717]/40 transition-colors">Cancel</a>
+        <a href="/admin/cms/pages" className="border border-[#1B365D]/20 px-5 py-2.5 text-sm text-[#1B365D]/60 hover:border-[#1B365D]/40 transition-colors">Cancel</a>
       </div>
     </form>
   );

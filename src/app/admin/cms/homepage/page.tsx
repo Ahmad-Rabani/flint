@@ -27,11 +27,11 @@ export default async function AdminHomepagePage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">CMS</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Homepage Sections</h1>
-      <p className="mt-2 text-sm text-[#171717]/50">Edit the content blocks shown on the homepage.</p>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Homepage Sections</h1>
+      <p className="mt-2 text-sm text-[#1B365D]/50">Edit the content blocks shown on the homepage.</p>
 
       {sections.length === 0 ? (
-        <div className="mt-8 border border-[#171717]/10 bg-white p-12 text-center text-sm text-[#171717]/30">
+        <div className="mt-8 border border-[#1B365D]/10 bg-white p-12 text-center text-sm text-[#1B365D]/30">
           No homepage sections found. Run the seed script to initialise them.
         </div>
       ) : (

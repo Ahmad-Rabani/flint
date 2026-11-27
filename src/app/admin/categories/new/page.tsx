@@ -18,7 +18,7 @@ export default async function NewCategoryPage() {
     <div>
       <Link href="/admin/categories" className="text-xs uppercase tracking-widest text-copper/60 hover:text-copper transition-colors">← Categories</Link>
       <p className="mt-4 text-xs uppercase tracking-[0.3em] text-copper/70">Catalogue</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">New Category</h1>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">New Category</h1>
       <CategoryForm categories={categories} />
     </div>
   );

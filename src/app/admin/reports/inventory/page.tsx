@@ -39,7 +39,7 @@ export default async function InventoryReportPage({ searchParams }: Props) {
       </div>
 
       {!canFinancial ? (
-        <p className="mt-4 text-sm text-[#171717]/50">
+        <p className="mt-4 text-sm text-[#1B365D]/50">
           Cost and stock valuation are hidden. They require the reports.financial permission.
         </p>
       ) : null}
@@ -62,8 +62,8 @@ export default async function InventoryReportPage({ searchParams }: Props) {
             money={money}
             canFinancial={canFinancial}
           />
-          <p className="text-sm text-[#171717]/50">
-            <Link href="/admin/inventory/low-stock" className="text-[#171717] underline decoration-[#171717]/25 underline-offset-4 hover:text-copper">
+          <p className="text-sm text-[#1B365D]/50">
+            <Link href="/admin/inventory/low-stock" className="text-[#1B365D] underline decoration-[#1B365D]/25 underline-offset-4 hover:text-copper">
               Open the inventory low-stock list
             </Link>
           </p>
@@ -88,37 +88,37 @@ function StockTable({
 }) {
   return (
     <section>
-      <h2 className="font-heading text-2xl text-[#171717]">{title}</h2>
+      <h2 className="font-heading text-2xl text-[#1B365D]">{title}</h2>
       {rows.length === 0 ? (
         <EmptyNote>{empty}</EmptyNote>
       ) : (
-        <div className="mt-4 overflow-x-auto border border-[#171717]/10 bg-white">
+        <div className="mt-4 overflow-x-auto border border-[#1B365D]/10 bg-white">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">Product</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">SKU</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Stock</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Min</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Retail</th>
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Product</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">SKU</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Stock</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Min</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Retail</th>
                 {canFinancial ? (
-                  <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Cost value</th>
+                  <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Cost value</th>
                 ) : null}
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {rows.map((row) => (
                 <tr key={row.id}>
-                  <td className="px-4 py-3 text-[#171717]">
+                  <td className="px-4 py-3 text-[#1B365D]">
                     <Link href={`/admin/products/${row.id}`} className="hover:text-copper">
                       {row.name}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-[#171717]/60">{row.sku}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]">{row.stock}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]/60">{row.minStockLevel}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]">{money(row.retailValue)}</td>
-                  {canFinancial ? <td className="px-4 py-3 text-right text-[#171717]">{money(row.stockValue)}</td> : null}
+                  <td className="px-4 py-3 text-[#1B365D]/60">{row.sku}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D]">{row.stock}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D]/60">{row.minStockLevel}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D]">{money(row.retailValue)}</td>
+                  {canFinancial ? <td className="px-4 py-3 text-right text-[#1B365D]">{money(row.stockValue)}</td> : null}
                 </tr>
               ))}
             </tbody>

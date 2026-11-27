@@ -18,8 +18,8 @@ type Props = {
 };
 
 const inputCls =
-  "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
 function startingVariant(product: InventoryProductOption | null, variantId?: string) {
   if (!product) return "";
@@ -172,7 +172,7 @@ export function AdjustmentForm({ initialProduct, initialVariantId }: Props) {
         event.preventDefault();
         void handleSubmit();
       }}
-      className="border border-[#171717]/10 bg-white p-5"
+      className="border border-[#1B365D]/10 bg-white p-5"
     >
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="relative lg:col-span-2">
@@ -194,12 +194,12 @@ export function AdjustmentForm({ initialProduct, initialVariantId }: Props) {
             autoComplete="off"
             className={inputCls}
           />
-          {searching && <p className="mt-1.5 text-xs text-[#171717]/40">Searching…</p>}
+          {searching && <p className="mt-1.5 text-xs text-[#1B365D]/40">Searching…</p>}
           {query.trim() && !searching && results.length === 0 && (
-            <p className="mt-1.5 text-xs text-[#171717]/40">No matching products.</p>
+            <p className="mt-1.5 text-xs text-[#1B365D]/40">No matching products.</p>
           )}
           {results.length > 0 && (
-            <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-auto border border-[#171717]/15 bg-white shadow-sm">
+            <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-auto border border-[#1B365D]/15 bg-white shadow-sm">
               {results.map((product) => (
                 <li key={product.id}>
                   <button
@@ -208,10 +208,10 @@ export function AdjustmentForm({ initialProduct, initialVariantId }: Props) {
                     className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-[#F6F3EE]"
                   >
                     <span>
-                      <span className="text-[#171717]">{product.name}</span>
-                      <span className="ml-2 font-mono text-xs text-[#171717]/45">{product.sku}</span>
+                      <span className="text-[#1B365D]">{product.name}</span>
+                      <span className="ml-2 font-mono text-xs text-[#1B365D]/45">{product.sku}</span>
                     </span>
-                    <span className="shrink-0 text-xs text-[#171717]/50">
+                    <span className="shrink-0 text-xs text-[#1B365D]/50">
                       {product.variants.length > 0
                         ? `${product.variants.length} variants`
                         : `${product.stock} on hand`}
@@ -224,15 +224,15 @@ export function AdjustmentForm({ initialProduct, initialVariantId }: Props) {
         </div>
 
         {selected && (
-          <div className="lg:col-span-2 flex flex-wrap items-start justify-between gap-3 border border-[#171717]/10 bg-[#F6F3EE] px-4 py-3">
+          <div className="lg:col-span-2 flex flex-wrap items-start justify-between gap-3 border border-[#1B365D]/10 bg-[#F6F3EE] px-4 py-3">
             <div>
-              <p className="font-medium text-[#171717]">{selected.name}</p>
-              <p className="mt-1 font-mono text-xs text-[#171717]/55">
+              <p className="font-medium text-[#1B365D]">{selected.name}</p>
+              <p className="mt-1 font-mono text-xs text-[#1B365D]/55">
                 {selected.sku}
                 {selected.barcode ? ` · ${selected.barcode}` : ""}
               </p>
               {!tracksVariants && (
-                <p className="mt-1 text-sm text-[#171717]/70">{selected.stock} on hand</p>
+                <p className="mt-1 text-sm text-[#1B365D]/70">{selected.stock} on hand</p>
               )}
             </div>
             <button
@@ -283,7 +283,7 @@ export function AdjustmentForm({ initialProduct, initialVariantId }: Props) {
             placeholder="+10 or -2"
             className={inputCls}
           />
-          <p className="mt-1.5 text-xs text-[#171717]/40">Positive receives stock. Negative removes it.</p>
+          <p className="mt-1.5 text-xs text-[#1B365D]/40">Positive receives stock. Negative removes it.</p>
         </div>
 
         <div>
@@ -335,12 +335,12 @@ export function AdjustmentForm({ initialProduct, initialVariantId }: Props) {
       </div>
 
       {type === "damage" && projected != null && projected < 0 && onHand != null && onHand > 0 && (
-        <label className="mt-4 flex items-start gap-2 text-sm text-[#171717]/75">
+        <label className="mt-4 flex items-start gap-2 text-sm text-[#1B365D]/75">
           <input
             type="checkbox"
             checked={allowZero}
             onChange={(event) => setAllowZero(event.target.checked)}
-            className="mt-1 accent-[#171717]"
+            className="mt-1 accent-[#1B365D]"
           />
           <span>
             Zero remaining stock. {onHand} on hand cannot cover a removal of {Math.abs(delta)}, so this
@@ -350,13 +350,13 @@ export function AdjustmentForm({ initialProduct, initialVariantId }: Props) {
       )}
 
       {nextStock != null && !goesNegative && (
-        <p className="mt-4 text-sm text-[#171717]/70">
-          On hand <span className="font-medium text-[#171717]">{onHand}</span>
+        <p className="mt-4 text-sm text-[#1B365D]/70">
+          On hand <span className="font-medium text-[#1B365D]">{onHand}</span>
           {" → "}
-          <span className={cn("font-medium", nextStock === 0 ? "text-red-700" : "text-[#171717]")}>
+          <span className={cn("font-medium", nextStock === 0 ? "text-red-700" : "text-[#1B365D]")}>
             {nextStock}
           </span>
-          {willClamp && <span className="text-[#171717]/50"> · writes off {onHand}</span>}
+          {willClamp && <span className="text-[#1B365D]/50"> · writes off {onHand}</span>}
         </p>
       )}
 
@@ -366,7 +366,7 @@ export function AdjustmentForm({ initialProduct, initialVariantId }: Props) {
         <button
           type="submit"
           disabled={!canSubmit}
-          className="border border-[#171717] bg-[#171717] px-4 py-2 text-sm text-ivory transition-colors hover:bg-[#171717]/90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="border border-[#1B365D] bg-[#1B365D] px-4 py-2 text-sm text-ivory transition-colors hover:bg-[#1B365D]/90 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {pending ? "Saving…" : "Apply adjustment"}
         </button>

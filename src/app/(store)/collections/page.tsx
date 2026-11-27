@@ -16,7 +16,7 @@ export default async function CollectionsPage() {
 
   return (
     <div className="bg-[#f6f3ee]">
-      <div className="border-b border-[#171717]/08 bg-[#171717] pt-24 md:pt-28">
+      <div className="border-b border-[#1B365D]/08 bg-[#1B365D] pt-24 md:pt-28">
         <div className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 md:pb-14 lg:px-10">
           <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
             Curated lines
@@ -61,13 +61,13 @@ export default async function CollectionsPage() {
                     <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-copper">
                       Collection
                     </p>
-                    <h2 className="mt-1.5 font-heading text-2xl text-[#171717]">{col.name}</h2>
+                    <h2 className="mt-1.5 font-heading text-2xl text-[#1B365D]">{col.name}</h2>
                     {col.description && (
-                      <p className="mt-2 text-sm leading-relaxed text-[#171717]/55">
+                      <p className="mt-2 text-sm leading-relaxed text-[#1B365D]/55">
                         {col.description}
                       </p>
                     )}
-                    <span className="mt-5 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/60 transition-colors group-hover:text-copper">
+                    <span className="mt-5 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#1B365D]/60 transition-colors group-hover:text-copper">
                       Explore
                       <ArrowRight className="h-3.5 w-3.5" />
                     </span>
@@ -78,7 +78,7 @@ export default async function CollectionsPage() {
           </div>
         ) : (
           <div className="py-24 text-center">
-            <p className="font-heading text-2xl text-[#171717]">Collections coming soon.</p>
+            <p className="font-heading text-2xl text-[#1B365D]">Collections coming soon.</p>
             <Link
               href="/catalogue"
               className="mt-6 inline-flex cursor-pointer text-[11px] font-medium uppercase tracking-[0.16em] text-copper"

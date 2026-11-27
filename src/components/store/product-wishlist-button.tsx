@@ -70,7 +70,7 @@ export function ProductWishlistButton({ productId, productName }: Props) {
         "opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100",
         wishlisted
           ? "text-[#E8B84A] opacity-100"
-          : "text-[#171717]/70 hover:text-[#171717]",
+          : "text-[#1B365D]/70 hover:text-[#1B365D]",
       )}
       onClick={onClick}
     >

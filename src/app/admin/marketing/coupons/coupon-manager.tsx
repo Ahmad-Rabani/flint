@@ -77,11 +77,11 @@ export function CouponManager({ coupons }: { coupons: Coupon[] }) {
     router.refresh();
   }
 
-  const inputCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-  const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  const inputCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
   const Form = () => (
-    <div className="border border-[#171717]/10 bg-white p-5 space-y-4">
+    <div className="border border-[#1B365D]/10 bg-white p-5 space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         {!editId && (
           <div>
@@ -123,13 +123,13 @@ export function CouponManager({ coupons }: { coupons: Coupon[] }) {
       </div>
       <label className="flex items-center gap-2 cursor-pointer">
         <input type="checkbox" className="accent-copper" checked={form.isActive} onChange={(e) => set("isActive", e.target.checked)} />
-        <span className="text-sm text-[#171717]">Active</span>
+        <span className="text-sm text-[#1B365D]">Active</span>
       </label>
       <div className="flex gap-3">
-        <button onClick={handleSave} disabled={isPending || (!editId && !form.code) || !form.value} className="border border-[#171717] bg-[#171717] px-5 py-2 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60">
+        <button onClick={handleSave} disabled={isPending || (!editId && !form.code) || !form.value} className="border border-[#1B365D] bg-[#1B365D] px-5 py-2 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60">
           {isPending ? "Saving…" : "Save Coupon"}
         </button>
-        <button onClick={() => { setEditId(null); setShowNew(false); }} className="border border-[#171717]/20 px-5 py-2 text-sm text-[#171717]/60 hover:border-[#171717]/40 transition-colors">Cancel</button>
+        <button onClick={() => { setEditId(null); setShowNew(false); }} className="border border-[#1B365D]/20 px-5 py-2 text-sm text-[#1B365D]/60 hover:border-[#1B365D]/40 transition-colors">Cancel</button>
       </div>
     </div>
   );
@@ -137,41 +137,41 @@ export function CouponManager({ coupons }: { coupons: Coupon[] }) {
   return (
     <div className="mt-6">
       <div className="flex justify-end mb-4">
-        <button onClick={() => { setShowNew(true); setEditId(null); setForm(EMPTY); }} className="border border-[#171717] bg-[#171717] px-4 py-2 text-sm text-ivory hover:bg-[#171717]/90 transition-colors">
+        <button onClick={() => { setShowNew(true); setEditId(null); setForm(EMPTY); }} className="border border-[#1B365D] bg-[#1B365D] px-4 py-2 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors">
           + New Coupon
         </button>
       </div>
       {showNew && <div className="mb-4"><Form /></div>}
 
-      <div className="border border-[#171717]/10 bg-white overflow-x-auto">
+      <div className="border border-[#1B365D]/10 bg-white overflow-x-auto">
         {coupons.length === 0 && !showNew ? (
-          <div className="p-12 text-center text-sm text-[#171717]/30">No coupons yet.</div>
+          <div className="p-12 text-center text-sm text-[#1B365D]/30">No coupons yet.</div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Code</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Type</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Value</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Used</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Expires</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Active</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40" />
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Code</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Type</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Value</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Used</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Expires</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Active</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {coupons.map((c) => (
                 <React.Fragment key={c.id}>
-                  <tr className="hover:bg-[#171717]/[0.02] transition-colors">
-                    <td className="px-4 py-3 font-mono font-medium text-[#171717]">{c.code}</td>
-                    <td className="px-4 py-3 capitalize text-[#171717]/60">{c.type}</td>
-                    <td className="px-4 py-3 text-[#171717]">
+                  <tr className="hover:bg-[#1B365D]/[0.02] transition-colors">
+                    <td className="px-4 py-3 font-mono font-medium text-[#1B365D]">{c.code}</td>
+                    <td className="px-4 py-3 capitalize text-[#1B365D]/60">{c.type}</td>
+                    <td className="px-4 py-3 text-[#1B365D]">
                       {c.type === "percentage" ? `${c.value}%` : formatCurrency(c.value)}
                     </td>
-                    <td className="px-4 py-3 text-[#171717]/60">{c.usedCount}{c.usageLimit ? `/${c.usageLimit}` : ""}</td>
-                    <td className="px-4 py-3 text-xs text-[#171717]/40">{c.endsAt ? formatDate(c.endsAt) : "—"}</td>
+                    <td className="px-4 py-3 text-[#1B365D]/60">{c.usedCount}{c.usageLimit ? `/${c.usageLimit}` : ""}</td>
+                    <td className="px-4 py-3 text-xs text-[#1B365D]/40">{c.endsAt ? formatDate(c.endsAt) : "—"}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-xs ${c.isActive ? "text-green-600" : "text-[#171717]/30"}`}>{c.isActive ? "Yes" : "No"}</span>
+                      <span className={`text-xs ${c.isActive ? "text-green-600" : "text-[#1B365D]/30"}`}>{c.isActive ? "Yes" : "No"}</span>
                     </td>
                     <td className="px-4 py-3 text-right flex justify-end gap-3">
                       <button onClick={() => startEdit(c)} className="text-xs text-copper/60 hover:text-copper transition-colors">Edit</button>

@@ -71,48 +71,48 @@ export default async function CustomerDetailPage({ params }: Props) {
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Customer</p>
-          <h1 className="mt-1 font-heading text-4xl text-[#171717]">{customer.name}</h1>
-          <p className="mt-1 text-sm text-[#171717]/50">{customer.email}</p>
+          <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">{customer.name}</h1>
+          <p className="mt-1 text-sm text-[#1B365D]/50">{customer.email}</p>
         </div>
         <div className="text-right">
-          <p className="font-heading text-2xl text-[#171717]">{formatCurrency(customer.totalSpent)}</p>
-          <p className="text-xs text-[#171717]/40">{customer.orderCount} orders</p>
+          <p className="font-heading text-2xl text-[#1B365D]">{formatCurrency(customer.totalSpent)}</p>
+          <p className="text-xs text-[#1B365D]/40">{customer.orderCount} orders</p>
         </div>
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_280px]">
         <div className="space-y-6">
           {/* Orders */}
-          <div className="border border-[#171717]/10 bg-white p-5">
-            <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#171717]/40">Orders</h3>
+          <div className="border border-[#1B365D]/10 bg-white p-5">
+            <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">Orders</h3>
             {orderItems.length === 0 ? (
-              <p className="text-sm text-[#171717]/30">No online orders.</p>
+              <p className="text-sm text-[#1B365D]/30">No online orders.</p>
             ) : (
               <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-[#171717]/10">
-                    <th className="pb-2 text-left text-xs font-normal text-[#171717]/40">Order</th>
-                    <th className="pb-2 text-left text-xs font-normal text-[#171717]/40">Status</th>
-                    <th className="pb-2 text-right text-xs font-normal text-[#171717]/40">Total</th>
-                    <th className="pb-2 text-left text-xs font-normal text-[#171717]/40">Date</th>
+                  <tr className="border-b border-[#1B365D]/10">
+                    <th className="pb-2 text-left text-xs font-normal text-[#1B365D]/40">Order</th>
+                    <th className="pb-2 text-left text-xs font-normal text-[#1B365D]/40">Status</th>
+                    <th className="pb-2 text-right text-xs font-normal text-[#1B365D]/40">Total</th>
+                    <th className="pb-2 text-left text-xs font-normal text-[#1B365D]/40">Date</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#171717]/5">
+                <tbody className="divide-y divide-[#1B365D]/5">
                   {orderItems.map((o) => (
                     <tr key={o.id}>
                       <td className="py-2.5">
-                        <Link href={`/admin/orders/${o.id}`} className="text-[#171717] hover:text-copper transition-colors font-medium">
+                        <Link href={`/admin/orders/${o.id}`} className="text-[#1B365D] hover:text-copper transition-colors font-medium">
                           {o.orderNumber}
                         </Link>
                       </td>
                       <td className="py-2.5">
-                        <span className={cn("text-xs capitalize", ORDER_STATUS_COLORS[o.status] ?? "text-[#171717]/50")}>
+                        <span className={cn("text-xs capitalize", ORDER_STATUS_COLORS[o.status] ?? "text-[#1B365D]/50")}>
                           {o.status.replace(/_/g, " ")}
                         </span>
                       </td>
-                      <td className="py-2.5 text-right text-[#171717]">{formatCurrency(o.total, o.currency)}</td>
-                      <td className="py-2.5 text-xs text-[#171717]/40">{formatDate(o.createdAt)}</td>
+                      <td className="py-2.5 text-right text-[#1B365D]">{formatCurrency(o.total, o.currency)}</td>
+                      <td className="py-2.5 text-xs text-[#1B365D]/40">{formatDate(o.createdAt)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -122,20 +122,20 @@ export default async function CustomerDetailPage({ params }: Props) {
           </div>
 
           {customOrderItems.length > 0 && (
-            <div className="border border-[#171717]/10 bg-white p-5">
-              <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#171717]/40">Custom Orders / Commissions</h3>
+            <div className="border border-[#1B365D]/10 bg-white p-5">
+              <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">Custom Orders / Commissions</h3>
               <div className="space-y-3">
                 {customOrderItems.map((o) => (
                   <div key={o.id} className="flex items-center justify-between">
                     <div>
-                      <Link href={`/admin/custom-orders/${o.id}`} className="text-[#171717] hover:text-copper transition-colors font-medium text-sm">
+                      <Link href={`/admin/custom-orders/${o.id}`} className="text-[#1B365D] hover:text-copper transition-colors font-medium text-sm">
                         {o.orderNumber}
                       </Link>
-                      <p className="text-xs capitalize text-[#171717]/40">{o.productType}</p>
+                      <p className="text-xs capitalize text-[#1B365D]/40">{o.productType}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs capitalize text-[#171717]/60">{o.status.replace(/_/g, " ")}</p>
-                      <p className="text-xs text-[#171717]/30">{formatDate(o.createdAt)}</p>
+                      <p className="text-xs capitalize text-[#1B365D]/60">{o.status.replace(/_/g, " ")}</p>
+                      <p className="text-xs text-[#1B365D]/30">{formatDate(o.createdAt)}</p>
                     </div>
                   </div>
                 ))}
@@ -145,39 +145,39 @@ export default async function CustomerDetailPage({ params }: Props) {
         </div>
 
         {/* Profile */}
-        <div className="border border-[#171717]/10 bg-white p-5 h-fit space-y-4">
-          <h3 className="text-xs uppercase tracking-[0.2em] text-[#171717]/40">Profile</h3>
+        <div className="border border-[#1B365D]/10 bg-white p-5 h-fit space-y-4">
+          <h3 className="text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">Profile</h3>
           <dl className="space-y-3 text-sm">
             {customer.phone && (
               <div>
-                <dt className="text-xs text-[#171717]/40">Phone</dt>
-                <dd className="text-[#171717]">{customer.phone}</dd>
+                <dt className="text-xs text-[#1B365D]/40">Phone</dt>
+                <dd className="text-[#1B365D]">{customer.phone}</dd>
               </div>
             )}
             <div>
-              <dt className="text-xs text-[#171717]/40">Customer Since</dt>
-              <dd className="text-[#171717]">{formatDate(customer.createdAt)}</dd>
+              <dt className="text-xs text-[#1B365D]/40">Customer Since</dt>
+              <dd className="text-[#1B365D]">{formatDate(customer.createdAt)}</dd>
             </div>
             <div>
-              <dt className="text-xs text-[#171717]/40">Marketing</dt>
-              <dd className={customer.marketingOptIn ? "text-green-600" : "text-[#171717]/30"}>
+              <dt className="text-xs text-[#1B365D]/40">Marketing</dt>
+              <dd className={customer.marketingOptIn ? "text-green-600" : "text-[#1B365D]/30"}>
                 {customer.marketingOptIn ? "Opted in" : "Opted out"}
               </dd>
             </div>
             {customer.tags.length > 0 && (
               <div>
-                <dt className="text-xs text-[#171717]/40">Tags</dt>
+                <dt className="text-xs text-[#1B365D]/40">Tags</dt>
                 <dd className="mt-1 flex flex-wrap gap-1">
                   {customer.tags.map((tag: string) => (
-                    <span key={tag} className="rounded-sm bg-[#171717]/5 px-2 py-0.5 text-xs text-[#171717]/60">{tag}</span>
+                    <span key={tag} className="rounded-sm bg-[#1B365D]/5 px-2 py-0.5 text-xs text-[#1B365D]/60">{tag}</span>
                   ))}
                 </dd>
               </div>
             )}
             {customer.notes && (
               <div>
-                <dt className="text-xs text-[#171717]/40">Notes</dt>
-                <dd className="text-[#171717]/60">{customer.notes}</dd>
+                <dt className="text-xs text-[#1B365D]/40">Notes</dt>
+                <dd className="text-[#1B365D]/60">{customer.notes}</dd>
               </div>
             )}
           </dl>

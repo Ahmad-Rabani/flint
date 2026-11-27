@@ -33,43 +33,43 @@ export default async function AdminCategoriesPage() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Catalogue</p>
-          <h1 className="mt-1 font-heading text-4xl text-[#171717]">Categories</h1>
-          <p className="mt-1 text-sm text-[#171717]/50">{categories.length} total</p>
+          <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Categories</h1>
+          <p className="mt-1 text-sm text-[#1B365D]/50">{categories.length} total</p>
         </div>
         <Link
           href="/admin/categories/new"
-          className="border border-[#171717] bg-[#171717] px-4 py-2 text-sm text-ivory hover:bg-[#171717]/90 transition-colors"
+          className="border border-[#1B365D] bg-[#1B365D] px-4 py-2 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors"
         >
           + New Category
         </Link>
       </div>
 
-      <div className="mt-6 border border-[#171717]/10 bg-white overflow-x-auto">
+      <div className="mt-6 border border-[#1B365D]/10 bg-white overflow-x-auto">
         {categories.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#171717]/30">No categories yet.</div>
+          <div className="p-12 text-center text-sm text-[#1B365D]/30">No categories yet.</div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Name</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Slug</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Parent</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Order</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Active</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40" />
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Name</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Slug</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Parent</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Order</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Active</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {categories.map((cat) => (
-                <tr key={cat.id} className="hover:bg-[#171717]/[0.02] transition-colors">
-                  <td className="px-4 py-3 font-medium text-[#171717]">{cat.name}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-[#171717]/50">{cat.slug}</td>
-                  <td className="px-4 py-3 text-[#171717]/50">
+                <tr key={cat.id} className="hover:bg-[#1B365D]/[0.02] transition-colors">
+                  <td className="px-4 py-3 font-medium text-[#1B365D]">{cat.name}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-[#1B365D]/50">{cat.slug}</td>
+                  <td className="px-4 py-3 text-[#1B365D]/50">
                     {cat.parentId ? parentMap[cat.parentId] ?? "—" : "—"}
                   </td>
-                  <td className="px-4 py-3 text-[#171717]/50">{cat.sortOrder}</td>
+                  <td className="px-4 py-3 text-[#1B365D]/50">{cat.sortOrder}</td>
                   <td className="px-4 py-3">
-                    <span className={`text-xs ${cat.isActive ? "text-green-600" : "text-[#171717]/30"}`}>
+                    <span className={`text-xs ${cat.isActive ? "text-green-600" : "text-[#1B365D]/30"}`}>
                       {cat.isActive ? "Yes" : "No"}
                     </span>
                   </td>

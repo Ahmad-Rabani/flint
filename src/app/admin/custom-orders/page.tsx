@@ -30,52 +30,52 @@ export default async function AdminCustomOrdersPage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Orders</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Custom Orders</h1>
-      <p className="mt-2 text-sm text-[#171717]/55">{orders.length} commission requests</p>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Custom Orders</h1>
+      <p className="mt-2 text-sm text-[#1B365D]/55">{orders.length} commission requests</p>
 
-      <div className="mt-8 overflow-x-auto border border-[#171717]/10 bg-white">
+      <div className="mt-8 overflow-x-auto border border-[#1B365D]/10 bg-white">
         {orders.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#171717]/40">
+          <div className="p-12 text-center text-sm text-[#1B365D]/40">
             No custom order requests yet.
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10 text-left">
-                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#171717]/40">
+              <tr className="border-b border-[#1B365D]/10 text-left">
+                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">
                   Order
                 </th>
-                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#171717]/40">
+                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">
                   Customer
                 </th>
-                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#171717]/40">
+                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">
                   Type
                 </th>
-                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#171717]/40">
+                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">
                   Status
                 </th>
-                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#171717]/40">
+                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">
                   Date
                 </th>
-                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#171717]/40" />
+                <th className="px-4 pb-3 pt-4 text-xs uppercase tracking-widest font-normal text-[#1B365D]/40" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {orders.map((order) => (
-                <tr key={order.id} className="hover:bg-[#171717]/[0.02]">
+                <tr key={order.id} className="hover:bg-[#1B365D]/[0.02]">
                   <td className="px-4 py-4">
                     <Link
                       href={`/admin/custom-orders/${order.id}`}
-                      className="font-medium text-[#171717] hover:text-copper transition-colors"
+                      className="font-medium text-[#1B365D] hover:text-copper transition-colors"
                     >
                       {order.orderNumber}
                     </Link>
                   </td>
                   <td className="px-4 py-4">
-                    <p className="text-[#171717]">{order.customerName}</p>
-                    <p className="text-xs text-[#171717]/45">{order.customerEmail}</p>
+                    <p className="text-[#1B365D]">{order.customerName}</p>
+                    <p className="text-xs text-[#1B365D]/45">{order.customerEmail}</p>
                   </td>
-                  <td className="px-4 py-4 capitalize text-[#171717]/65">{order.productType}</td>
+                  <td className="px-4 py-4 capitalize text-[#1B365D]/65">{order.productType}</td>
                   <td className="px-4 py-4">
                     <span
                       className={cn(
@@ -86,7 +86,7 @@ export default async function AdminCustomOrdersPage() {
                       {order.status.replace(/_/g, " ")}
                     </span>
                   </td>
-                  <td className="px-4 py-4 text-xs text-[#171717]/45">
+                  <td className="px-4 py-4 text-xs text-[#1B365D]/45">
                     {order.createdAt ? formatDate(order.createdAt) : "—"}
                   </td>
                   <td className="px-4 py-4 text-right">

@@ -82,8 +82,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Orders</p>
-          <h1 className="mt-1 font-heading text-4xl text-[#171717]">Orders</h1>
-          <p className="mt-1 text-sm text-[#171717]/50">
+          <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Orders</h1>
+          <p className="mt-1 text-sm text-[#1B365D]/50">
             {total} total · checkout orders appear here as soon as a customer places one
           </p>
         </div>
@@ -97,8 +97,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             className={cn(
               "border px-3 py-1.5 text-sm transition-colors",
               source === s.value
-                ? "border-[#171717] bg-[#171717] text-ivory"
-                : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper",
+                ? "border-[#1B365D] bg-[#1B365D] text-ivory"
+                : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper",
             )}
           >
             {s.label}
@@ -116,7 +116,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               "border px-3 py-1.5 text-sm transition-colors capitalize",
               status === s
                 ? "border-copper bg-copper/10 text-copper"
-                : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper"
+                : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper"
             )}
           >
             {s ? s.replace(/_/g, " ") : "All statuses"}
@@ -124,44 +124,44 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
         ))}
       </div>
 
-      <div className="mt-5 border border-[#171717]/10 bg-white overflow-x-auto">
+      <div className="mt-5 border border-[#1B365D]/10 bg-white overflow-x-auto">
         {items.length === 0 ? (
           <div className="p-12 text-center">
-            <p className="text-sm text-[#171717]/45">No orders yet.</p>
-            <p className="mt-2 text-xs text-[#171717]/35">
+            <p className="text-sm text-[#1B365D]/45">No orders yet.</p>
+            <p className="mt-2 text-xs text-[#1B365D]/35">
               Place a test order from the storefront checkout — it will show here automatically.
             </p>
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Order</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Customer</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Status</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Payment</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40">Total</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Date</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40" />
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Order</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Customer</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Status</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Payment</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Total</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Date</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {items.map((order) => (
-                <tr key={order.id} className="hover:bg-[#171717]/[0.02] transition-colors">
+                <tr key={order.id} className="hover:bg-[#1B365D]/[0.02] transition-colors">
                   <td className="px-4 py-3">
-                    <Link href={`/admin/orders/${order.id}`} className="font-medium text-[#171717] hover:text-copper transition-colors">
+                    <Link href={`/admin/orders/${order.id}`} className="font-medium text-[#1B365D] hover:text-copper transition-colors">
                       {order.orderNumber}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-[#171717]/60 text-xs">{order.guestEmail ?? "—"}</td>
+                  <td className="px-4 py-3 text-[#1B365D]/60 text-xs">{order.guestEmail ?? "—"}</td>
                   <td className="px-4 py-3">
                     <span className={cn("rounded-sm px-2 py-0.5 text-xs capitalize", STATUS_COLORS[order.status] ?? "bg-gray-100 text-gray-600")}>
                       {order.status.replace(/_/g, " ")}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-xs capitalize text-[#171717]/60">{order.paymentStatus}</td>
-                  <td className="px-4 py-3 text-right text-[#171717] font-medium">{formatCurrency(order.total, order.currency)}</td>
-                  <td className="px-4 py-3 text-xs text-[#171717]/40">{formatDate(order.createdAt)}</td>
+                  <td className="px-4 py-3 text-xs capitalize text-[#1B365D]/60">{order.paymentStatus}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D] font-medium">{formatCurrency(order.total, order.currency)}</td>
+                  <td className="px-4 py-3 text-xs text-[#1B365D]/40">{formatDate(order.createdAt)}</td>
                   <td className="px-4 py-3 text-right">
                     <Link href={`/admin/orders/${order.id}`} className="text-xs text-copper/60 hover:text-copper transition-colors">
                       View →
@@ -182,7 +182,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               href={`/admin/orders?source=${source}${status ? `&status=${status}` : ""}&page=${p}`}
               className={cn(
                 "border px-3 py-1.5 text-sm transition-colors",
-                p === page ? "border-[#171717] bg-[#171717] text-ivory" : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper"
+                p === page ? "border-[#1B365D] bg-[#1B365D] text-ivory" : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper"
               )}
             >
               {p}

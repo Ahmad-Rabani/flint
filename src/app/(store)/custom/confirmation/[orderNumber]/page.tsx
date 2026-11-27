@@ -27,7 +27,7 @@ export default async function CustomConfirmationPage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-[#171717]">
+    <div className="min-h-screen bg-[#1B365D]">
       <div className="mx-auto flex max-w-2xl flex-col items-center px-6 py-24 text-center lg:px-10">
         {/* Success glyph */}
         <div className="flex h-20 w-20 items-center justify-center border border-copper/30 bg-copper/10">

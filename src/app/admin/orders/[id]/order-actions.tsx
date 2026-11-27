@@ -39,13 +39,13 @@ export function OrderActions({
     }
   }
 
-  const selectCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] focus:border-copper focus:outline-none";
+  const selectCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] focus:border-copper focus:outline-none";
 
   return (
-    <div className="border border-[#171717]/10 bg-white p-5 space-y-4">
-      <h3 className="text-xs uppercase tracking-[0.2em] text-[#171717]/40">Manage Order</h3>
+    <div className="border border-[#1B365D]/10 bg-white p-5 space-y-4">
+      <h3 className="text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">Manage Order</h3>
       <div>
-        <label className="block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5">Status</label>
+        <label className="block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5">Status</label>
         <select className={selectCls} value={status} onChange={(e) => setStatus(e.target.value)}>
           {ORDER_STATUSES.map((s) => (
             <option key={s} value={s} className="capitalize">{s.replace(/_/g, " ")}</option>
@@ -53,7 +53,7 @@ export function OrderActions({
         </select>
       </div>
       <div>
-        <label className="block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5">Payment Status</label>
+        <label className="block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5">Payment Status</label>
         <select className={selectCls} value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)}>
           {["unpaid", "pending", "paid", "partially_refunded", "refunded", "failed"].map((s) => (
             <option key={s} value={s} className="capitalize">{s.replace(/_/g, " ")}</option>
@@ -61,9 +61,9 @@ export function OrderActions({
         </select>
       </div>
       <div>
-        <label className="block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5">Internal Notes</label>
+        <label className="block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5">Internal Notes</label>
         <textarea
-          className="w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none h-24 resize-y"
+          className="w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none h-24 resize-y"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Notes visible only to staff…"
@@ -72,7 +72,7 @@ export function OrderActions({
       <button
         onClick={handleSave}
         disabled={loading}
-        className="w-full border border-[#171717] bg-[#171717] py-2.5 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60"
+        className="w-full border border-[#1B365D] bg-[#1B365D] py-2.5 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60"
       >
         {loading ? "Saving…" : "Save Changes"}
       </button>

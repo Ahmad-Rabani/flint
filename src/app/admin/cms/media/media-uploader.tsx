@@ -28,7 +28,7 @@ export function MediaUploader() {
   }
 
   return (
-    <label className="cursor-pointer inline-block border border-[#171717] bg-[#171717] px-4 py-2 text-sm text-ivory hover:bg-[#171717]/90 transition-colors">
+    <label className="cursor-pointer inline-block border border-[#1B365D] bg-[#1B365D] px-4 py-2 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors">
       {uploading ? "Uploading…" : "+ Upload Media"}
       <input
         type="file"

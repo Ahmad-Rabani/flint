@@ -56,22 +56,22 @@ function Breakdown({
 }) {
   return (
     <section>
-      <h2 className="font-heading text-2xl text-[#171717]">{title}</h2>
-      <div className="mt-4 overflow-x-auto border border-[#171717]/10 bg-white">
+      <h2 className="font-heading text-2xl text-[#1B365D]">{title}</h2>
+      <div className="mt-4 overflow-x-auto border border-[#1B365D]/10 bg-white">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[#171717]/10">
-              <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">{title === "By status" ? "Status" : "Source"}</th>
-              <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Orders</th>
-              <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Total</th>
+            <tr className="border-b border-[#1B365D]/10">
+              <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">{title === "By status" ? "Status" : "Source"}</th>
+              <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Orders</th>
+              <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#1B365D]/40">Total</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#171717]/5">
+          <tbody className="divide-y divide-[#1B365D]/5">
             {rows.map((row) => (
               <tr key={row.key}>
-                <td className="px-4 py-3 capitalize text-[#171717]">{labelize(row.key)}</td>
-                <td className="px-4 py-3 text-right text-[#171717]/80">{row.count}</td>
-                <td className="px-4 py-3 text-right text-[#171717]">{money(row.total)}</td>
+                <td className="px-4 py-3 capitalize text-[#1B365D]">{labelize(row.key)}</td>
+                <td className="px-4 py-3 text-right text-[#1B365D]/80">{row.count}</td>
+                <td className="px-4 py-3 text-right text-[#1B365D]">{money(row.total)}</td>
               </tr>
             ))}
           </tbody>

@@ -13,8 +13,8 @@ export default async function AdminRolesPage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Settings</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Roles & Permissions</h1>
-      <p className="mt-2 max-w-2xl text-sm text-[#171717]/55">
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Roles & Permissions</h1>
+      <p className="mt-2 max-w-2xl text-sm text-[#1B365D]/55">
         Saving a role replaces its permissions and overwrites the permission list on every staff user with that role, including accounts that had a custom set. Users pick up the change the next time they sign in.
       </p>
       <RolesEditor

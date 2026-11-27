@@ -55,7 +55,7 @@ export default async function AdminSettingsPage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Settings</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">Business Settings</h1>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Business Settings</h1>
       <SettingsForm settings={settings} />
     </div>
   );

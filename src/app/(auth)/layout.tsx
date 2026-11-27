@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     <div className="relative min-h-screen bg-ink text-ivory [color-scheme:dark]">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(184,115,79,0.14),transparent_52%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255, 107, 0,0.14),transparent_52%)]"
       />
       <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-8 lg:px-10">
         <header className="mb-12 flex items-center justify-between">

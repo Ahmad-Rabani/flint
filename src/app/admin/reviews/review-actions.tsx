@@ -62,7 +62,7 @@ export function ReviewActions({
       <button
         onClick={() => patch({ isFeatured: !isFeatured })}
         disabled={loading}
-        className={`text-xs transition-colors disabled:opacity-50 ${isFeatured ? "text-copper" : "text-[#171717]/40 hover:text-copper"}`}
+        className={`text-xs transition-colors disabled:opacity-50 ${isFeatured ? "text-copper" : "text-[#1B365D]/40 hover:text-copper"}`}
       >
         {isFeatured ? "Unfeature" : "Feature"}
       </button>

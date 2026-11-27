@@ -22,14 +22,14 @@ export default async function PosReceiptPage({ params }: Props) {
     <div>
       <div className="no-print">
         <p className="text-xs uppercase tracking-[0.3em] text-copper/70">POS</p>
-        <h1 className="mt-1 font-heading text-4xl text-[#171717]">Receipt</h1>
-        <p className="mt-1 text-sm text-[#171717]/50">{receipt.receiptNumber}</p>
+        <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Receipt</h1>
+        <p className="mt-1 text-sm text-[#1B365D]/50">{receipt.receiptNumber}</p>
         <PosSubnav current="/admin/pos/sales" />
         <div className="mt-5 flex flex-wrap gap-3">
           <PrintButton />
           <Link
             href="/admin/pos"
-            className="inline-flex min-h-11 items-center border border-[#171717]/20 px-5 text-sm text-[#171717] hover:border-copper hover:text-copper"
+            className="inline-flex min-h-11 items-center border border-[#1B365D]/20 px-5 text-sm text-[#1B365D] hover:border-copper hover:text-copper"
           >
             New sale
           </Link>

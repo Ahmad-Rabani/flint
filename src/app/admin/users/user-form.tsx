@@ -23,8 +23,8 @@ export type StaffFormUser = {
 };
 
 const inputCls =
-  "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none disabled:bg-[#171717]/5";
-const labelCls = "mb-1.5 block text-xs uppercase tracking-widest text-[#171717]/50";
+  "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none disabled:bg-[#1B365D]/5";
+const labelCls = "mb-1.5 block text-xs uppercase tracking-widest text-[#1B365D]/50";
 
 export function UserForm({
   mode,
@@ -146,13 +146,13 @@ export function UserForm({
   }
 
   if (options.length === 0) {
-    return <p className="mt-6 text-sm text-[#171717]/55">No roles are available for you to assign.</p>;
+    return <p className="mt-6 text-sm text-[#1B365D]/55">No roles are available for you to assign.</p>;
   }
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 max-w-4xl space-y-6">
-      <div className="border border-[#171717]/10 bg-white p-5">
-        <h2 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#171717]/40">Account</h2>
+      <div className="border border-[#1B365D]/10 bg-white p-5">
+        <h2 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">Account</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className={labelCls} htmlFor="staff-name">Name</label>
@@ -201,10 +201,10 @@ export function UserForm({
             </select>
           </div>
         </div>
-        <label className="mt-4 flex items-center gap-2 text-sm text-[#171717]">
+        <label className="mt-4 flex items-center gap-2 text-sm text-[#1B365D]">
           <input
             type="checkbox"
-            className="accent-[#171717]"
+            className="accent-[#1B365D]"
             checked={isActive}
             disabled={isSelf}
             onChange={(event) => setIsActive(event.target.checked)}
@@ -212,17 +212,17 @@ export function UserForm({
           Active — inactive users cannot sign in
         </label>
         {isSelf ? (
-          <p className="mt-3 text-sm text-[#171717]/50">
+          <p className="mt-3 text-sm text-[#1B365D]/50">
             You can update your name and password here. Another super admin has to change your role or access.
           </p>
         ) : null}
       </div>
 
-      <div className="border border-[#171717]/10 bg-white p-5">
+      <div className="border border-[#1B365D]/10 bg-white p-5">
         <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="text-xs uppercase tracking-[0.2em] text-[#171717]/40">Permissions</h2>
-            <p className="mt-2 max-w-xl text-sm text-[#171717]/55">
+            <h2 className="text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">Permissions</h2>
+            <p className="mt-2 max-w-xl text-sm text-[#1B365D]/55">
               {custom
                 ? "This exact set is stored on the user."
                 : `${roleName} permissions will be copied onto the user.`}
@@ -230,10 +230,10 @@ export function UserForm({
               Saving the role later overwrites every user on that role, including custom sets.
             </p>
           </div>
-          <label className="flex items-center gap-2 text-sm text-[#171717]">
+          <label className="flex items-center gap-2 text-sm text-[#1B365D]">
             <input
               type="checkbox"
-              className="accent-[#171717]"
+              className="accent-[#1B365D]"
               checked={custom}
               disabled={isSelf}
               onChange={(event) => toggleCustom(event.target.checked)}
@@ -248,7 +248,7 @@ export function UserForm({
         <button
           type="submit"
           disabled={isPending}
-          className="border border-[#171717] bg-[#171717] px-5 py-2.5 text-sm text-ivory transition-colors hover:bg-[#171717]/90 disabled:opacity-60"
+          className="border border-[#1B365D] bg-[#1B365D] px-5 py-2.5 text-sm text-ivory transition-colors hover:bg-[#1B365D]/90 disabled:opacity-60"
         >
           {isPending ? "Saving…" : mode === "create" ? "Create user" : "Save user"}
         </button>

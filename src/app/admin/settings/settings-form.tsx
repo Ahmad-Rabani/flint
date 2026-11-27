@@ -77,12 +77,12 @@ export function SettingsForm({ settings: initial }: { settings: Settings }) {
     });
   }
 
-  const inputCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-  const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  const inputCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="border border-[#171717]/10 bg-white p-5">
-      <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#171717]/40">{title}</h3>
+    <div className="border border-[#1B365D]/10 bg-white p-5">
+      <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-[#1B365D]/40">{title}</h3>
       {children}
     </div>
   );
@@ -152,7 +152,7 @@ export function SettingsForm({ settings: initial }: { settings: Settings }) {
           <div className="flex items-end pb-1">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="accent-copper" checked={s.taxInclusive} onChange={(e) => set("taxInclusive", e.target.checked)} />
-              <span className="text-sm text-[#171717]">Tax Inclusive</span>
+              <span className="text-sm text-[#1B365D]">Tax Inclusive</span>
             </label>
           </div>
         </div>
@@ -184,8 +184,8 @@ export function SettingsForm({ settings: initial }: { settings: Settings }) {
           {s.paymentMethods.map((pm) => (
             <label key={pm.id} className="flex items-center gap-3 cursor-pointer">
               <input type="checkbox" className="accent-copper" checked={pm.enabled} onChange={(e) => togglePaymentMethod(pm.id, e.target.checked)} />
-              <span className="text-sm text-[#171717]">{pm.label}</span>
-              <span className="font-mono text-xs text-[#171717]/30">({pm.id})</span>
+              <span className="text-sm text-[#1B365D]">{pm.label}</span>
+              <span className="font-mono text-xs text-[#1B365D]/30">({pm.id})</span>
             </label>
           ))}
         </div>
@@ -195,15 +195,15 @@ export function SettingsForm({ settings: initial }: { settings: Settings }) {
         <div className="space-y-3">
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" className="accent-copper" checked={s.notifications.orderEmail} onChange={(e) => set("notifications", { ...s.notifications, orderEmail: e.target.checked })} />
-            <span className="text-sm text-[#171717]">Email on new orders</span>
+            <span className="text-sm text-[#1B365D]">Email on new orders</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" className="accent-copper" checked={s.notifications.lowStockEmail} onChange={(e) => set("notifications", { ...s.notifications, lowStockEmail: e.target.checked })} />
-            <span className="text-sm text-[#171717]">Email on low stock</span>
+            <span className="text-sm text-[#1B365D]">Email on low stock</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" className="accent-copper" checked={s.notifications.customOrderEmail} onChange={(e) => set("notifications", { ...s.notifications, customOrderEmail: e.target.checked })} />
-            <span className="text-sm text-[#171717]">Email on new custom orders</span>
+            <span className="text-sm text-[#1B365D]">Email on new custom orders</span>
           </label>
         </div>
       </Section>
@@ -222,7 +222,7 @@ export function SettingsForm({ settings: initial }: { settings: Settings }) {
       </Section>
 
       <div>
-        <button type="submit" disabled={isPending} className="border border-[#171717] bg-[#171717] px-6 py-3 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60">
+        <button type="submit" disabled={isPending} className="border border-[#1B365D] bg-[#1B365D] px-6 py-3 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60">
           {isPending ? "Saving…" : "Save Settings"}
         </button>
       </div>

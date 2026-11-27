@@ -5,6 +5,8 @@ export const BRAND = {
   phone: "+1 (800) 555-0199",
   colors: {
     navy: "#1B365D",
+    navyDeep: "#132844",
+    navyMid: "#243F6B",
     orange: "#FF6B00",
   },
   assets: {

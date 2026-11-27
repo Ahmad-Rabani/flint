@@ -68,8 +68,8 @@ export function CategoryForm({ category, categories }: Props) {
     });
   }
 
-  const inputCls = "w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none";
-  const labelCls = "block text-xs uppercase tracking-widest text-[#171717]/50 mb-1.5";
+  const inputCls = "w-full border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-widest text-[#1B365D]/50 mb-1.5";
 
   // Exclude self from parents
   const parentOptions = categories.filter((c) => c.id !== category?.id);
@@ -105,7 +105,7 @@ export function CategoryForm({ category, categories }: Props) {
         <div className="flex items-end pb-1">
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" className="accent-copper" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-            <span className="text-sm text-[#171717]">Active</span>
+            <span className="text-sm text-[#1B365D]">Active</span>
           </label>
         </div>
       </div>
@@ -121,11 +121,11 @@ export function CategoryForm({ category, categories }: Props) {
         <button
           type="submit"
           disabled={isPending}
-          className="border border-[#171717] bg-[#171717] px-5 py-2.5 text-sm text-ivory hover:bg-[#171717]/90 transition-colors disabled:opacity-60"
+          className="border border-[#1B365D] bg-[#1B365D] px-5 py-2.5 text-sm text-ivory hover:bg-[#1B365D]/90 transition-colors disabled:opacity-60"
         >
           {isPending ? "Saving…" : category ? "Save Changes" : "Create Category"}
         </button>
-        <a href="/admin/categories" className="border border-[#171717]/20 px-5 py-2.5 text-sm text-[#171717]/60 hover:border-[#171717]/40 transition-colors">
+        <a href="/admin/categories" className="border border-[#1B365D]/20 px-5 py-2.5 text-sm text-[#1B365D]/60 hover:border-[#1B365D]/40 transition-colors">
           Cancel
         </a>
       </div>

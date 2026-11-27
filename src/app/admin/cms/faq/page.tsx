@@ -23,7 +23,7 @@ export default async function AdminFAQPage() {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.3em] text-copper/70">CMS</p>
-      <h1 className="mt-1 font-heading text-4xl text-[#171717]">FAQ</h1>
+      <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">FAQ</h1>
       <FAQManager faqs={faqs} />
     </div>
   );

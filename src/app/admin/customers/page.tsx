@@ -51,8 +51,8 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Customers</p>
-          <h1 className="mt-1 font-heading text-4xl text-[#171717]">Directory</h1>
-          <p className="mt-1 text-sm text-[#171717]/50">{total} customers</p>
+          <h1 className="mt-1 font-heading text-4xl text-[#1B365D]">Directory</h1>
+          <p className="mt-1 text-sm text-[#1B365D]/50">{total} customers</p>
         </div>
       </div>
 
@@ -61,41 +61,41 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
           name="q"
           defaultValue={q}
           placeholder="Search by name or email…"
-          className="border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none w-72"
+          className="border border-[#1B365D]/20 bg-white px-3 py-2 text-sm text-[#1B365D] placeholder:text-[#1B365D]/30 focus:border-copper focus:outline-none w-72"
         />
-        <button type="submit" className="border border-[#171717]/20 px-4 py-2 text-sm text-[#171717]/60 hover:border-copper hover:text-copper transition-colors">
+        <button type="submit" className="border border-[#1B365D]/20 px-4 py-2 text-sm text-[#1B365D]/60 hover:border-copper hover:text-copper transition-colors">
           Search
         </button>
-        {q && <Link href="/admin/customers" className="px-4 py-2 text-sm text-[#171717]/40 hover:text-[#171717] transition-colors">Clear</Link>}
+        {q && <Link href="/admin/customers" className="px-4 py-2 text-sm text-[#1B365D]/40 hover:text-[#1B365D] transition-colors">Clear</Link>}
       </form>
 
-      <div className="mt-5 border border-[#171717]/10 bg-white overflow-x-auto">
+      <div className="mt-5 border border-[#1B365D]/10 bg-white overflow-x-auto">
         {items.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#171717]/30">
+          <div className="p-12 text-center text-sm text-[#1B365D]/30">
             {q ? "No customers match your search." : "No customers yet."}
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Customer</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Orders</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40">Total Spent</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Joined</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40" />
+              <tr className="border-b border-[#1B365D]/10">
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Customer</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Orders</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Total Spent</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#1B365D]/40">Joined</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#1B365D]/40" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#171717]/5">
+            <tbody className="divide-y divide-[#1B365D]/5">
               {items.map((c) => (
-                <tr key={c.id} className="hover:bg-[#171717]/[0.02] transition-colors">
+                <tr key={c.id} className="hover:bg-[#1B365D]/[0.02] transition-colors">
                   <td className="px-4 py-3">
-                    <p className="font-medium text-[#171717]">{c.name}</p>
-                    <p className="text-xs text-[#171717]/50">{c.email}</p>
-                    {c.phone && <p className="text-xs text-[#171717]/40">{c.phone}</p>}
+                    <p className="font-medium text-[#1B365D]">{c.name}</p>
+                    <p className="text-xs text-[#1B365D]/50">{c.email}</p>
+                    {c.phone && <p className="text-xs text-[#1B365D]/40">{c.phone}</p>}
                   </td>
-                  <td className="px-4 py-3 text-[#171717]/60">{c.orderCount}</td>
-                  <td className="px-4 py-3 text-right text-[#171717] font-medium">{formatCurrency(c.totalSpent)}</td>
-                  <td className="px-4 py-3 text-xs text-[#171717]/40">{formatDate(c.createdAt)}</td>
+                  <td className="px-4 py-3 text-[#1B365D]/60">{c.orderCount}</td>
+                  <td className="px-4 py-3 text-right text-[#1B365D] font-medium">{formatCurrency(c.totalSpent)}</td>
+                  <td className="px-4 py-3 text-xs text-[#1B365D]/40">{formatDate(c.createdAt)}</td>
                   <td className="px-4 py-3 text-right">
                     <Link href={`/admin/customers/${c.id}`} className="text-xs text-copper/60 hover:text-copper transition-colors">
                       View →
@@ -114,7 +114,7 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
             <Link
               key={p}
               href={`/admin/customers?${new URLSearchParams({ ...(q && { q }), page: String(p) })}`}
-              className={`border px-3 py-1.5 text-sm transition-colors ${p === page ? "border-[#171717] bg-[#171717] text-ivory" : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper"}`}
+              className={`border px-3 py-1.5 text-sm transition-colors ${p === page ? "border-[#1B365D] bg-[#1B365D] text-ivory" : "border-[#1B365D]/20 text-[#1B365D]/60 hover:border-copper hover:text-copper"}`}
             >
               {p}
             </Link>

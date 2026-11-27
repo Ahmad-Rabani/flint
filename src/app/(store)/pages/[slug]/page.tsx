@@ -33,7 +33,7 @@ export default async function CmsPageRoute({ params }: Props) {
 
   return (
     <div className="bg-[#f6f3ee]">
-      <div className="border-b border-[#171717]/08 bg-[#171717] pt-24 md:pt-28">
+      <div className="border-b border-[#1B365D]/08 bg-[#1B365D] pt-24 md:pt-28">
         <div className="mx-auto max-w-3xl px-5 pb-12 sm:px-6 md:pb-14">
           <div className="editorial-rule mb-5" />
           <h1 className="font-heading text-[clamp(2.2rem,4vw,3.25rem)] leading-[1.05] text-ivory">
