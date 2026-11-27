@@ -11,6 +11,7 @@ import {
 } from "@/features/products/queries";
 import { ProductCard } from "@/components/store/product-card";
 import { NewsletterFormClient } from "@/components/store/newsletter-form";
+import { HeroVideo } from "@/components/store/hero-video";
 import {
   Accordion,
   AccordionContent,
@@ -61,32 +62,10 @@ export default async function HomePage() {
     <div className="bg-background">
       {/* ── Hero ────────────────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex items-end bg-ink overflow-hidden">
-        {/* Background image or gradient */}
-        {heroBanner?.image ? (
-          <Image
-            src={heroBanner.image.url}
-            alt={heroBanner.image.alt ?? "FLINT hero"}
-            fill
-            priority
-            className="object-cover opacity-50"
-          />
-        ) : (
-          <div className="absolute inset-0">
-            <Image
-              src="/images/hero-blade.svg"
-              alt="Blade"
-              fill
-              priority
-              className="object-contain object-right opacity-[0.07] scale-110"
-            />
-            {/* Warm gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-ink via-ink to-[#1f1008]" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-copper/[0.07] rounded-full blur-[120px] -translate-x-1/3 translate-y-1/3" />
-          </div>
-        )}
+        <HeroVideo poster="/images/products/tracker-hunter.jpg" />
 
         {/* Copper vertical rule */}
-        <div className="absolute left-10 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-copper/50 to-transparent hidden lg:block" />
+        <div className="absolute left-10 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-copper/50 to-transparent hidden lg:block z-10" />
 
         {/* Content */}
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 pb-20 md:pb-28 w-full">

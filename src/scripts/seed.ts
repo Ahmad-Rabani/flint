@@ -263,8 +263,8 @@ async function seed() {
       categoryIds: [bySlug["kitchen-knives"]._id, bySlug["handmade-collections"]._id],
       images: [
         {
-          key: "seed/chef-210.svg",
-          url: "/images/products/placeholder-knife.svg",
+          key: "seed/chef-bone-handle.jpg",
+          url: "/images/products/chef-bone-handle.jpg",
           alt: "Forge Line Chef Knife",
         },
       ],
@@ -302,9 +302,14 @@ async function seed() {
       categoryIds: [bySlug["damascus-knives"]._id, bySlug["kitchen-knives"]._id],
       images: [
         {
-          key: "seed/damascus-gyuto.svg",
-          url: "/images/products/placeholder-knife.svg",
+          key: "seed/kitchen-set.jpg",
+          url: "/images/products/kitchen-set.jpg",
           alt: "Cascade Damascus Gyuto",
+        },
+        {
+          key: "seed/damascus-blade.jpg",
+          url: "/images/products/damascus-blade.jpg",
+          alt: "Cascade Damascus Gyuto detail",
         },
       ],
       price: 520,
@@ -338,8 +343,8 @@ async function seed() {
       categoryIds: [bySlug["axes-hatchets"]._id, bySlug["outdoor-camping"]._id],
       images: [
         {
-          key: "seed/hatchet.svg",
-          url: "/images/products/placeholder-axe.svg",
+          key: "seed/axe-1.jpg",
+          url: "/images/products/axe-1.jpg",
           alt: "Trailborn Camp Hatchet",
         },
       ],
@@ -368,8 +373,8 @@ async function seed() {
       categoryIds: [bySlug["hunting-sporting"]._id],
       images: [
         {
-          key: "seed/hunting.svg",
-          url: "/images/products/placeholder-knife.svg",
+          key: "seed/tracker-hunter.jpg",
+          url: "/images/products/tracker-hunter.jpg",
           alt: "Northridge Hunting Knife",
         },
       ],
@@ -397,8 +402,8 @@ async function seed() {
       categoryIds: [bySlug["utility-knives"]._id],
       images: [
         {
-          key: "seed/utility.svg",
-          url: "/images/products/placeholder-knife.svg",
+          key: "seed/folding-blue.jpg",
+          url: "/images/products/folding-blue.jpg",
           alt: "Atelier Utility Blade",
         },
       ],
@@ -424,8 +429,8 @@ async function seed() {
       categoryIds: [bySlug["accessories"]._id],
       images: [
         {
-          key: "seed/sheath.svg",
-          url: "/images/products/placeholder-knife.svg",
+          key: "seed/damascus-blade.jpg",
+          url: "/images/products/damascus-blade.jpg",
           alt: "Heritage Leather Sheath",
         },
       ],
@@ -450,8 +455,8 @@ async function seed() {
       categoryIds: [bySlug["axes-hatchets"]._id, bySlug["handmade-collections"]._id],
       images: [
         {
-          key: "seed/viking-axe.svg",
-          url: "/images/products/placeholder-axe.svg",
+          key: "seed/axe-2.jpg",
+          url: "/images/products/axe-2.jpg",
           alt: "Vesper Viking Bearded Axe",
         },
       ],
@@ -480,8 +485,8 @@ async function seed() {
       categoryIds: [bySlug["kitchen-knives"]._id, bySlug["hunting-sporting"]._id],
       images: [
         {
-          key: "seed/fillet.svg",
-          url: "/images/products/placeholder-knife.svg",
+          key: "seed/chef-bone-handle.jpg",
+          url: "/images/products/chef-bone-handle.jpg",
           alt: "Riverbend Fillet Knife",
         },
       ],
@@ -527,8 +532,8 @@ async function seed() {
     isActive: true,
     sortOrder: 1,
     image: {
-      key: "seed/hero.svg",
-      url: "/images/hero-blade.svg",
+      key: "seed/tracker-hunter.jpg",
+      url: "/images/products/tracker-hunter.jpg",
       alt: "FLINT forged blade",
     },
   });
