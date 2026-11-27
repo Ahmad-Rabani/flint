@@ -23,6 +23,7 @@ type CartLine = {
   variantId: string | null;
   name: string;
   sku: string;
+  imageUrl: string | null;
   unitPrice: number;
   quantity: number;
 };
@@ -73,6 +74,20 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
     itemsRef.current = items;
     cartRef.current = cart;
   }, [items, cart]);
+
+  // Keep cart thumbnails in sync with catalog images (covers HMR / stale lines)
+  useEffect(() => {
+    setCart((current) => {
+      let changed = false;
+      const next = current.map((line) => {
+        const fromCatalog = items.find((item) => item.key === line.key)?.imageUrl ?? null;
+        if (!fromCatalog || line.imageUrl === fromCatalog) return line;
+        changed = true;
+        return { ...line, imageUrl: fromCatalog };
+      });
+      return changed ? next : current;
+    });
+  }, [items]);
 
   useEffect(() => {
     searchRef.current?.focus();
@@ -131,6 +146,11 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
     return itemsRef.current.find((item) => item.key === key)?.stock ?? 0;
   }
 
+  function imageFor(key: string, fallback?: string | null) {
+    if (fallback) return fallback;
+    return itemsRef.current.find((item) => item.key === key)?.imageUrl ?? null;
+  }
+
   function addItem(item: PosCatalogItem) {
     const onHand = onHandFor(item.key);
     const existing = cartRef.current.find((line) => line.key === item.key);
@@ -143,6 +163,7 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
       toast.error("This sale already has 100 lines");
       return;
     }
+    const imageUrl = item.imageUrl || imageFor(item.key);
     setCart((current) => {
       const index = current.findIndex((line) => line.key === item.key);
       if (index === -1) {
@@ -154,6 +175,7 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
             variantId: item.variantId,
             name: item.displayName,
             sku: item.sku,
+            imageUrl,
             unitPrice: item.price,
             quantity: 1,
           },
@@ -162,7 +184,11 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
       const next = current.slice();
       const line = next[index];
       if (!line) return current;
-      next[index] = { ...line, quantity: line.quantity + 1 };
+      next[index] = {
+        ...line,
+        quantity: line.quantity + 1,
+        imageUrl: line.imageUrl || imageUrl,
+      };
       return next;
     });
     setError(null);
@@ -426,7 +452,7 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
                 {items.length === 0 ? "No active products are ready to sell." : "No products match that search."}
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
                 {filtered.map((item) => {
                   const inCart = cart.find((line) => line.key === item.key)?.quantity ?? 0;
                   const unavailable = item.stock <= 0;
@@ -438,56 +464,58 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
                       disabled={unavailable}
                       onClick={() => addItem(item)}
                       className={cn(
-                        "group relative flex min-h-[5.5rem] gap-3 bg-[#171717] p-2.5 text-left transition-all",
-                        "hover:bg-[#222] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-copper",
+                        "group relative flex min-h-[6.25rem] gap-3 overflow-hidden border border-[#171717]/10 bg-white p-2 text-left transition-all",
+                        "hover:border-copper/50 hover:bg-[#fffdf9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-copper",
                         "disabled:cursor-not-allowed disabled:opacity-40",
-                        inCart > 0 && "ring-2 ring-copper ring-offset-2 ring-offset-[#f0ebe3]",
+                        inCart > 0 && "border-copper ring-2 ring-copper/25",
                       )}
                     >
-                      <div className="relative h-[4.75rem] w-[4.75rem] shrink-0 overflow-hidden bg-[#2a2622]">
+                      <div className="relative flex h-[5.5rem] w-[5.5rem] shrink-0 items-center justify-center overflow-hidden bg-[#f3efe8]">
                         {item.imageUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
                             src={item.imageUrl}
                             alt=""
-                            className="h-full w-full object-contain p-1.5 transition-transform duration-300 group-hover:scale-105"
+                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                           />
                         ) : (
-                          <div className="flex h-full items-center justify-center text-white/25">
-                            <Package size={22} />
-                          </div>
+                          <Package size={22} className="text-[#171717]/25" />
                         )}
                         {inCart > 0 && (
-                          <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center bg-copper px-1 text-[10px] font-semibold text-white">
+                          <span className="absolute right-1 top-1 flex h-5 min-w-5 items-center justify-center bg-copper px-1 text-[10px] font-semibold text-white">
                             {inCart}
                           </span>
                         )}
                       </div>
 
-                      <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
+                      <div className="flex min-w-0 flex-1 flex-col justify-between py-1 pr-1">
                         <div>
-                          <p className="line-clamp-2 text-[13px] font-medium leading-snug text-[#f6f3ee]">
+                          <p className="line-clamp-2 text-[13px] font-medium leading-snug text-[#171717]">
                             {item.displayName}
                           </p>
-                          <p className="mt-1 font-mono text-[10px] tracking-wide text-white/35">{item.sku}</p>
+                          <p className="mt-1 font-mono text-[10px] tracking-wide text-[#171717]/40">{item.sku}</p>
                         </div>
                         <div className="mt-2 flex items-end justify-between gap-2">
-                          <span className="font-heading text-lg leading-none text-copper">
+                          <span className="font-heading text-xl leading-none text-copper">
                             {formatCurrency(item.price, data.currency)}
                           </span>
                           <span
                             className={cn(
-                              "text-[10px] font-medium uppercase tracking-[0.14em]",
-                              unavailable ? "text-red-400" : low ? "text-amber-400" : "text-white/40",
+                              "rounded-sm px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em]",
+                              unavailable
+                                ? "bg-red-50 text-red-700"
+                                : low
+                                  ? "bg-amber-50 text-amber-800"
+                                  : "bg-[#171717]/05 text-[#171717]/50",
                             )}
                           >
-                            {unavailable ? "Out of stock" : `Stock ${stockLabel(item.stock, item.minStockLevel)}`}
+                            {unavailable ? "Out" : `×${stockLabel(item.stock, item.minStockLevel)}`}
                           </span>
                         </div>
                       </div>
 
                       {item.ageRestriction > 0 && (
-                        <span className="absolute bottom-2 left-[5.5rem] bg-white/10 px-1.5 py-0.5 text-[9px] font-medium tracking-wide text-white/70">
+                        <span className="absolute bottom-2 right-2 bg-[#171717]/08 px-1.5 py-0.5 text-[9px] font-medium tracking-wide text-[#171717]/60">
                           {item.ageRestriction}+
                         </span>
                       )}
@@ -502,11 +530,11 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
           </div>
         </section>
 
-        <aside className="flex min-h-0 flex-col border-t border-[#171717]/10 bg-white md:border-l md:border-t-0">
-          <div className="flex shrink-0 items-start justify-between gap-3 border-b border-[#171717]/10 px-4 py-3">
+        <aside className="flex min-h-0 flex-col border-t border-[#171717]/10 bg-[#faf8f4] md:border-l md:border-t-0">
+          <div className="flex shrink-0 items-center justify-between gap-3 border-b border-[#171717]/10 bg-white px-4 py-3.5">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.28em] text-copper">Current sale</p>
-              <p className="text-sm text-[#171717]/60">
+              <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">Current sale</p>
+              <p className="mt-0.5 text-sm text-[#171717]/60">
                 {cart.reduce((sum, line) => sum + line.quantity, 0)}{" "}
                 {cart.reduce((sum, line) => sum + line.quantity, 0) === 1 ? "item" : "items"}
               </p>
@@ -521,284 +549,322 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
                   setTenderedText("");
                   setError(null);
                 }}
-                className="text-xs text-[#171717]/50 underline-offset-2 hover:text-copper hover:underline"
+                className="text-xs font-medium text-[#171717]/50 underline-offset-2 hover:text-copper hover:underline"
               >
-                Clear
+                Clear all
               </button>
             )}
           </div>
 
-          {/* Cart + payment details scroll; total + complete stay pinned */}
-          <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
+          {/* Cart lines only — images first for fast recognition */}
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3">
             {cart.length === 0 ? (
-              <p className="py-6 text-center text-sm text-[#171717]/50">
-                Tap a product to add it, then complete the sale below.
-              </p>
+              <div className="flex h-full min-h-32 flex-col items-center justify-center gap-2 px-4 text-center">
+                <Package size={28} className="text-[#171717]/25" />
+                <p className="text-sm text-[#171717]/50">Tap a product on the left to add it here.</p>
+              </div>
             ) : (
-              <ul className="space-y-3">
-                {cart.map((line) => (
-                  <li key={line.key} className="border border-[#171717]/10 p-3">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-[#171717]">{line.name}</p>
-                        <p className="font-mono text-[11px] text-[#171717]/45">{line.sku}</p>
+              <ul className="space-y-2">
+                {cart.map((line) => {
+                  const thumb = imageFor(line.key, line.imageUrl);
+                  return (
+                    <li
+                      key={line.key}
+                      className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-stretch gap-3 border border-[#171717]/08 bg-white p-2"
+                    >
+                      <div className="flex h-[4.5rem] w-[4.5rem] items-center justify-center overflow-hidden bg-[#f3efe8]">
+                        {thumb ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={thumb}
+                            alt={line.name}
+                            className="h-full w-full object-cover object-center"
+                          />
+                        ) : (
+                          <Package size={20} className="text-[#171717]/25" />
+                        )}
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => setCart((current) => current.filter((entry) => entry.key !== line.key))}
-                        className="inline-flex min-h-11 min-w-11 items-center justify-center text-[#171717]/45 hover:text-red-700"
-                        aria-label={`Remove ${line.name}`}
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                    <div className="mt-2 flex items-center justify-between gap-3">
-                      <div className="flex items-center border border-[#171717]/20">
-                        <button
-                          type="button"
-                          onClick={() => setQuantity(line.key, line.quantity - 1)}
-                          className="inline-flex min-h-11 min-w-11 items-center justify-center text-[#171717]"
-                          aria-label={`Decrease ${line.name}`}
-                        >
-                          <Minus size={14} />
-                        </button>
-                        <input
-                          value={line.quantity}
-                          onChange={(event) => {
-                            const next = Number(event.target.value);
-                            if (Number.isInteger(next)) setQuantity(line.key, next);
-                          }}
-                          inputMode="numeric"
-                          aria-label={`Quantity for ${line.name}`}
-                          className="h-11 w-12 border-x border-[#171717]/20 text-center text-sm text-[#171717] outline-none"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setQuantity(line.key, line.quantity + 1)}
-                          className="inline-flex min-h-11 min-w-11 items-center justify-center text-[#171717]"
-                          aria-label={`Increase ${line.name}`}
-                        >
-                          <Plus size={14} />
-                        </button>
+
+                      <div className="flex min-w-0 flex-col justify-between py-0.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="line-clamp-2 text-sm font-medium leading-snug text-[#171717]">
+                              {line.name}
+                            </p>
+                            <p className="mt-0.5 font-mono text-[10px] text-[#171717]/40">{line.sku}</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setCart((current) => current.filter((entry) => entry.key !== line.key))
+                            }
+                            className="inline-flex h-8 w-8 shrink-0 items-center justify-center text-[#171717]/35 hover:text-red-700"
+                            aria-label={`Remove ${line.name}`}
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
+
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center border border-[#171717]/15 bg-[#faf8f4]">
+                            <button
+                              type="button"
+                              onClick={() => setQuantity(line.key, line.quantity - 1)}
+                              className="inline-flex h-9 w-9 items-center justify-center text-[#171717]"
+                              aria-label={`Decrease ${line.name}`}
+                            >
+                              <Minus size={13} />
+                            </button>
+                            <input
+                              value={line.quantity}
+                              onChange={(event) => {
+                                const next = Number(event.target.value);
+                                if (Number.isInteger(next)) setQuantity(line.key, next);
+                              }}
+                              inputMode="numeric"
+                              aria-label={`Quantity for ${line.name}`}
+                              className="h-9 w-10 border-x border-[#171717]/15 bg-transparent text-center text-sm text-[#171717] outline-none"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setQuantity(line.key, line.quantity + 1)}
+                              className="inline-flex h-9 w-9 items-center justify-center text-[#171717]"
+                              aria-label={`Increase ${line.name}`}
+                            >
+                              <Plus size={13} />
+                            </button>
+                          </div>
+                          <p className="text-sm font-semibold text-[#171717]">
+                            {formatCurrency(roundMoney(line.unitPrice * line.quantity), data.currency)}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-sm font-medium text-[#171717]">
-                        {formatCurrency(roundMoney(line.unitPrice * line.quantity), data.currency)}
-                      </p>
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
             )}
 
-            <div className="mt-4 space-y-3 border-t border-[#171717]/10 pt-4">
-              <div className="space-y-1.5 text-sm text-[#171717]">
-                <div className="flex justify-between">
-                  <span className="text-[#171717]/70">Subtotal</span>
-                  <span>{formatCurrency(quote.subtotal, data.currency)}</span>
-                </div>
-                {data.canDiscount && (
-                  <div className="space-y-2 pt-1">
-                    <label className="block text-xs font-medium uppercase tracking-[0.16em] text-[#171717]/65">
-                      Discount
-                      <input
-                        value={discountText}
-                        onChange={(event) => setDiscountText(event.target.value)}
-                        inputMode="decimal"
-                        placeholder="0.00"
-                        className={cn(fieldClass, "mt-1.5")}
-                      />
-                    </label>
-                    {(discountAmount ?? 0) > 0 && (
-                      <input
-                        value={discountReason}
-                        onChange={(event) => setDiscountReason(event.target.value)}
-                        placeholder="Reason"
-                        className={fieldClass}
-                      />
-                    )}
+            {cart.length > 0 && (
+              <div className="mt-4 space-y-3 border-t border-[#171717]/10 pt-4">
+                <div className="space-y-1 text-sm text-[#171717]">
+                  <div className="flex justify-between text-[#171717]/65">
+                    <span>Subtotal</span>
+                    <span>{formatCurrency(quote.subtotal, data.currency)}</span>
                   </div>
-                )}
-                {quote.discountAmount > 0 && (
-                  <div className="flex justify-between text-[#171717]/70">
-                    <span>Discount</span>
-                    <span>−{formatCurrency(quote.discountAmount, data.currency)}</span>
-                  </div>
-                )}
-                <div className="flex justify-between text-[#171717]/70">
-                  <span>
-                    {data.taxInclusive ? "Tax included" : "Tax"} ({formatTaxPercent(data.taxRate)})
-                  </span>
-                  <span>{formatCurrency(quote.taxAmount, data.currency)}</span>
-                </div>
-                {overDiscount && <p className="text-sm text-red-700">Discount cannot exceed the subtotal.</p>}
-              </div>
-
-              <div>
-                <p className="mb-2 text-xs font-medium uppercase tracking-[0.16em] text-[#171717]/65">Customer</p>
-                {customer ? (
-                  <div className="flex min-h-12 items-center justify-between gap-3 border border-[#171717]/20 px-3">
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-[#171717]">{customer.name}</p>
-                      <p className="truncate text-xs text-[#171717]/50">{customer.email}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setCustomer(null)}
-                      className="inline-flex min-h-11 min-w-11 items-center justify-center text-[#171717]"
-                      aria-label="Use walk-in guest"
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    <input
-                      value={guestName}
-                      onChange={(event) => setGuestName(event.target.value)}
-                      placeholder="Walk-in Guest"
-                      className={fieldClass}
-                      aria-label="Guest name"
-                    />
-                    <div className="relative">
-                      <input
-                        value={customerQuery}
-                        onChange={(event) => {
-                          const value = event.target.value;
-                          setCustomerQuery(value);
-                          setCustomerOpen(true);
-                          if (!value.trim()) setCustomerHits([]);
-                        }}
-                        onFocus={() => setCustomerOpen(true)}
-                        placeholder="Search customers"
-                        className={fieldClass}
-                        aria-label="Search customers"
-                      />
-                      {customerOpen && customerQuery.trim() && (
-                        <div className="absolute bottom-full z-10 mb-1 max-h-52 w-full overflow-auto border border-[#171717]/15 bg-white shadow-lg">
-                          {customerHits.length === 0 ? (
-                            <p className="px-3 py-3 text-sm text-[#171717]/50">No customers found.</p>
-                          ) : (
-                            customerHits.map((hit) => (
-                              <button
-                                key={hit.id}
-                                type="button"
-                                onMouseDown={(event) => event.preventDefault()}
-                                onClick={() => {
-                                  setCustomer(hit);
-                                  setCustomerQuery("");
-                                  setCustomerHits([]);
-                                  setCustomerOpen(false);
-                                  setGuestName("");
-                                }}
-                                className="flex min-h-11 w-full flex-col items-start justify-center px-3 py-2 text-left hover:bg-[#f6f3ee]"
-                              >
-                                <span className="text-sm text-[#171717]">{hit.name}</span>
-                                <span className="text-xs text-[#171717]/50">{hit.email}</span>
-                              </button>
-                            ))
-                          )}
-                        </div>
+                  {data.canDiscount && (
+                    <div className="space-y-2 py-1">
+                      <label className="block text-[10px] font-medium uppercase tracking-[0.16em] text-[#171717]/55">
+                        Discount
+                        <input
+                          value={discountText}
+                          onChange={(event) => setDiscountText(event.target.value)}
+                          inputMode="decimal"
+                          placeholder="0.00"
+                          className={cn(fieldClass, "mt-1.5 h-10")}
+                        />
+                      </label>
+                      {(discountAmount ?? 0) > 0 && (
+                        <input
+                          value={discountReason}
+                          onChange={(event) => setDiscountReason(event.target.value)}
+                          placeholder="Reason"
+                          className={cn(fieldClass, "h-10")}
+                        />
                       )}
                     </div>
+                  )}
+                  {quote.discountAmount > 0 && (
+                    <div className="flex justify-between text-[#171717]/65">
+                      <span>Discount</span>
+                      <span>−{formatCurrency(quote.discountAmount, data.currency)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-[#171717]/65">
+                    <span>
+                      {data.taxInclusive ? "Tax included" : "Tax"} ({formatTaxPercent(data.taxRate)})
+                    </span>
+                    <span>{formatCurrency(quote.taxAmount, data.currency)}</span>
                   </div>
-                )}
-              </div>
-
-              <div>
-                <p className="mb-2 text-xs font-medium uppercase tracking-[0.16em] text-[#171717]/65">Payment</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {data.paymentMethods.map((method) => (
-                    <button
-                      key={method.id}
-                      type="button"
-                      onClick={() => {
-                        setPaymentMethod(method.id);
-                        if (method.id !== "cash") setTenderedText("");
-                      }}
-                      className={cn(
-                        "min-h-12 border px-3 text-sm font-medium",
-                        paymentMethod === method.id
-                          ? "border-[#171717] bg-[#171717] text-ivory"
-                          : "border-[#171717]/25 bg-white text-[#171717] hover:border-[#171717]/50",
-                      )}
-                    >
-                      {method.label}
-                    </button>
-                  ))}
+                  {overDiscount && <p className="text-sm text-red-700">Discount cannot exceed the subtotal.</p>}
                 </div>
-              </div>
 
-              {paymentMethod === "cash" && (
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-[0.16em] text-[#171717]/65">
-                    Amount tendered
-                    <input
-                      value={tenderedText}
-                      onChange={(event) => setTenderedText(event.target.value)}
-                      inputMode="decimal"
-                      placeholder={quote.total > 0 ? quote.total.toFixed(2) : "0.00"}
-                      className={cn(fieldClass, "mt-1.5")}
-                    />
-                  </label>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {quickCash.map((amount) => (
+                  <p className="mb-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#171717]/55">Customer</p>
+                  {customer ? (
+                    <div className="flex min-h-11 items-center justify-between gap-3 border border-[#171717]/15 bg-white px-3">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-[#171717]">{customer.name}</p>
+                        <p className="truncate text-xs text-[#171717]/45">{customer.email}</p>
+                      </div>
                       <button
-                        key={amount}
                         type="button"
-                        onClick={() => setTenderedText(amount.toFixed(2))}
-                        className="inline-flex min-h-11 items-center border border-[#171717]/25 bg-white px-3 text-sm text-[#171717] hover:border-copper hover:text-copper"
+                        onClick={() => setCustomer(null)}
+                        className="inline-flex h-9 w-9 items-center justify-center text-[#171717]"
+                        aria-label="Use walk-in guest"
                       >
-                        {amount === quote.total ? "Exact" : formatCurrency(amount, data.currency)}
+                        <X size={15} />
                       </button>
-                    ))}
-                  </div>
-                  {tendered != null && tendered >= quote.total && quote.total > 0 && (
-                    <div className="mt-3 flex items-end justify-between">
-                      <span className="text-xs font-medium uppercase tracking-[0.18em] text-[#171717]/65">Change due</span>
-                      <span className="font-heading text-3xl text-copper">
-                        {formatCurrency(roundMoney(tendered - quote.total), data.currency)}
-                      </span>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <input
+                        value={guestName}
+                        onChange={(event) => setGuestName(event.target.value)}
+                        placeholder="Walk-in Guest"
+                        className={cn(fieldClass, "h-10")}
+                        aria-label="Guest name"
+                      />
+                      <div className="relative">
+                        <input
+                          value={customerQuery}
+                          onChange={(event) => {
+                            const value = event.target.value;
+                            setCustomerQuery(value);
+                            setCustomerOpen(true);
+                            if (!value.trim()) setCustomerHits([]);
+                          }}
+                          onFocus={() => setCustomerOpen(true)}
+                          placeholder="Search customers"
+                          className={cn(fieldClass, "h-10")}
+                          aria-label="Search customers"
+                        />
+                        {customerOpen && customerQuery.trim() && (
+                          <div className="absolute bottom-full z-10 mb-1 max-h-52 w-full overflow-auto border border-[#171717]/15 bg-white shadow-lg">
+                            {customerHits.length === 0 ? (
+                              <p className="px-3 py-3 text-sm text-[#171717]/50">No customers found.</p>
+                            ) : (
+                              customerHits.map((hit) => (
+                                <button
+                                  key={hit.id}
+                                  type="button"
+                                  onMouseDown={(event) => event.preventDefault()}
+                                  onClick={() => {
+                                    setCustomer(hit);
+                                    setCustomerQuery("");
+                                    setCustomerHits([]);
+                                    setCustomerOpen(false);
+                                    setGuestName("");
+                                  }}
+                                  className="flex min-h-11 w-full flex-col items-start justify-center px-3 py-2 text-left hover:bg-[#f6f3ee]"
+                                >
+                                  <span className="text-sm text-[#171717]">{hit.name}</span>
+                                  <span className="text-xs text-[#171717]/50">{hit.email}</span>
+                                </button>
+                              ))
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
-              )}
 
-              <label className="block text-xs font-medium uppercase tracking-[0.16em] text-[#171717]/65">
-                Notes
-                <textarea
-                  value={notes}
-                  onChange={(event) => setNotes(event.target.value)}
-                  rows={2}
-                  placeholder="Optional note for this sale"
-                  className="mt-1.5 w-full border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] outline-none placeholder:text-[#171717]/30 focus:border-copper"
-                />
-              </label>
-            </div>
+                <label className="block text-[10px] font-medium uppercase tracking-[0.16em] text-[#171717]/55">
+                  Notes
+                  <textarea
+                    value={notes}
+                    onChange={(event) => setNotes(event.target.value)}
+                    rows={2}
+                    placeholder="Optional note"
+                    className="mt-1.5 w-full border border-[#171717]/15 bg-white px-3 py-2 text-sm text-[#171717] outline-none placeholder:text-[#171717]/30 focus:border-copper"
+                  />
+                </label>
+              </div>
+            )}
           </div>
 
-          {/* Always-visible checkout action */}
-          <div className="shrink-0 border-t border-[#171717]/15 bg-[#f6f3ee] px-4 py-4 shadow-[0_-8px_24px_rgba(23,23,23,0.06)]">
-            <div className="mb-3 flex items-end justify-between gap-3">
-              <span className="text-xs font-medium uppercase tracking-[0.18em] text-[#171717]/65">Total due</span>
-              <span className="font-heading text-4xl leading-none text-[#171717]">
+          {/* Sticky checkout: payment + cash + complete always in view */}
+          <div className="shrink-0 space-y-3 border-t border-[#171717]/12 bg-white px-4 py-3.5 shadow-[0_-10px_30px_rgba(23,23,23,0.06)]">
+            <div className="flex items-end justify-between gap-3">
+              <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#171717]/55">Total due</span>
+              <span className="font-heading text-[2.35rem] leading-none text-[#171717]">
                 {formatCurrency(quote.total, data.currency)}
               </span>
             </div>
 
+            <div>
+              <p className="mb-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#171717]/55">Payment</p>
+              <div className="grid grid-cols-4 gap-1.5">
+                {data.paymentMethods.map((method) => (
+                  <button
+                    key={method.id}
+                    type="button"
+                    onClick={() => {
+                      setPaymentMethod(method.id);
+                      if (method.id !== "cash") setTenderedText("");
+                      if (method.id === "cash" && quote.total > 0 && !tenderedText.trim()) {
+                        setTenderedText(quote.total.toFixed(2));
+                      }
+                    }}
+                    className={cn(
+                      "h-10 border px-1 text-[11px] font-medium leading-tight",
+                      paymentMethod === method.id
+                        ? "border-[#171717] bg-[#171717] text-ivory"
+                        : "border-[#171717]/20 bg-[#faf8f4] text-[#171717] hover:border-[#171717]/45",
+                    )}
+                  >
+                    {method.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {paymentMethod === "cash" && cart.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2">
+                  <input
+                    value={tenderedText}
+                    onChange={(event) => setTenderedText(event.target.value)}
+                    inputMode="decimal"
+                    placeholder="Cash received"
+                    aria-label="Amount tendered"
+                    className="h-11 flex-1 border border-[#171717]/20 bg-[#faf8f4] px-3 text-sm text-[#171717] outline-none placeholder:text-[#171717]/35 focus:border-copper"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setTenderedText(quote.total.toFixed(2))}
+                    className="h-11 shrink-0 border border-[#171717]/20 px-3 text-xs font-medium uppercase tracking-wide text-[#171717] hover:border-copper hover:text-copper"
+                  >
+                    Exact
+                  </button>
+                </div>
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                  {quickCash.filter((amount) => amount !== quote.total).map((amount) => (
+                    <button
+                      key={amount}
+                      type="button"
+                      onClick={() => setTenderedText(amount.toFixed(2))}
+                      className="inline-flex h-8 items-center border border-[#171717]/12 bg-[#faf8f4] px-2.5 text-xs text-[#171717] hover:border-copper"
+                    >
+                      {formatCurrency(amount, data.currency)}
+                    </button>
+                  ))}
+                </div>
+                {tendered != null && tendered >= quote.total && quote.total > 0 && (
+                  <div className="mt-2 flex items-baseline justify-between">
+                    <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-[#171717]/55">Change</span>
+                    <span className="font-heading text-2xl text-copper">
+                      {formatCurrency(roundMoney(tendered - quote.total), data.currency)}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+
             {error && (
-              <p role="alert" className="mb-3 text-sm text-red-700">
+              <p role="alert" className="text-sm text-red-700">
                 {error}
               </p>
             )}
-
             {!error && cart.length === 0 && (
-              <p className="mb-3 text-sm text-[#171717]/55">Add at least one product to enable checkout.</p>
+              <p className="text-xs text-[#171717]/50">Add products to enable checkout.</p>
             )}
             {!error && cart.length > 0 && cashShort && (
-              <p className="mb-3 text-sm text-amber-800">Enter cash received that covers the total.</p>
+              <p className="text-xs text-amber-800">Enter cash received that covers the total.</p>
             )}
             {!error && overStock && (
-              <p className="mb-3 text-sm text-red-700">Reduce a quantity — it exceeds on-hand stock.</p>
+              <p className="text-xs text-red-700">A quantity exceeds on-hand stock.</p>
             )}
 
             <button
@@ -806,16 +872,16 @@ export function PosTerminal({ data }: { data: PosTerminalData }) {
               disabled={submitting || cart.length === 0 || overStock || discountInvalid || overDiscount || cashShort}
               onClick={() => void completeSale()}
               className={cn(
-                "flex h-16 w-full flex-col items-center justify-center gap-0.5 transition-colors",
+                "flex h-[3.75rem] w-full flex-col items-center justify-center gap-0.5 transition-colors",
                 cart.length > 0 && !cashShort && !overStock && !discountInvalid && !overDiscount
                   ? "bg-copper text-white hover:bg-[#e05f00]"
-                  : "bg-[#171717] text-ivory disabled:cursor-not-allowed disabled:opacity-45",
+                  : "bg-[#171717] text-ivory disabled:cursor-not-allowed disabled:opacity-40",
               )}
             >
-              <span className="text-base font-semibold tracking-wide">
+              <span className="text-[15px] font-semibold tracking-wide">
                 {submitting ? "Completing sale…" : "Complete Sale"}
               </span>
-              <span className="text-[11px] uppercase tracking-[0.16em] opacity-80">
+              <span className="text-[10px] uppercase tracking-[0.18em] opacity-85">
                 {submitting ? "Please wait" : "Issue receipt"}
               </span>
             </button>
