@@ -3,6 +3,7 @@ export const instant = false;
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { connection } from "next/server";
 import { ArrowRight } from "lucide-react";
 import { getPageBySlug } from "@/features/cms/queries";
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
+  await connection();
   const page = await getPageBySlug("about").catch(() => null);
 
   return (

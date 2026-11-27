@@ -3,7 +3,7 @@ import path from "path";
 import type { StorageProvider, StoredObject } from "./types";
 
 function rootPath() {
-  return path.resolve(process.env.STORAGE_LOCAL_PATH || "./uploads");
+  return path.resolve(/*turbopackIgnore: true*/ process.env.STORAGE_LOCAL_PATH || "./uploads");
 }
 
 function publicBase() {
@@ -13,7 +13,7 @@ function publicBase() {
 export function createLocalStorage(): StorageProvider {
   return {
     async upload({ key, data, mimeType }): Promise<StoredObject> {
-      const fullPath = path.join(rootPath(), key);
+      const fullPath = path.join(/*turbopackIgnore: true*/ rootPath(), key);
       await fs.mkdir(path.dirname(fullPath), { recursive: true });
       await fs.writeFile(fullPath, data);
       return {
@@ -25,7 +25,7 @@ export function createLocalStorage(): StorageProvider {
     },
 
     async delete(key: string) {
-      const fullPath = path.join(rootPath(), key);
+      const fullPath = path.join(/*turbopackIgnore: true*/ rootPath(), key);
       try {
         await fs.unlink(fullPath);
       } catch {

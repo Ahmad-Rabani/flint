@@ -1,3 +1,4 @@
+import { createImageKitStorage } from "./imagekit";
 import { createLocalStorage } from "./local";
 import { createS3Storage } from "./s3";
 import type { StorageProvider } from "./types";
@@ -9,7 +10,13 @@ let provider: StorageProvider | null = null;
 export function getStorage(): StorageProvider {
   if (provider) return provider;
   const mode = process.env.STORAGE_PROVIDER || "local";
-  provider = mode === "s3" ? createS3Storage() : createLocalStorage();
+  if (mode === "imagekit") {
+    provider = createImageKitStorage();
+  } else if (mode === "s3") {
+    provider = createS3Storage();
+  } else {
+    provider = createLocalStorage();
+  }
   return provider;
 }
 

@@ -3,6 +3,7 @@ export const instant = false;
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { connection } from "next/server";
 import { ArrowRight } from "lucide-react";
 import { getPageBySlug } from "@/features/cms/queries";
 
@@ -34,6 +35,7 @@ const STEPS = [
 ];
 
 export default async function CraftPage() {
+  await connection();
   const cmsPage = await getPageBySlug("craft").catch(() => null);
   const craftsmanship = await getPageBySlug("craftsmanship").catch(() => null);
   const page = cmsPage ?? craftsmanship;

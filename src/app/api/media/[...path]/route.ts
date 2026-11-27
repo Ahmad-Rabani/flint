@@ -7,8 +7,8 @@ type Params = { params: Promise<{ path: string[] }> };
 export async function GET(_request: Request, { params }: Params) {
   const { path: segments } = await params;
   const key = segments.join("/");
-  const root = path.resolve(process.env.STORAGE_LOCAL_PATH || "./uploads");
-  const fullPath = path.normalize(path.join(root, key));
+  const root = path.resolve(/*turbopackIgnore: true*/ process.env.STORAGE_LOCAL_PATH || "./uploads");
+  const fullPath = path.normalize(path.join(/*turbopackIgnore: true*/ root, key));
 
   if (!fullPath.startsWith(root)) {
     return NextResponse.json({ error: "Invalid path" }, { status: 400 });

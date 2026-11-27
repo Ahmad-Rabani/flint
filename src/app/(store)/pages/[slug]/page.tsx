@@ -2,6 +2,7 @@ export const instant = false;
 
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { connection } from "next/server";
 import { getPageBySlug } from "@/features/cms/queries";
 
 type Props = {
@@ -15,6 +16,7 @@ const ALIASES: Record<string, string> = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await connection();
   const { slug } = await params;
   const page = await getPageBySlug(slug).catch(() => null);
   if (!page) return { title: "Page" };
@@ -25,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CmsPageRoute({ params }: Props) {
+  await connection();
   const { slug } = await params;
   if (ALIASES[slug]) redirect(ALIASES[slug]);
 
