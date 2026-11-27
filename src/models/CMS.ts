@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { MediaRefSchema, softDeleteFields } from "./shared";
 
 const BannerSchema = new Schema(
@@ -100,42 +100,40 @@ const HomepageSectionSchema = new Schema(
 );
 
 export type BannerDocument = InferSchemaType<typeof BannerSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 export type CMSPageDocument = InferSchemaType<typeof CMSPageSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 export type FAQDocument = InferSchemaType<typeof FAQSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 export type TestimonialDocument = InferSchemaType<typeof TestimonialSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 export type NavigationDocument = InferSchemaType<typeof NavigationSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 export type HomepageSectionDocument = InferSchemaType<typeof HomepageSectionSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
-export const Banner: Model<BannerDocument> =
-  (models.Banner as Model<BannerDocument>) || model<BannerDocument>("Banner", BannerSchema);
+export const Banner = (models.Banner || model("Banner", BannerSchema)) as Model<any>;
 
 export const CMSPage: Model<CMSPageDocument> =
-  (models.CMSPage as Model<CMSPageDocument>) ||
+  (models.CMSPage as Model<any>) ||
   model<CMSPageDocument>("CMSPage", CMSPageSchema);
 
-export const FAQ: Model<FAQDocument> =
-  (models.FAQ as Model<FAQDocument>) || model<FAQDocument>("FAQ", FAQSchema);
+export const FAQ = (models.FAQ || model("FAQ", FAQSchema)) as Model<any>;
 
 export const Testimonial: Model<TestimonialDocument> =
-  (models.Testimonial as Model<TestimonialDocument>) ||
+  (models.Testimonial as Model<any>) ||
   model<TestimonialDocument>("Testimonial", TestimonialSchema);
 
 export const Navigation: Model<NavigationDocument> =
-  (models.Navigation as Model<NavigationDocument>) ||
+  (models.Navigation as Model<any>) ||
   model<NavigationDocument>("Navigation", NavigationSchema);
 
 export const HomepageSection: Model<HomepageSectionDocument> =
-  (models.HomepageSection as Model<HomepageSectionDocument>) ||
+  (models.HomepageSection as Model<any>) ||
   model<HomepageSectionDocument>("HomepageSection", HomepageSectionSchema);

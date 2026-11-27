@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { PAYMENT_METHODS } from "@/constants";
 
 const POSItemSchema = new Schema(
@@ -46,9 +46,9 @@ const POSTransactionSchema = new Schema(
 POSTransactionSchema.index({ createdAt: -1 });
 
 export type POSTransactionDocument = InferSchemaType<typeof POSTransactionSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const POSTransaction: Model<POSTransactionDocument> =
-  (models.POSTransaction as Model<POSTransactionDocument>) ||
+  (models.POSTransaction as Model<any>) ||
   model<POSTransactionDocument>("POSTransaction", POSTransactionSchema);

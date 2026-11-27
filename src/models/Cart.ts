@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 
 const CartItemSchema = new Schema(
   {
@@ -23,8 +23,7 @@ const CartSchema = new Schema(
 CartSchema.index({ userId: 1 }, { unique: true, sparse: true });
 
 export type CartDocument = InferSchemaType<typeof CartSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
-export const Cart: Model<CartDocument> =
-  (models.Cart as Model<CartDocument>) || model<CartDocument>("Cart", CartSchema);
+export const Cart = (models.Cart || model("Cart", CartSchema)) as Model<any>;

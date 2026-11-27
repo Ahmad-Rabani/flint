@@ -43,9 +43,23 @@ export function ProductActions({ product, isOutOfStock }: Props) {
     });
   }
 
-  function handleWishlist() {
+  async function handleWishlist() {
+    const method = wishlistAdded ? "DELETE" : "POST";
+    const res = await fetch("/api/wishlist", {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId: product._id }),
+    });
+    if (!res.ok) {
+      if (res.status === 401) {
+        toast.error("Sign in to save wishlist items");
+        return;
+      }
+      toast.error("Could not update wishlist");
+      return;
+    }
     setWishlistAdded((v) => !v);
-    toast(wishlistAdded ? "Removed from wishlist" : "Added to wishlist");
+    toast.success(wishlistAdded ? "Removed from wishlist" : "Added to wishlist");
   }
 
   return (

@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { AddressSchema, softDeleteFields } from "./shared";
 
 const CustomerSchema = new Schema(
@@ -21,9 +21,9 @@ const CustomerSchema = new Schema(
 CustomerSchema.index({ email: 1, deletedAt: 1 });
 
 export type CustomerDocument = InferSchemaType<typeof CustomerSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Customer: Model<CustomerDocument> =
-  (models.Customer as Model<CustomerDocument>) ||
+  (models.Customer as Model<any>) ||
   model<CustomerDocument>("Customer", CustomerSchema);

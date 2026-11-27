@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { softDeleteFields } from "./shared";
 
 const MediaSchema = new Schema(
@@ -19,8 +19,7 @@ const MediaSchema = new Schema(
 );
 
 export type MediaDocument = InferSchemaType<typeof MediaSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
-export const Media: Model<MediaDocument> =
-  (models.Media as Model<MediaDocument>) || model<MediaDocument>("Media", MediaSchema);
+export const Media = (models.Media || model("Media", MediaSchema)) as Model<any>;

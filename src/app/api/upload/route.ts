@@ -5,13 +5,18 @@ import { handleRouteError, jsonCreated, jsonError } from "@/lib/api";
 import { Media } from "@/models";
 import { UPLOAD_LIMITS } from "@/constants";
 
+// Folders that allow unauthenticated uploads (file type/size still validated)
+const ANONYMOUS_ALLOWED_FOLDERS = ["custom-orders"];
+
 export async function POST(request: Request) {
   try {
     const session = await getSession();
-    if (!session) return jsonError("Unauthorized", 401);
-
     const formData = await request.formData();
     const folder = String(formData.get("folder") || "general");
+
+    if (!session && !ANONYMOUS_ALLOWED_FOLDERS.includes(folder)) {
+      return jsonError("Unauthorized", 401);
+    }
     const files = formData.getAll("files").filter((f): f is File => f instanceof File);
 
     if (files.length === 0) {
@@ -42,7 +47,7 @@ export async function POST(request: Request) {
         mimeType: stored.mimeType,
         size: stored.size,
         folder,
-        uploadedBy: session.id,
+        uploadedBy: session?.id,
         alt: file.name,
       });
 

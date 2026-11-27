@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 
 const NotificationSchema = new Schema(
   {
@@ -18,9 +18,9 @@ const NotificationSchema = new Schema(
 );
 
 export type NotificationDocument = InferSchemaType<typeof NotificationSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Notification: Model<NotificationDocument> =
-  (models.Notification as Model<NotificationDocument>) ||
+  (models.Notification as Model<any>) ||
   model<NotificationDocument>("Notification", NotificationSchema);

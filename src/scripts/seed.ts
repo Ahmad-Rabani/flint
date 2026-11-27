@@ -303,7 +303,7 @@ async function seed() {
       images: [
         {
           key: "seed/damascus-gyuto.svg",
-          url: "/images/products/damascus-gyuto.svg",
+          url: "/images/products/placeholder-knife.svg",
           alt: "Cascade Damascus Gyuto",
         },
       ],
@@ -339,7 +339,7 @@ async function seed() {
       images: [
         {
           key: "seed/hatchet.svg",
-          url: "/images/products/hatchet.svg",
+          url: "/images/products/placeholder-axe.svg",
           alt: "Trailborn Camp Hatchet",
         },
       ],
@@ -369,7 +369,7 @@ async function seed() {
       images: [
         {
           key: "seed/hunting.svg",
-          url: "/images/products/hunting-knife.svg",
+          url: "/images/products/placeholder-knife.svg",
           alt: "Northridge Hunting Knife",
         },
       ],
@@ -398,7 +398,7 @@ async function seed() {
       images: [
         {
           key: "seed/utility.svg",
-          url: "/images/products/utility-knife.svg",
+          url: "/images/products/placeholder-knife.svg",
           alt: "Atelier Utility Blade",
         },
       ],
@@ -425,7 +425,7 @@ async function seed() {
       images: [
         {
           key: "seed/sheath.svg",
-          url: "/images/products/sheath.svg",
+          url: "/images/products/placeholder-knife.svg",
           alt: "Heritage Leather Sheath",
         },
       ],
@@ -451,7 +451,7 @@ async function seed() {
       images: [
         {
           key: "seed/viking-axe.svg",
-          url: "/images/products/viking-axe.svg",
+          url: "/images/products/placeholder-axe.svg",
           alt: "Vesper Viking Bearded Axe",
         },
       ],
@@ -481,7 +481,7 @@ async function seed() {
       images: [
         {
           key: "seed/fillet.svg",
-          url: "/images/products/fillet-knife.svg",
+          url: "/images/products/placeholder-knife.svg",
           alt: "Riverbend Fillet Knife",
         },
       ],
@@ -661,7 +661,7 @@ async function seed() {
     phone: "+1 (800) 555-0199",
     currency: "USD",
     taxRate: 0.08,
-    paymentMethods: DEFAULT_PAYMENT_METHODS,
+    paymentMethods: [...DEFAULT_PAYMENT_METHODS],
     setupCompleted: true,
     shipping: {
       flatRate: 15,

@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { softDeleteFields } from "./shared";
 
 const CouponSchema = new Schema(
@@ -20,9 +20,9 @@ const CouponSchema = new Schema(
 );
 
 export type CouponDocument = InferSchemaType<typeof CouponSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Coupon: Model<CouponDocument> =
-  (models.Coupon as Model<CouponDocument>) ||
+  (models.Coupon as Model<any>) ||
   model<CouponDocument>("Coupon", CouponSchema);

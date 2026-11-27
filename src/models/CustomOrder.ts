@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { CUSTOM_ORDER_STATUSES } from "@/constants";
 import { MediaRefSchema, softDeleteFields } from "./shared";
 
@@ -53,9 +53,9 @@ const CustomOrderSchema = new Schema(
 );
 
 export type CustomOrderDocument = InferSchemaType<typeof CustomOrderSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const CustomOrder: Model<CustomOrderDocument> =
-  (models.CustomOrder as Model<CustomOrderDocument>) ||
+  (models.CustomOrder as Model<any>) ||
   model<CustomOrderDocument>("CustomOrder", CustomOrderSchema);

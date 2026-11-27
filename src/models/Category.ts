@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { MediaRefSchema, softDeleteFields } from "./shared";
 
 const CategorySchema = new Schema(
@@ -18,9 +18,9 @@ const CategorySchema = new Schema(
 );
 
 export type CategoryDocument = InferSchemaType<typeof CategorySchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Category: Model<CategoryDocument> =
-  (models.Category as Model<CategoryDocument>) ||
+  (models.Category as Model<any>) ||
   model<CategoryDocument>("Category", CategorySchema);

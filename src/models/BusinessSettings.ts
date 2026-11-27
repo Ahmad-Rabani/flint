@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 
 const BusinessSettingsSchema = new Schema(
   {
@@ -48,9 +48,9 @@ const BusinessSettingsSchema = new Schema(
 );
 
 export type BusinessSettingsDocument = InferSchemaType<typeof BusinessSettingsSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const BusinessSettings: Model<BusinessSettingsDocument> =
-  (models.BusinessSettings as Model<BusinessSettingsDocument>) ||
+  (models.BusinessSettings as Model<any>) ||
   model<BusinessSettingsDocument>("BusinessSettings", BusinessSettingsSchema);

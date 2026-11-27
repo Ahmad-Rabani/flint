@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { PERMISSIONS, USER_ROLES } from "@/constants";
 import { softDeleteFields } from "./shared";
 
@@ -14,7 +14,6 @@ const RoleSchema = new Schema(
   { timestamps: true },
 );
 
-export type RoleDocument = InferSchemaType<typeof RoleSchema> & { _id: Schema.Types.ObjectId };
+export type RoleDocument = InferSchemaType<typeof RoleSchema> & { _id: Types.ObjectId };
 
-export const Role: Model<RoleDocument> =
-  (models.Role as Model<RoleDocument>) || model<RoleDocument>("Role", RoleSchema);
+export const Role = (models.Role || model("Role", RoleSchema)) as Model<any>;

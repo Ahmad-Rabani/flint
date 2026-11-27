@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { INVENTORY_MOVEMENT_TYPES } from "@/constants";
 
 const InventoryMovementSchema = new Schema(
@@ -25,9 +25,9 @@ const InventoryMovementSchema = new Schema(
 InventoryMovementSchema.index({ createdAt: -1 });
 
 export type InventoryMovementDocument = InferSchemaType<typeof InventoryMovementSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const InventoryMovement: Model<InventoryMovementDocument> =
-  (models.InventoryMovement as Model<InventoryMovementDocument>) ||
+  (models.InventoryMovement as Model<any>) ||
   model<InventoryMovementDocument>("InventoryMovement", InventoryMovementSchema);

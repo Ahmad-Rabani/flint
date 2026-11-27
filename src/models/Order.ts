@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { ORDER_STATUSES, PAYMENT_METHODS } from "@/constants";
 import { AddressSchema, softDeleteFields } from "./shared";
 
@@ -58,8 +58,7 @@ OrderSchema.index({ createdAt: -1 });
 OrderSchema.index({ customerId: 1, createdAt: -1 });
 
 export type OrderDocument = InferSchemaType<typeof OrderSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
-export const Order: Model<OrderDocument> =
-  (models.Order as Model<OrderDocument>) || model<OrderDocument>("Order", OrderSchema);
+export const Order = (models.Order || model("Order", OrderSchema)) as Model<any>;

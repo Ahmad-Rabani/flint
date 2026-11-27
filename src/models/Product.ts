@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { PRODUCT_STATUSES } from "@/constants";
 import { MediaRefSchema, softDeleteFields } from "./shared";
 
@@ -70,9 +70,9 @@ ProductSchema.index({ isFeatured: 1, status: 1 });
 ProductSchema.index({ stock: 1, minStockLevel: 1 });
 
 export type ProductDocument = InferSchemaType<typeof ProductSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Product: Model<ProductDocument> =
-  (models.Product as Model<ProductDocument>) ||
+  (models.Product as Model<any>) ||
   model<ProductDocument>("Product", ProductSchema);

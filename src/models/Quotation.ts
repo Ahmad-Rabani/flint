@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { softDeleteFields } from "./shared";
 
 const QuotationSchema = new Schema(
@@ -38,9 +38,9 @@ const QuotationSchema = new Schema(
 );
 
 export type QuotationDocument = InferSchemaType<typeof QuotationSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Quotation: Model<QuotationDocument> =
-  (models.Quotation as Model<QuotationDocument>) ||
+  (models.Quotation as Model<any>) ||
   model<QuotationDocument>("Quotation", QuotationSchema);

@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 
 const WishlistSchema = new Schema(
   {
@@ -9,9 +9,9 @@ const WishlistSchema = new Schema(
 );
 
 export type WishlistDocument = InferSchemaType<typeof WishlistSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Wishlist: Model<WishlistDocument> =
-  (models.Wishlist as Model<WishlistDocument>) ||
+  (models.Wishlist as Model<any>) ||
   model<WishlistDocument>("Wishlist", WishlistSchema);

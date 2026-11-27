@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { MediaRefSchema, softDeleteFields } from "./shared";
 
 const ReviewSchema = new Schema(
@@ -18,9 +18,9 @@ const ReviewSchema = new Schema(
 );
 
 export type ReviewDocument = InferSchemaType<typeof ReviewSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Review: Model<ReviewDocument> =
-  (models.Review as Model<ReviewDocument>) ||
+  (models.Review as Model<any>) ||
   model<ReviewDocument>("Review", ReviewSchema);

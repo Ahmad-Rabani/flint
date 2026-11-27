@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { MediaRefSchema, softDeleteFields } from "./shared";
 
 const OptionValueSchema = new Schema(
@@ -34,9 +34,9 @@ const CustomizationOptionSchema = new Schema(
 );
 
 export type CustomizationOptionDocument = InferSchemaType<typeof CustomizationOptionSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const CustomizationOption: Model<CustomizationOptionDocument> =
-  (models.CustomizationOption as Model<CustomizationOptionDocument>) ||
+  (models.CustomizationOption as Model<any>) ||
   model<CustomizationOptionDocument>("CustomizationOption", CustomizationOptionSchema);

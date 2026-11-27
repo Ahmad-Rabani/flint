@@ -70,7 +70,7 @@ export async function POST(request: Request) {
         email: body.email.toLowerCase(),
         currency: "USD",
         taxRate: 0.08,
-        paymentMethods: DEFAULT_PAYMENT_METHODS,
+        paymentMethods: [...DEFAULT_PAYMENT_METHODS],
         setupCompleted: true,
         seo: {
           defaultTitle: "FLINT — Hand-forged knives & axes",

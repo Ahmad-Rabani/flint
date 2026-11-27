@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 
 const AuditLogSchema = new Schema(
   {
@@ -18,9 +18,9 @@ const AuditLogSchema = new Schema(
 AuditLogSchema.index({ createdAt: -1 });
 
 export type AuditLogDocument = InferSchemaType<typeof AuditLogSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const AuditLog: Model<AuditLogDocument> =
-  (models.AuditLog as Model<AuditLogDocument>) ||
+  (models.AuditLog as Model<any>) ||
   model<AuditLogDocument>("AuditLog", AuditLogSchema);

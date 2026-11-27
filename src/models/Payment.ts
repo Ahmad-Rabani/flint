@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, Types, type InferSchemaType, type Model } from "mongoose";
 import { PAYMENT_METHODS } from "@/constants";
 
 const PaymentSchema = new Schema(
@@ -25,9 +25,9 @@ const PaymentSchema = new Schema(
 );
 
 export type PaymentDocument = InferSchemaType<typeof PaymentSchema> & {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
 };
 
 export const Payment: Model<PaymentDocument> =
-  (models.Payment as Model<PaymentDocument>) ||
+  (models.Payment as Model<any>) ||
   model<PaymentDocument>("Payment", PaymentSchema);
