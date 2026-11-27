@@ -20,7 +20,11 @@ export function handleRouteError(error: unknown) {
   if (error instanceof Error) {
     if (error.message === "UNAUTHORIZED") return jsonError("Unauthorized", 401);
     if (error.message === "FORBIDDEN") return jsonError("Forbidden", 403);
-    return jsonError(error.message, 400);
+    // Avoid leaking opaque runtime clone errors to the UI when possible
+    const message = error.message.includes("could not be cloned")
+      ? "Something went wrong while processing your request. Please try again."
+      : error.message;
+    return jsonError(message, 400);
   }
   return jsonError("Unexpected server error", 500);
 }

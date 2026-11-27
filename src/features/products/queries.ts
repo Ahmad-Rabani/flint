@@ -1,10 +1,16 @@
 import "server-only";
 import mongoose from "mongoose";
+import { connection } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { Product } from "@/models/Product";
 import { Category } from "@/models/Category";
 import { Collection } from "@/models/Collection";
 import type { ProductFilterInput, PaginatedResult } from "@/types";
+
+async function withDb() {
+  await connection();
+  await withDb();
+}
 
 // ─── Shared filter ────────────────────────────────────────────────────────────
 const ACTIVE_FILTER = { status: "active", deletedAt: null } as const;
@@ -140,7 +146,7 @@ function serializeCollection(doc: any): PlainCollection {
 
 // ─── Product queries ──────────────────────────────────────────────────────────
 export async function getFeaturedProducts(limit = 6): Promise<PlainProduct[]> {
-  await connectToDatabase();
+  await withDb();
   const docs = await Product.find({ ...ACTIVE_FILTER, isFeatured: true })
     .sort({ sortOrder: 1, createdAt: -1 })
     .limit(limit)
@@ -149,7 +155,7 @@ export async function getFeaturedProducts(limit = 6): Promise<PlainProduct[]> {
 }
 
 export async function getBestsellers(limit = 8): Promise<PlainProduct[]> {
-  await connectToDatabase();
+  await withDb();
   const docs = await Product.find({ ...ACTIVE_FILTER, isBestseller: true })
     .sort({ soldCount: -1, createdAt: -1 })
     .limit(limit)
@@ -158,7 +164,7 @@ export async function getBestsellers(limit = 8): Promise<PlainProduct[]> {
 }
 
 export async function getNewArrivals(limit = 8): Promise<PlainProduct[]> {
-  await connectToDatabase();
+  await withDb();
   const docs = await Product.find({ ...ACTIVE_FILTER, isNewArrival: true })
     .sort({ createdAt: -1 })
     .limit(limit)
@@ -167,7 +173,7 @@ export async function getNewArrivals(limit = 8): Promise<PlainProduct[]> {
 }
 
 export async function getProductBySlug(slug: string): Promise<PlainProduct | null> {
-  await connectToDatabase();
+  await withDb();
   const doc = await Product.findOne({ slug, ...ACTIVE_FILTER }).lean();
   if (!doc) return null;
   return serializeProduct(doc);
@@ -178,7 +184,7 @@ export async function getRelatedProducts(
   categoryIds: string[],
   limit = 4,
 ): Promise<PlainProduct[]> {
-  await connectToDatabase();
+  await withDb();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const docs = await Product.find({
     ...ACTIVE_FILTER,
@@ -194,7 +200,7 @@ export async function getRelatedProducts(
 export async function listProducts(
   filters: ProductFilterInput = {},
 ): Promise<PaginatedResult<PlainProduct>> {
-  await connectToDatabase();
+  await withDb();
 
   const {
     q,
@@ -255,7 +261,7 @@ export async function listProducts(
 
 // ─── Category queries ─────────────────────────────────────────────────────────
 export async function getCategories(): Promise<PlainCategory[]> {
-  await connectToDatabase();
+  await withDb();
   const docs = await Category.find({ isActive: true, deletedAt: null })
     .sort({ sortOrder: 1, name: 1 })
     .lean();
@@ -263,7 +269,7 @@ export async function getCategories(): Promise<PlainCategory[]> {
 }
 
 export async function getCategoryBySlug(slug: string): Promise<PlainCategory | null> {
-  await connectToDatabase();
+  await withDb();
   const doc = await Category.findOne({ slug, isActive: true, deletedAt: null }).lean();
   if (!doc) return null;
   return serializeCategory(doc);
@@ -271,7 +277,7 @@ export async function getCategoryBySlug(slug: string): Promise<PlainCategory | n
 
 // ─── Collection queries ───────────────────────────────────────────────────────
 export async function getCollections(featuredOnly = false): Promise<PlainCollection[]> {
-  await connectToDatabase();
+  await withDb();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filter: Record<string, any> = { isActive: true, deletedAt: null };
   if (featuredOnly) filter.isFeatured = true;
@@ -280,7 +286,7 @@ export async function getCollections(featuredOnly = false): Promise<PlainCollect
 }
 
 export async function getCollectionBySlug(slug: string): Promise<PlainCollection | null> {
-  await connectToDatabase();
+  await withDb();
   const doc = await Collection.findOne({ slug, isActive: true, deletedAt: null }).lean();
   if (!doc) return null;
   return serializeCollection(doc);

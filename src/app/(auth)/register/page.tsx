@@ -50,7 +50,7 @@ export default function RegisterPage() {
           </Label>
           <Input
             id="name"
-            className="border-white/15 bg-white/5 text-ivory"
+            className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory"
             {...form.register("name")}
           />
           {form.formState.errors.name && (
@@ -64,7 +64,7 @@ export default function RegisterPage() {
           <Input
             id="email"
             type="email"
-            className="border-white/15 bg-white/5 text-ivory"
+            className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory"
             {...form.register("email")}
           />
           {form.formState.errors.email && (
@@ -77,7 +77,7 @@ export default function RegisterPage() {
           </Label>
           <Input
             id="phone"
-            className="border-white/15 bg-white/5 text-ivory"
+            className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory"
             {...form.register("phone")}
           />
         </div>
@@ -88,7 +88,7 @@ export default function RegisterPage() {
           <Input
             id="password"
             type="password"
-            className="border-white/15 bg-white/5 text-ivory"
+            className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory"
             {...form.register("password")}
           />
           {form.formState.errors.password && (

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { io } from "next/cache";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -20,12 +19,13 @@ declare global {
 const cached: MongooseCache = global.mongooseCache ?? { conn: null, promise: null };
 global.mongooseCache = cached;
 
+/**
+ * Connect to MongoDB.
+ * Do NOT call next/cache `io()` here — it throws DataCloneError inside Route Handlers
+ * under cacheComponents. Server Components that need request-time IO should call
+ * `await connection()` from `next/server` before querying.
+ */
 export async function connectToDatabase(): Promise<typeof mongoose> {
-  // io() suspends during prerendering so DB queries (and any new Date() in
-  // serializers) are excluded from the static shell. Inside "use cache"
-  // scopes or during real requests it resolves immediately.
-  await io();
-
   if (cached.conn) {
     return cached.conn;
   }

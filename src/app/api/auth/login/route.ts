@@ -6,6 +6,7 @@ import { handleRouteError, jsonOk } from "@/lib/api";
 import { loginSchema } from "@/lib/validation/auth";
 import { User } from "@/models";
 import { writeAuditLog } from "@/lib/auth/audit";
+import type { Permission } from "@/constants";
 
 export async function POST(request: Request) {
   try {
@@ -16,7 +17,7 @@ export async function POST(request: Request) {
       email: body.email.toLowerCase(),
       deletedAt: null,
       isActive: true,
-    });
+    }).lean();
 
     if (!user) {
       return handleRouteError(new Error("Invalid email or password"));
@@ -27,9 +28,9 @@ export async function POST(request: Request) {
       return handleRouteError(new Error("Invalid email or password"));
     }
 
-    const permissions =
-      user.permissions?.length > 0
-        ? (user.permissions as ReturnType<typeof permissionsForRole>)
+    const permissions: Permission[] =
+      Array.isArray(user.permissions) && user.permissions.length > 0
+        ? (user.permissions.map(String) as Permission[])
         : permissionsForRole(user.role);
 
     const token = await createSessionToken({
@@ -42,22 +43,26 @@ export async function POST(request: Request) {
     });
 
     await setSessionCookie(token);
-    user.lastLoginAt = new Date();
-    await user.save();
 
-    await writeAuditLog({
-      actor: {
-        id: String(user._id),
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        permissions,
-      },
-      action: "auth.login",
-      entityType: "User",
-      entityId: String(user._id),
-      summary: "User signed in",
-    });
+    await User.updateOne({ _id: user._id }, { $set: { lastLoginAt: new Date() } });
+
+    try {
+      await writeAuditLog({
+        actor: {
+          id: String(user._id),
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          permissions,
+        },
+        action: "auth.login",
+        entityType: "User",
+        entityId: String(user._id),
+        summary: "User signed in",
+      });
+    } catch {
+      // Never block login on audit failure
+    }
 
     return jsonOk({
       user: {
@@ -65,7 +70,7 @@ export async function POST(request: Request) {
         email: user.email,
         name: user.name,
         role: user.role,
-        permissions,
+        permissions: [...permissions],
       },
     });
   } catch (error) {

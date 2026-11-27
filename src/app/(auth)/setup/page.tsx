@@ -77,17 +77,17 @@ export default function SetupPage() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-5">
         <div className="space-y-2">
           <Label className="text-ivory/70">Business name</Label>
-          <Input className="border-white/15 bg-white/5 text-ivory" {...form.register("businessName")} />
+          <Input className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory" {...form.register("businessName")} />
         </div>
         <div className="space-y-2">
           <Label className="text-ivory/70">Admin name</Label>
-          <Input className="border-white/15 bg-white/5 text-ivory" {...form.register("name")} />
+          <Input className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory" {...form.register("name")} />
         </div>
         <div className="space-y-2">
           <Label className="text-ivory/70">Email</Label>
           <Input
             type="email"
-            className="border-white/15 bg-white/5 text-ivory"
+            className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory"
             {...form.register("email")}
           />
         </div>
@@ -95,7 +95,7 @@ export default function SetupPage() {
           <Label className="text-ivory/70">Password</Label>
           <Input
             type="password"
-            className="border-white/15 bg-white/5 text-ivory"
+            className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory"
             {...form.register("password")}
           />
         </div>

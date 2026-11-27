@@ -62,7 +62,7 @@ function LoginForm() {
             id="email"
             type="email"
             autoComplete="email"
-            className="border-white/15 bg-white/5 text-ivory"
+            className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory"
             {...form.register("email")}
           />
           {form.formState.errors.email && (
@@ -77,7 +77,7 @@ function LoginForm() {
             id="password"
             type="password"
             autoComplete="current-password"
-            className="border-white/15 bg-white/5 text-ivory"
+            className="border-white/15 bg-white/5 text-ivory placeholder:text-ivory/45 caret-ivory"
             {...form.register("password")}
           />
           {form.formState.errors.password && (
