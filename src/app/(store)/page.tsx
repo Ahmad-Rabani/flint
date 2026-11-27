@@ -58,120 +58,143 @@ export default async function HomePage() {
   const craftSection = cms.sections.find((s) => s.key === "craftsmanship");
   const customSection = cms.sections.find((s) => s.key === "custom_promo");
 
+  const heroTitle = heroBanner?.title?.trim();
+  const heroSubtitle =
+    heroBanner?.subtitle?.trim() ||
+    "Premium handmade knives and axes, crafted to order or ready from the atelier.";
+  const heroCtaHref = heroBanner?.ctaHref || "/catalogue";
+  const heroCtaLabel = heroBanner?.ctaLabel || "Explore the catalogue";
+
   return (
     <div className="bg-background">
-      {/* ── Hero ────────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-end bg-ink overflow-hidden">
+      {/* ── Hero — brand, one headline, one line, CTAs, full-bleed forge ───── */}
+      <section className="relative flex min-h-[100dvh] items-end overflow-hidden bg-ink">
         <HeroVideo poster="/images/products/tracker-hunter.jpg" />
 
-        {/* Copper vertical rule */}
-        <div className="absolute left-10 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-copper/50 to-transparent hidden lg:block z-10" />
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-end px-5 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-10 lg:pb-24">
+          <div className="max-w-xl">
+            <p className="fade-up font-heading text-[clamp(3.5rem,12vw,7.5rem)] leading-[0.88] tracking-[-0.03em] text-copper">
+              FLINT
+            </p>
 
-        {/* Content */}
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 pb-20 md:pb-28 w-full">
-          <div className="max-w-2xl">
-            <div className="editorial-rule mb-8" />
-            <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl xl:text-8xl text-ivory leading-[0.95] fade-up">
-              {heroBanner?.title ?? (
+            <h1 className="fade-up mt-5 max-w-[14ch] font-heading text-[clamp(1.85rem,4.6vw,3.25rem)] leading-[1.08] text-ivory [animation-delay:120ms]">
+              {heroTitle || (
                 <>
-                  Forged in
-                  <br />
-                  <em className="text-copper not-italic">fire.</em>
-                  <br />
-                  Built to last.
+                  Forged for the hand that knows
                 </>
               )}
             </h1>
-            <p className="mt-7 text-base md:text-lg text-ivory/60 max-w-md leading-relaxed fade-up [animation-delay:0.15s]">
-              {heroBanner?.subtitle ??
-                "Every FLINT blade is hand-forged by master bladesmiths — precision tools crafted for a lifetime of use."}
+
+            <p className="fade-up mt-5 max-w-md text-[15px] leading-relaxed text-ivory/65 [animation-delay:220ms] sm:text-base">
+              {heroSubtitle}
             </p>
-            <div className="mt-10 flex flex-wrap gap-4 fade-up [animation-delay:0.25s]">
+
+            <div className="fade-up mt-9 flex flex-wrap items-center gap-3 [animation-delay:320ms]">
               <Link
-                href={heroBanner?.ctaHref ?? "/catalogue"}
-                className="inline-flex items-center gap-3 bg-copper hover:bg-copper/90 text-white px-8 py-3.5 text-xs uppercase tracking-widest font-medium transition-colors"
+                href={heroCtaHref}
+                className="inline-flex min-h-12 items-center gap-3 bg-copper px-7 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#a86645]"
               >
-                {heroBanner?.ctaLabel ?? "Shop the Collection"}
-                <ArrowRight className="w-4 h-4" />
+                {heroCtaLabel}
+                <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/custom"
-                className="inline-flex items-center gap-3 border border-ivory/20 hover:border-ivory/40 text-ivory/80 hover:text-ivory px-8 py-3.5 text-xs uppercase tracking-widest font-medium transition-all"
+                className="inline-flex min-h-12 items-center gap-3 border border-ivory/25 px-7 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory/85 transition-colors hover:border-ivory/50 hover:text-ivory"
               >
-                Custom Order
+                Custom order
               </Link>
             </div>
           </div>
-
-          {/* Stats strip */}
-          <div className="mt-20 pt-8 border-t border-white/[0.06] flex flex-wrap gap-10 md:gap-20">
-            {[
-              { value: "10+", label: "Years of craft" },
-              { value: "1,200+", label: "Blades forged" },
-              { value: "Hand-forged", label: "Every piece" },
-              { value: "Lifetime", label: "Guarantee" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="font-heading text-2xl text-ivory">{stat.value}</p>
-                <p className="text-xs text-ivory/40 uppercase tracking-wider mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+      </section>
+
+      {/* Trust strip sits below the first viewport */}
+      <section className="border-b border-[#171717]/08 bg-[#f6f3ee]">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-[#171717]/08 sm:grid-cols-4">
+          {[
+            { value: "10+", label: "Years of craft" },
+            { value: "1,200+", label: "Blades forged" },
+            { value: "Hand-forged", label: "Every piece" },
+            { value: "Lifetime", label: "Guarantee" },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-[#f6f3ee] px-5 py-7 sm:px-8 sm:py-8">
+              <p className="font-heading text-2xl text-[#171717] sm:text-3xl">{stat.value}</p>
+              <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-[#171717]/45">
+                {stat.label}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* ── Brand Intro ────────────────────────────────────────────────────── */}
-      {(introSection || true) && (
-        <section className="py-20 md:py-28">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
-              <div>
-                <div className="editorial-rule mb-6" />
-                <h2 className="font-heading text-3xl md:text-4xl xl:text-5xl leading-tight">
-                  {introSection?.title ?? "The art of the bladesmith."}
-                </h2>
-                <p className="mt-5 text-base text-muted-foreground leading-relaxed">
-                  {introSection?.body ??
-                    "FLINT was born from a simple conviction: that a tool you use every day deserves to be extraordinary. We work with the finest high-carbon and Damascus steels, shaping each blade by hand through fire, hammer, and patience."}
-                </p>
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
+                The atelier
+              </p>
+              <div className="editorial-rule mb-6 mt-4" />
+              <h2 className="font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#171717]">
+                {introSection?.title ?? "An atelier for blades"}
+              </h2>
+              <p className="mt-5 max-w-md text-[15px] leading-relaxed text-[#171717]/60 sm:text-base">
+                {introSection?.body ??
+                  "Every FLINT piece begins as raw steel and ends as a tool with presence — balanced, finished by hand, and made to be used for decades."}
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
                   href={introSection?.ctaHref ?? "/craft"}
-                  className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-copper hover:text-copper/70 transition-colors"
+                  className="inline-flex min-h-11 items-center gap-2 bg-[#171717] px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory transition-colors hover:bg-[#2a2a2a]"
                 >
                   {introSection?.ctaLabel ?? "Discover our process"}
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+                <Link
+                  href="/catalogue"
+                  className="text-[11px] font-medium uppercase tracking-[0.16em] text-copper transition-colors hover:text-[#a86645]"
+                >
+                  Shop blades →
                 </Link>
               </div>
-              <div className="relative aspect-[4/3] bg-muted overflow-hidden">
-                {introSection?.image ? (
-                  <Image
-                    src={introSection.image.url}
-                    alt={introSection.image.alt ?? "Craftsmanship"}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full surface-grain flex items-center justify-center">
-                    <Image
-                      src="/images/products/placeholder-knife.svg"
-                      alt="Blade"
-                      width={180}
-                      height={320}
-                      className="opacity-30"
-                    />
+
+              <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-5">
+                {[
+                  { term: "Steel", detail: "High-carbon & Damascus" },
+                  { term: "Finish", detail: "Hand-ground bevels" },
+                  { term: "Handles", detail: "Stabilized hardwoods" },
+                  { term: "Promise", detail: "Lifetime craftsmanship" },
+                ].map((row) => (
+                  <div key={row.term}>
+                    <dt className="text-[10px] uppercase tracking-[0.16em] text-[#171717]/40">{row.term}</dt>
+                    <dd className="mt-1 text-sm text-[#171717]">{row.detail}</dd>
                   </div>
-                )}
-                {/* Copper corner accent */}
-                <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-copper/40" />
-                <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-copper/40" />
-              </div>
+                ))}
+              </dl>
+            </div>
+
+            {/* Product sits on page bg — blend removes the photo's white studio backdrop */}
+            <div className="flex flex-col items-center lg:items-end">
+              <Image
+                src="/images/products/chef-bone-handle.jpg"
+                alt="Damascus chef knife with bone handle and leather sheath"
+                width={794}
+                height={794}
+                quality={95}
+                sizes="(max-width: 1024px) 90vw, 42vw"
+                className="h-auto w-full max-w-lg mix-blend-multiply object-contain"
+                priority={false}
+              />
+              <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#171717]/35">
+                Signature Damascus · handmade
+              </p>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* ── Collections ────────────────────────────────────────────────────── */}
       {collections.length > 0 && (

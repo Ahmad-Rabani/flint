@@ -25,11 +25,13 @@ export function ProductCard({ product, priority = false, className }: Props) {
   const isLowStock = product.stock > 0 && product.stock <= 5;
   const isOutOfStock = product.stock === 0;
 
-  const displayBadges = [
-    ...(product.isNewArrival ? ["New"] : []),
-    ...(product.isBestseller ? ["Bestseller"] : []),
-    ...(product.badges ?? []),
-  ].slice(0, 2);
+  const displayBadges = Array.from(
+    new Set([
+      ...(product.isNewArrival ? ["New"] : []),
+      ...(product.isBestseller ? ["Bestseller"] : []),
+      ...(product.badges ?? []),
+    ]),
+  ).slice(0, 2);
 
   return (
     <article className={cn("group relative flex flex-col hover-lift", className)}>
@@ -79,9 +81,9 @@ export function ProductCard({ product, priority = false, className }: Props) {
         {/* Badges */}
         {displayBadges.length > 0 && (
           <div className="absolute top-3 left-3 flex flex-col gap-1">
-            {displayBadges.map((badge) => (
+            {displayBadges.map((badge, index) => (
               <span
-                key={badge}
+                key={`${badge}-${index}`}
                 className={cn(
                   "text-[9px] uppercase tracking-widest font-semibold px-2 py-1 leading-none",
                   BADGE_STYLES[badge] ?? "bg-ink text-ivory",

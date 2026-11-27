@@ -8,7 +8,7 @@ export function HeroVideo({ poster = "/images/products/tracker-hunter.jpg" }: Pr
   return (
     <div className="absolute inset-0 overflow-hidden">
       <video
-        className="absolute inset-0 h-full w-full object-cover scale-[1.03]"
+        className="absolute inset-0 h-full w-full scale-[1.04] object-cover motion-safe:animate-[hero-drift_28s_ease-in-out_infinite_alternate]"
         autoPlay
         muted
         loop
@@ -19,10 +19,12 @@ export function HeroVideo({ poster = "/images/products/tracker-hunter.jpg" }: Pr
       >
         <source src="/videos/hero-forge.mp4" type="video/mp4" />
       </video>
-      {/* Cinematic overlays for readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/35" />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/20" />
-      <div className="absolute inset-0 bg-copper/[0.06] mix-blend-overlay" />
+
+      {/* Readability overlays — keep the forge visible on the right */}
+      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/78 to-ink/25" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/35 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-copper/[0.05] mix-blend-overlay" />
     </div>
   );
 }
