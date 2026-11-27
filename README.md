@@ -41,16 +41,17 @@ If no `super_admin` or `admin` user exists, open [http://localhost:3000/setup](h
 
 Sign in at [http://localhost:3000/login](http://localhost:3000/login). Staff land in `/admin`.
 
-## Production deploy (Vercel + Atlas + ImageKit)
+## Production deploy (Vercel + freebase.cloud + ImageKit)
 
-Local disk uploads do not work on Vercel. Production uses **MongoDB Atlas** for the database and **ImageKit** for images.
+Local disk uploads do not work on Vercel. Production uses **freebase.cloud** for MongoDB and **ImageKit** for images.
 
-### 1. MongoDB Atlas
+### 1. freebase.cloud (free MongoDB)
 
-1. Create a free **M0** cluster at [cloud.mongodb.com](https://cloud.mongodb.com).
-2. Create a database user and password.
-3. Under **Network Access**, allow `0.0.0.0/0` (Vercel uses dynamic IPs).
-4. Copy the connection string into `MONGODB_URI` (include the database name, e.g. `/flint`).
+1. Sign up at [freebase.cloud](https://freebase.cloud) (no credit card).
+2. Create a **MongoDB** instance.
+3. Copy the native connection string into `MONGODB_URI`.
+
+Any MongoDB-compatible URI works with this app (same `MONGODB_URI` as local).
 
 ### 2. ImageKit
 
@@ -64,7 +65,7 @@ Local disk uploads do not work on Vercel. Production uses **MongoDB Atlas** for 
 
 | Variable | Notes |
 |---|---|
-| `MONGODB_URI` | Atlas connection string |
+| `MONGODB_URI` | freebase.cloud MongoDB connection string |
 | `AUTH_SECRET` | Long random secret (≥32 chars) |
 | `AUTH_SESSION_DAYS` | e.g. `7` |
 | `STORAGE_PROVIDER` | `imagekit` |
@@ -75,10 +76,10 @@ Local disk uploads do not work on Vercel. Production uses **MongoDB Atlas** for 
 | `NEXT_PUBLIC_BRAND_NAME` | e.g. `FLINT` |
 
 3. Deploy. After the first deploy, set `NEXT_PUBLIC_APP_URL` to the live URL if you used a placeholder, then redeploy.
-4. Create the first admin via `/setup`, or seed Atlas from your machine:
+4. Create the first admin via `/setup`, or seed the cloud DB from your machine:
 
 ```bash
-# Point .env.local MONGODB_URI at Atlas, then:
+# Point .env.local MONGODB_URI at freebase.cloud, then:
 npm run seed
 ```
 
