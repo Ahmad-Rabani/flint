@@ -119,7 +119,7 @@ export function ProductCard({ product, priority = false, className }: Props) {
 
       <ProductWishlistButton productId={product._id} productName={product.name} />
 
-      <div className="mt-4 flex flex-1 flex-col px-0.5">
+      <div className="mt-4 flex flex-1 flex-col">
         {product.materials.length > 0 && (
           <p className="mb-1.5 text-[10px] uppercase tracking-[0.16em] text-[#171717]/40">
             {product.materials.slice(0, 2).join(" · ")}
@@ -132,7 +132,7 @@ export function ProductCard({ product, priority = false, className }: Props) {
           {product.name}
         </Link>
 
-        <div className="mt-2 flex items-baseline gap-2">
+        <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span
             className={cn(
               "font-heading text-lg",
@@ -147,7 +147,7 @@ export function ProductCard({ product, priority = false, className }: Props) {
             </span>
           )}
           {isLowStock && !isOutOfStock && (
-            <span className="ml-auto text-[10px] text-copper">Only {product.stock} left</span>
+            <span className="text-[10px] text-copper">Only {product.stock} left</span>
           )}
         </div>
 

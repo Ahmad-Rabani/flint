@@ -302,7 +302,7 @@ export async function listProducts(
   ]);
 
   return {
-    items: docs.map(serializeProduct),
+    items: docs.map(serializeProduct).map(withPreferredCover),
     total,
     page,
     pageSize,

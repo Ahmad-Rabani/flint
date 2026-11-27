@@ -2,11 +2,10 @@ export const instant = false;
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { listProducts, getCategories } from "@/features/products/queries";
 import { ProductCard } from "@/components/store/product-card";
 import { CatalogueFilters } from "@/components/store/catalogue-filters";
-import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Catalogue",
@@ -28,7 +27,7 @@ type Props = {
   searchParams: Promise<SearchParams>;
 };
 
-const PAGE_SIZE = 16;
+const PAGE_SIZE = 12;
 
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
@@ -41,7 +40,9 @@ const SORT_OPTIONS = [
 export default async function CataloguePage({ searchParams }: Props) {
   const params = await searchParams;
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
-  const sort = (params.sort as "newest" | "price_asc" | "price_desc" | "name" | "bestselling") ?? "newest";
+  const sort =
+    (params.sort as "newest" | "price_asc" | "price_desc" | "name" | "bestselling") ??
+    "newest";
 
   const [result, categories] = await Promise.all([
     listProducts({
@@ -58,46 +59,53 @@ export default async function CataloguePage({ searchParams }: Props) {
   ]);
 
   const { items, total, totalPages } = result;
+  const activeCategory = params.category
+    ? categories.find((c) => c.slug === params.category)
+    : undefined;
 
-  // Build pagination href
   function pageHref(p: number) {
     const sp = new URLSearchParams(params as Record<string, string>);
     sp.set("page", String(p));
     return `/catalogue?${sp.toString()}`;
   }
 
-  const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sort)?.label ?? "Newest";
+  const title = params.q
+    ? `Results for “${params.q}”`
+    : (activeCategory?.name ?? "The Collection");
 
   return (
-    <div className="pt-20 md:pt-24">
-      {/* Page header */}
-      <div className="bg-ink py-14 md:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="editorial-rule mb-5" />
-          <h1 className="font-heading text-4xl md:text-5xl text-ivory">
-            {params.q ? `Results for "${params.q}"` : params.category ? `${categories.find((c) => c.slug === params.category)?.name ?? "Category"}` : "The Collection"}
-          </h1>
-          <p className="mt-3 text-sm text-ivory/50">
-            {total} {total === 1 ? "piece" : "pieces"} available
+    <div className="bg-[#f6f3ee]">
+      <div className="border-b border-[#171717]/08 bg-[#171717] pt-24 md:pt-28">
+        <div className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 md:pb-14 lg:px-10">
+          <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
+            Shop
           </p>
+          <div className="editorial-rule mb-5 mt-4" />
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <h1 className="max-w-[16ch] font-heading text-[clamp(2.4rem,5vw,3.75rem)] leading-[1.02] text-ivory">
+              {title}
+            </h1>
+            <p className="text-sm text-ivory/50 md:pb-1">
+              {total} {total === 1 ? "piece" : "pieces"} available
+              {activeCategory?.description ? ` · ${activeCategory.description}` : ""}
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Layout */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 md:py-14">
-        <div className="flex gap-10">
-          {/* Sidebar — hidden on mobile */}
-          <aside className="hidden lg:block w-56 flex-shrink-0">
-            <CatalogueFilters
-              categories={categories}
-              currentParams={params as Record<string, string>}
-            />
+      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 md:py-14 lg:px-10">
+        <div className="flex gap-8 lg:gap-12">
+          <aside className="hidden w-56 shrink-0 lg:block xl:w-60">
+            <div className="sticky top-28">
+              <CatalogueFilters
+                categories={categories}
+                currentParams={params as Record<string, string>}
+              />
+            </div>
           </aside>
 
-          <div className="flex-1 min-w-0">
-            {/* Toolbar */}
-            <div className="flex items-center justify-between mb-6 gap-4">
-              {/* Mobile filter trigger */}
+          <div className="min-w-0 flex-1">
+            <div className="mb-7 flex flex-wrap items-center gap-3 border-b border-[#171717]/08 pb-5">
               <div className="lg:hidden">
                 <CatalogueFilters
                   categories={categories}
@@ -106,54 +114,55 @@ export default async function CataloguePage({ searchParams }: Props) {
                 />
               </div>
 
-              <p className="text-xs text-muted-foreground hidden sm:block">
-                {total} result{total !== 1 ? "s" : ""}
+              <p className="hidden text-xs text-[#171717]/45 sm:block">
+                Showing {items.length} of {total}
               </p>
 
-              {/* Sort */}
-              <div className="ml-auto flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">Sort:</span>
-                <div className="flex gap-1 flex-wrap">
-                  {SORT_OPTIONS.map((opt) => (
-                    <Link
-                      key={opt.value}
-                      href={`/catalogue?${new URLSearchParams({ ...params as Record<string, string>, sort: opt.value, page: "1" }).toString()}`}
-                      className={`text-xs px-3 py-1.5 border transition-colors ${
-                        sort === opt.value
-                          ? "border-copper text-copper bg-copper/5"
-                          : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {opt.label}
-                    </Link>
-                  ))}
-                </div>
+              <div className="ml-auto flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-[0.16em] text-[#171717]/40">
+                  Sort
+                </span>
+                {SORT_OPTIONS.map((opt) => (
+                  <Link
+                    key={opt.value}
+                    href={`/catalogue?${new URLSearchParams({
+                      ...(params as Record<string, string>),
+                      sort: opt.value,
+                      page: "1",
+                    }).toString()}`}
+                    className={
+                      sort === opt.value
+                        ? "cursor-pointer border border-copper bg-copper/5 px-3 py-1.5 text-xs text-copper"
+                        : "cursor-pointer border border-[#171717]/12 px-3 py-1.5 text-xs text-[#171717]/55 transition-colors hover:border-[#171717]/35 hover:text-[#171717]"
+                    }
+                  >
+                    {opt.label}
+                  </Link>
+                ))}
               </div>
             </div>
 
-            {/* Grid */}
             {items.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-7">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-5 sm:gap-y-10 md:grid-cols-3 lg:grid-cols-3">
                 {items.map((p, i) => (
-                  <ProductCard key={p._id} product={p} priority={i < 4} />
+                  <ProductCard key={p._id} product={p} priority={i < 6} />
                 ))}
               </div>
             ) : (
               <div className="py-24 text-center">
-                <p className="font-heading text-2xl mb-3">Nothing found.</p>
-                <p className="text-sm text-muted-foreground mb-6">
+                <p className="font-heading text-2xl text-[#171717]">Nothing found.</p>
+                <p className="mt-3 text-sm text-[#171717]/50">
                   Try adjusting your filters or search term.
                 </p>
                 <Link
                   href="/catalogue"
-                  className="text-xs uppercase tracking-widest text-copper hover:text-copper/70 transition-colors"
+                  className="mt-6 inline-flex cursor-pointer text-[11px] font-medium uppercase tracking-[0.16em] text-copper transition-colors hover:text-[#a86645]"
                 >
                   Clear all filters
                 </Link>
               </div>
             )}
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <nav
                 className="mt-12 flex items-center justify-center gap-2"
@@ -162,10 +171,10 @@ export default async function CataloguePage({ searchParams }: Props) {
                 {page > 1 && (
                   <Link
                     href={pageHref(page - 1)}
-                    className="p-2 border border-border text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
+                    className="grid h-9 w-9 cursor-pointer place-items-center border border-[#171717]/15 text-[#171717]/55 transition-colors hover:border-[#171717] hover:text-[#171717]"
                     aria-label="Previous page"
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft className="h-4 w-4" />
                   </Link>
                 )}
                 {Array.from({ length: totalPages }).map((_, i) => {
@@ -173,7 +182,7 @@ export default async function CataloguePage({ searchParams }: Props) {
                   if (Math.abs(p - page) > 2 && p !== 1 && p !== totalPages) {
                     if (p === 2 || p === totalPages - 1) {
                       return (
-                        <span key={p} className="text-xs text-muted-foreground px-1">
+                        <span key={p} className="px-1 text-xs text-[#171717]/35">
                           …
                         </span>
                       );
@@ -184,11 +193,11 @@ export default async function CataloguePage({ searchParams }: Props) {
                     <Link
                       key={p}
                       href={pageHref(p)}
-                      className={`min-w-[2.25rem] h-9 flex items-center justify-center text-xs border transition-colors ${
+                      className={
                         p === page
-                          ? "border-copper text-copper bg-copper/5"
-                          : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                      }`}
+                          ? "grid h-9 min-w-9 cursor-pointer place-items-center border border-copper bg-copper/5 px-2 text-xs text-copper"
+                          : "grid h-9 min-w-9 cursor-pointer place-items-center border border-[#171717]/15 px-2 text-xs text-[#171717]/55 transition-colors hover:border-[#171717] hover:text-[#171717]"
+                      }
                       aria-current={p === page ? "page" : undefined}
                     >
                       {p}
@@ -198,10 +207,10 @@ export default async function CataloguePage({ searchParams }: Props) {
                 {page < totalPages && (
                   <Link
                     href={pageHref(page + 1)}
-                    className="p-2 border border-border text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
+                    className="grid h-9 w-9 cursor-pointer place-items-center border border-[#171717]/15 text-[#171717]/55 transition-colors hover:border-[#171717] hover:text-[#171717]"
                     aria-label="Next page"
                   >
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="h-4 w-4" />
                   </Link>
                 )}
               </nav>
