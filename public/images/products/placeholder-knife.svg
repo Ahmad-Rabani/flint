@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 320" fill="none">
+  <!-- Blade -->
+  <path d="M58 20 L66 20 L70 220 L58 230 L46 220 Z" fill="#B8734F" opacity="0.5"/>
+  <!-- Edge highlight -->
+  <path d="M66 20 L70 220 L67 220 L64 20 Z" fill="#D4956F" opacity="0.4"/>
+  <!-- Guard -->
+  <rect x="38" y="228" width="44" height="8" rx="1" fill="#77736E" opacity="0.6"/>
+  <!-- Handle -->
+  <rect x="47" y="236" width="26" height="68" rx="2" fill="#252525" opacity="0.6"/>
+  <!-- Handle rivets -->
+  <circle cx="60" cy="252" r="3" fill="#B8734F" opacity="0.4"/>
+  <circle cx="60" cy="276" r="3" fill="#B8734F" opacity="0.4"/>
+  <!-- Pommel -->
+  <ellipse cx="60" cy="308" rx="14" ry="8" fill="#252525" opacity="0.5"/>
+</svg>

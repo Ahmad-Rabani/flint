@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 900" fill="none">
+  <!-- Main blade body  elegant chef's knife silhouette -->
+  <path d="M230 30 L280 30 L310 580 L240 610 L170 580 Z" fill="#B8734F" opacity="0.6"/>
+  <!-- Spine -->
+  <path d="M230 30 L240 30 L265 580 L258 580 Z" fill="#D4956F" opacity="0.3"/>
+  <!-- Cutting edge curve -->
+  <path d="M310 580 C340 560 350 480 310 380 L290 200 L280 30 L310 580 Z" fill="#C48060" opacity="0.2"/>
+  <!-- Guard -->
+  <rect x="148" y="606" width="204" height="22" rx="2" fill="#77736E" opacity="0.5"/>
+  <!-- Handle scales -->
+  <rect x="192" y="628" width="116" height="200" rx="4" fill="#171717" opacity="0.7"/>
+  <!-- Handle rivets -->
+  <circle cx="250" cy="668" r="8" fill="#B8734F" opacity="0.4"/>
+  <circle cx="250" cy="728" r="8" fill="#B8734F" opacity="0.4"/>
+  <circle cx="250" cy="788" r="8" fill="#B8734F" opacity="0.4"/>
+  <!-- Pommel -->
+  <ellipse cx="250" cy="836" rx="58" ry="20" fill="#252525" opacity="0.5"/>
+  <!-- Subtle edge line -->
+  <path d="M310 580 L308 578 L284 32 L280 30 L310 580 Z" fill="#F6F3EE" opacity="0.1"/>
+</svg>
