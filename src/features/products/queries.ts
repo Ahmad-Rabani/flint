@@ -395,5 +395,59 @@ export async function getCollectionBySlug(slug: string): Promise<PlainCollection
   await withDb();
   const doc = await Collection.findOne({ slug, isActive: true, deletedAt: null }).lean();
   if (!doc) return null;
-  return serializeCollection(doc);
+  const collection = serializeCollection(doc);
+  const bySlug = COLLECTION_COVER_FALLBACKS[collection.slug];
+  if (bySlug) {
+    return { ...collection, image: { key: bySlug.url, url: bySlug.url, alt: bySlug.alt } };
+  }
+  if (collection.image?.url) return collection;
+
+  if (collection.productIds[0]) {
+    const product = await Product.findById(collection.productIds[0]).select("images name").lean();
+    const img = product?.images?.find((image: { url?: string }) => image.url);
+    if (img?.url) {
+      return {
+        ...collection,
+        image: { key: img.key || img.url, url: img.url, alt: img.alt || collection.name },
+      };
+    }
+  }
+
+  return collection;
+}
+
+export async function getProductsForCollection(
+  collectionId: string,
+  productIds: string[] = [],
+): Promise<PlainProduct[]> {
+  await withDb();
+  const objectIds = productIds
+    .filter(Boolean)
+    .map((id) => {
+      try {
+        return new mongoose.Types.ObjectId(id);
+      } catch {
+        return null;
+      }
+    })
+    .filter((id): id is mongoose.Types.ObjectId => Boolean(id));
+
+  let collectionObjectId: mongoose.Types.ObjectId | null = null;
+  try {
+    collectionObjectId = new mongoose.Types.ObjectId(collectionId);
+  } catch {
+    collectionObjectId = null;
+  }
+
+  const docs = await Product.find({
+    ...ACTIVE_FILTER,
+    $or: [
+      ...(objectIds.length > 0 ? [{ _id: { $in: objectIds } }] : []),
+      ...(collectionObjectId ? [{ collectionIds: collectionObjectId }] : []),
+    ],
+  })
+    .sort({ sortOrder: 1, createdAt: -1 })
+    .lean();
+
+  return docs.map(serializeProduct).map(withPreferredCover);
 }
