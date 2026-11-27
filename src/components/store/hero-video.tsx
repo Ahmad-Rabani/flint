@@ -8,8 +8,8 @@ type Props = {
 };
 
 export function HeroVideo({
-  poster = "/images/products/axe-1.jpg",
-  src = "/videos/hero-forge.mp4",
+  poster = "/images/products/damascus-blade.jpg",
+  src = "/videos/hero-blades.mp4",
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 

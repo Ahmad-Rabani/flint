@@ -79,7 +79,10 @@ export default async function HomePage() {
     <div className="bg-background">
       {/* ── Hero — brand, one headline, one line, CTAs, full-bleed forge ───── */}
       <section className="relative flex min-h-[100dvh] items-end overflow-hidden bg-ink">
-        <HeroVideo poster="/images/products/axe-1.jpg" />
+        <HeroVideo
+          src="/videos/hero-blades.mp4"
+          poster="/images/products/damascus-blade.jpg"
+        />
 
         <div
           aria-hidden
@@ -120,21 +123,20 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background via-background/70 to-transparent" />
       </section>
 
-      {/* Trust strip sits below the first viewport */}
-      <section className="border-b border-ink/10 bg-ivory">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-ink/10 sm:grid-cols-4">
+      {/* Trust strip — continues navy, no light fade under hero */}
+      <section className="border-y border-white/10 bg-ink">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-white/10 sm:grid-cols-4">
           {[
             { value: "10+", label: "Years of craft" },
             { value: "1,200+", label: "Blades forged" },
             { value: "Hand-forged", label: "Every piece" },
             { value: "Lifetime", label: "Guarantee" },
           ].map((stat) => (
-            <div key={stat.label} className="bg-ivory px-5 py-7 sm:px-8 sm:py-8">
-              <p className="font-heading text-2xl text-ink sm:text-3xl">{stat.value}</p>
-              <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-ink/45">
+            <div key={stat.label} className="bg-ink px-5 py-7 sm:px-8 sm:py-8">
+              <p className="font-heading text-2xl text-copper sm:text-3xl">{stat.value}</p>
+              <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-white/50">
                 {stat.label}
               </p>
             </div>
