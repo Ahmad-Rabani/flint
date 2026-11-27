@@ -198,10 +198,65 @@
 
   @keyframes hero-drift {
     from {
-      transform: scale(1.04) translate3d(0, 0, 0);
+      transform: scale(1.05) translate3d(0, 0, 0);
     }
     to {
-      transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+      transform: scale(1.12) translate3d(-2%, -1.5%, 0);
+    }
+  }
+
+  @keyframes hero-cta-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.45);
+    }
+    50% {
+      box-shadow: 0 0 28px 2px rgba(255, 107, 0, 0.55);
+    }
+  }
+
+  @keyframes hero-ember {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .hero-cta {
+    @apply relative inline-flex min-h-12 items-center gap-3 overflow-hidden bg-copper px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-[background-color,transform] duration-300;
+    animation: hero-cta-glow 2.8s ease-in-out infinite;
+  }
+
+  .hero-cta:hover {
+    @apply bg-[#ff8533];
+    transform: translateY(-1px);
+  }
+
+  .hero-cta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.28) 48%,
+      transparent 62%
+    );
+    transform: translateX(-120%);
+    animation: hero-sheen 3.6s ease-in-out infinite;
+  }
+
+  @keyframes hero-sheen {
+    0%,
+    55% {
+      transform: translateX(-120%);
+    }
+    80%,
+    100% {
+      transform: translateX(120%);
     }
   }
 }

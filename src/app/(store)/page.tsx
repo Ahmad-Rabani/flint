@@ -71,67 +71,70 @@ export default async function HomePage() {
   const heroTitle = heroBanner?.title?.trim();
   const heroSubtitle =
     heroBanner?.subtitle?.trim() ||
-    "Premium handmade knives and axes, crafted to order or ready from the atelier.";
+    "Hand-forged knives and axes — ready to own, or built to your brief.";
   const heroCtaHref = heroBanner?.ctaHref || "/catalogue";
-  const heroCtaLabel = heroBanner?.ctaLabel || "Explore the catalogue";
+  const heroCtaLabel = heroBanner?.ctaLabel || "Shop the blades";
 
   return (
     <div className="bg-background">
       {/* ── Hero — brand, one headline, one line, CTAs, full-bleed forge ───── */}
       <section className="relative flex min-h-[100dvh] items-end overflow-hidden bg-ink">
-        <HeroVideo poster="/images/products/tracker-hunter.jpg" />
+        <HeroVideo poster="/images/products/axe-1.jpg" />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-end px-5 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-10 lg:pb-24">
-          <div className="max-w-xl">
-            <p className="fade-up font-heading text-[clamp(3.5rem,12vw,7.5rem)] leading-[0.88] tracking-[-0.03em] text-copper">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-[18%] left-[8%] h-40 w-40 rounded-full bg-copper/30 blur-3xl motion-safe:animate-[hero-ember_3.2s_ease-in-out_infinite]"
+        />
+
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-end px-5 pb-20 pt-28 sm:px-6 sm:pb-24 lg:px-10 lg:pb-28">
+          <div className="max-w-2xl">
+            <p className="fade-up font-heading text-[clamp(4rem,14vw,8.5rem)] leading-[0.82] tracking-[-0.04em] text-copper drop-shadow-[0_0_40px_rgba(255,107,0,0.35)]">
               FLINT
             </p>
 
-            <h1 className="fade-up mt-5 max-w-[14ch] font-heading text-[clamp(1.85rem,4.6vw,3.25rem)] leading-[1.08] text-ivory [animation-delay:120ms]">
+            <h1 className="fade-up mt-6 max-w-[16ch] font-heading text-[clamp(2rem,5vw,3.6rem)] leading-[1.05] text-white [animation-delay:120ms]">
               {heroTitle || (
                 <>
-                  Forged for the hand that knows
+                  Steel with fire in it —{" "}
+                  <em className="not-italic text-copper">made to be used</em>
                 </>
               )}
             </h1>
 
-            <p className="fade-up mt-5 max-w-md text-[15px] leading-relaxed text-ivory/65 [animation-delay:220ms] sm:text-base">
+            <p className="fade-up mt-5 max-w-lg text-[15px] leading-relaxed text-white/75 [animation-delay:220ms] sm:text-base">
               {heroSubtitle}
             </p>
 
-            <div className="fade-up mt-9 flex flex-wrap items-center gap-3 [animation-delay:320ms]">
-              <Link
-                href={heroCtaHref}
-                className="inline-flex min-h-12 items-center gap-3 bg-copper px-7 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#a86645]"
-              >
+            <div className="fade-up mt-10 flex flex-wrap items-center gap-3.5 [animation-delay:320ms]">
+              <Link href={heroCtaHref} className="hero-cta">
                 {heroCtaLabel}
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="relative z-10 h-4 w-4" />
               </Link>
               <Link
                 href="/custom"
-                className="inline-flex min-h-12 items-center gap-3 border border-ivory/25 px-7 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory/85 transition-colors hover:border-ivory/50 hover:text-ivory"
+                className="inline-flex min-h-12 items-center gap-3 border border-copper/55 bg-ink/35 px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-sm transition-colors hover:border-copper hover:bg-copper/15"
               >
-                Custom order
+                Design yours
               </Link>
             </div>
           </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background via-background/70 to-transparent" />
       </section>
 
       {/* Trust strip sits below the first viewport */}
-      <section className="border-b border-[#1B365D]/08 bg-[#f6f3ee]">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-[#1B365D]/08 sm:grid-cols-4">
+      <section className="border-b border-ink/10 bg-ivory">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-ink/10 sm:grid-cols-4">
           {[
             { value: "10+", label: "Years of craft" },
             { value: "1,200+", label: "Blades forged" },
             { value: "Hand-forged", label: "Every piece" },
             { value: "Lifetime", label: "Guarantee" },
           ].map((stat) => (
-            <div key={stat.label} className="bg-[#f6f3ee] px-5 py-7 sm:px-8 sm:py-8">
-              <p className="font-heading text-2xl text-[#1B365D] sm:text-3xl">{stat.value}</p>
-              <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-[#1B365D]/45">
+            <div key={stat.label} className="bg-ivory px-5 py-7 sm:px-8 sm:py-8">
+              <p className="font-heading text-2xl text-ink sm:text-3xl">{stat.value}</p>
+              <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-ink/45">
                 {stat.label}
               </p>
             </div>
@@ -165,7 +168,7 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   href="/catalogue"
-                  className="text-[11px] font-medium uppercase tracking-[0.16em] text-copper transition-colors hover:text-[#a86645]"
+                  className="text-[11px] font-medium uppercase tracking-[0.16em] text-copper transition-colors hover:text-[#ff8533]"
                 >
                   Shop blades →
                 </Link>
@@ -243,7 +246,7 @@ export default async function HomePage() {
                   <Link
                     key={col._id}
                     href={`/collections/${col.slug}`}
-                    className="group flex flex-col overflow-hidden bg-[#f6f3ee] transition-colors hover:bg-white"
+                    className="group flex flex-col overflow-hidden bg-ivory transition-colors hover:bg-white"
                   >
                     <div className="relative aspect-[4/3] overflow-hidden bg-[#1a1612]">
                       <Image
@@ -291,7 +294,7 @@ export default async function HomePage() {
 
       {/* ── Featured / Bestsellers ──────────────────────────────────────────── */}
       {bestsellers.length > 0 && (
-        <section className="bg-[#f6f3ee] py-16 md:py-24">
+        <section className="bg-ivory py-16 md:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
             <div className="mb-10 flex items-end justify-between gap-4">
               <div>
@@ -442,7 +445,7 @@ export default async function HomePage() {
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href={customSection?.ctaHref ?? "/custom"}
-                className="inline-flex min-h-12 cursor-pointer items-center gap-3 bg-copper px-7 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#a86645]"
+                className="inline-flex min-h-12 cursor-pointer items-center gap-3 bg-copper px-7 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#ff8533]"
               >
                 {customSection?.ctaLabel ?? "Start custom design"}
                 <ArrowRight className="h-4 w-4" />
@@ -490,7 +493,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Craftsmanship ───────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#f6f3ee] py-16 md:py-24">
+      <section className="relative overflow-hidden bg-ivory py-16 md:py-24">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-70"
