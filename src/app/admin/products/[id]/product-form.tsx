@@ -4,10 +4,14 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { slugify } from "@/lib/utils";
+import {
+  ProductImageUploader,
+  type ProductImageRef,
+} from "@/components/admin/product-image-uploader";
 
 type Category = { id: string; name: string };
 type Spec = { label: string; value: string };
-type ImageRef = { key: string; url: string; alt?: string };
+type ImageRef = ProductImageRef;
 
 type FormData = {
   id?: string;
@@ -70,7 +74,6 @@ export function ProductForm({ product, categories }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isDeleting, setIsDeleting] = useState(false);
-  const [uploading, setUploading] = useState(false);
 
   const [form, setForm] = useState<FormData>({
     id: product?.id,
@@ -121,28 +124,6 @@ export function ProductForm({ product, categories }: Props) {
 
   function removeSpec(i: number) {
     set("specifications", form.specifications.filter((_, idx) => idx !== i));
-  }
-
-  async function handleImageUpload(files: FileList | null) {
-    if (!files || files.length === 0) return;
-    setUploading(true);
-    try {
-      const fd = new FormData();
-      Array.from(files).forEach((f) => fd.append("files", f));
-      fd.append("folder", "products");
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Upload failed");
-      const uploaded: ImageRef[] = data.files ?? data.urls?.map((url: string, i: number) => ({
-        key: `products/${Date.now()}-${i}`,
-        url,
-      })) ?? [];
-      set("images", [...form.images, ...uploaded]);
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Upload failed");
-    } finally {
-      setUploading(false);
-    }
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -351,45 +332,14 @@ export function ProductForm({ product, categories }: Props) {
         </Section>
 
         {/* Images */}
-        <Section title="Images">
-          <div className="mb-3 flex flex-wrap gap-2">
-            {form.images.map((img, i) => (
-              <div key={i} className="relative group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.url} alt={img.alt ?? ""} className="h-20 w-20 object-cover border border-[#171717]/10" />
-                <button
-                  type="button"
-                  onClick={() => set("images", form.images.filter((_, idx) => idx !== i))}
-                  className="absolute -top-1.5 -right-1.5 hidden group-hover:flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white text-xs"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-          <label className="cursor-pointer inline-block border border-[#171717]/20 px-4 py-2 text-sm text-[#171717]/60 hover:border-copper hover:text-copper transition-colors">
-            {uploading ? "Uploading…" : "+ Upload Images"}
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              className="sr-only"
-              onChange={(e) => handleImageUpload(e.target.files)}
-              disabled={uploading}
-            />
-          </label>
-          <p className="mt-2 text-xs text-[#171717]/40">Or paste image URLs below (comma-separated):</p>
-          <input
-            className={`mt-2 ${inputCls}`}
-            placeholder="https://…, https://…"
-            onBlur={(e) => {
-              const urls = e.target.value.split(",").map((u) => u.trim()).filter(Boolean);
-              const newImgs: ImageRef[] = urls.map((url) => ({ key: url, url }));
-              if (newImgs.length) {
-                set("images", [...form.images, ...newImgs]);
-                e.target.value = "";
-              }
-            }}
+        <Section title="Product Photos">
+          <p className="mb-4 text-sm text-[#171717]/55">
+            Upload real product photos (JPEG / PNG / WebP). Avoid SVG placeholders for catalogue
+            items — photography sells craftsmanship.
+          </p>
+          <ProductImageUploader
+            images={form.images}
+            onChange={(images) => set("images", images)}
           />
         </Section>
 

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { Product } from "@/models/Product";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -37,7 +37,7 @@ const createProductSchema = z.object({
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await requireAdminSession("products.view");
+    const session = await requireAdminApi("products.view");
     void session;
     await connectToDatabase();
 
@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await requireAdminSession("products.manage");
+    const session = await requireAdminApi("products.manage");
     const body = await req.json();
     const data = createProductSchema.parse(body);
 

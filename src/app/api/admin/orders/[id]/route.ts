@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { Order } from "@/models/Order";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -17,7 +17,7 @@ const updateSchema = z.object({
 
 export async function PATCH(req: NextRequest, { params }: Params) {
   try {
-    const session = await requireAdminSession("orders.manage");
+    const session = await requireAdminApi("orders.manage");
     const { id } = await params;
     const body = await req.json();
     const data = updateSchema.parse(body);

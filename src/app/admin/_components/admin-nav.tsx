@@ -28,6 +28,7 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "@/components/brand/logo";
 import type { Permission } from "@/constants";
 
 type NavItem = {
@@ -174,9 +175,9 @@ function SidebarContent({ permissions, isSuperAdmin, pathname, userName, userRol
   return (
     <div className="flex h-full flex-col">
       {/* Logo */}
-      <div className="border-b border-white/10 px-6 py-5">
-        <span className="font-heading text-xl tracking-widest text-ivory">FLINT</span>
-        <span className="ml-2 text-xs text-copper">Atelier</span>
+      <div className="border-b border-white/10 px-6 py-5 flex items-center gap-2">
+        <BrandLogo variant="mark" tone="orange" href="/admin" imgClassName="h-8 w-8" />
+        <span className="text-xs text-copper">Atelier</span>
       </div>
 
       {/* Nav */}
@@ -249,7 +250,7 @@ export function AdminNav(props: Props) {
 
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-30 border-b border-white/10 bg-[#171717] px-5 py-3.5 flex items-center justify-between">
-        <span className="font-heading text-lg text-ivory">FLINT</span>
+        <BrandLogo variant="mark" tone="orange" href="/admin" imgClassName="h-8 w-8" />
         <button
           onClick={() => setMobileOpen(true)}
           className="text-white/60 hover:text-white transition-colors"

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { Product } from "@/models/Product";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -38,7 +38,7 @@ const updateSchema = z.object({
 
 export async function GET(_req: NextRequest, { params }: Params) {
   try {
-    const session = await requireAdminSession("products.view");
+    const session = await requireAdminApi("products.view");
     void session;
     const { id } = await params;
     await connectToDatabase();
@@ -52,7 +52,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
 
 export async function PATCH(req: NextRequest, { params }: Params) {
   try {
-    const session = await requireAdminSession("products.manage");
+    const session = await requireAdminApi("products.manage");
     const { id } = await params;
     const body = await req.json();
     const data = updateSchema.parse(body);
@@ -89,7 +89,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
   try {
-    const session = await requireAdminSession("products.manage");
+    const session = await requireAdminApi("products.manage");
     const { id } = await params;
     await connectToDatabase();
 

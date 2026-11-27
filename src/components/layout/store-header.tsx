@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/features/cart/store";
+import { BrandLogo } from "@/components/brand/logo";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
@@ -51,12 +52,7 @@ export function StoreHeader() {
     <header className={headerBase}>
       <div className="mx-auto max-w-7xl px-6 lg:px-10 flex items-center justify-between h-16 md:h-18">
         {/* Logo */}
-        <Link
-          href="/"
-          className="font-heading text-2xl tracking-[0.18em] text-ivory uppercase select-none"
-        >
-          FLINT
-        </Link>
+        <BrandLogo variant="wordmark" tone="orange" priority className="select-none" />
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-7">
@@ -134,13 +130,9 @@ export function StoreHeader() {
             >
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.08]">
-                  <Link
-                    href="/"
-                    onClick={() => setMobileOpen(false)}
-                    className="font-heading text-xl tracking-[0.18em] text-ivory uppercase"
-                  >
-                    FLINT
-                  </Link>
+                  <span onClick={() => setMobileOpen(false)}>
+                    <BrandLogo variant="wordmark" tone="orange" className="select-none" />
+                  </span>
                   <button
                     onClick={() => setMobileOpen(false)}
                     className="p-1 text-ivory/50 hover:text-ivory"

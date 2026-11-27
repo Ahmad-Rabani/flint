@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { BusinessSettings } from "@/models/BusinessSettings";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -42,7 +42,7 @@ const schema = z.object({
 
 export async function GET(_req: NextRequest) {
   try {
-    const session = await requireAdminSession("settings.view"); void session;
+    const session = await requireAdminApi("settings.view"); void session;
     await connectToDatabase();
     const doc = await BusinessSettings.findOne({ key: "default" }).lean();
     return jsonOk(doc ?? {});
@@ -51,7 +51,7 @@ export async function GET(_req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const session = await requireAdminSession("settings.manage");
+    const session = await requireAdminApi("settings.manage");
     const data = schema.parse(await req.json());
     await connectToDatabase();
     const settings = await BusinessSettings.findOneAndUpdate(

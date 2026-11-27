@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { Banner } from "@/models/CMS";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -22,7 +22,7 @@ const updateSchema = z.object({
 
 export async function PATCH(req: NextRequest, { params }: Params) {
   try {
-    const session = await requireAdminSession("cms.manage");
+    const session = await requireAdminApi("cms.manage");
     const { id } = await params;
     const body = await req.json();
     const data = updateSchema.parse(body);
@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
   try {
-    const session = await requireAdminSession("cms.manage");
+    const session = await requireAdminApi("cms.manage");
     const { id } = await params;
     await connectToDatabase();
     const banner = await Banner.findOne({ _id: id, deletedAt: null });

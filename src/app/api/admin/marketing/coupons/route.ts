@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { Coupon } from "@/models/Coupon";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -21,7 +21,7 @@ const schema = z.object({
 
 export async function GET(_req: NextRequest) {
   try {
-    const session = await requireAdminSession("marketing.manage"); void session;
+    const session = await requireAdminApi("marketing.manage"); void session;
     await connectToDatabase();
     const docs = await Coupon.find({ deletedAt: null }).sort({ createdAt: -1 }).lean();
     return jsonOk(docs.map((d) => ({
@@ -42,7 +42,7 @@ export async function GET(_req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await requireAdminSession("marketing.manage");
+    const session = await requireAdminApi("marketing.manage");
     const data = schema.parse(await req.json());
     await connectToDatabase();
     const existing = await Coupon.findOne({ code: data.code.toUpperCase(), deletedAt: null });

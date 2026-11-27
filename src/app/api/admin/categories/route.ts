@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { Category } from "@/models/Category";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -20,7 +20,7 @@ const schema = z.object({
 
 export async function GET(_req: NextRequest) {
   try {
-    const session = await requireAdminSession("categories.manage");
+    const session = await requireAdminApi("categories.manage");
     void session;
     await connectToDatabase();
     const docs = await Category.find({ deletedAt: null }).sort({ sortOrder: 1, name: 1 }).lean();
@@ -40,7 +40,7 @@ export async function GET(_req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await requireAdminSession("categories.manage");
+    const session = await requireAdminApi("categories.manage");
     const body = await req.json();
     const data = schema.parse(body);
     await connectToDatabase();

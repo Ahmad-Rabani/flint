@@ -3,6 +3,17 @@ export const BRAND = {
   tagline: "Hand-forged blades for a lifetime",
   email: "atelier@flint.studio",
   phone: "+1 (800) 555-0199",
+  colors: {
+    navy: "#1B365D",
+    orange: "#FF6B00",
+  },
+  assets: {
+    iconOrange: "/images/brand/icon-orange.png",
+    iconBlue: "/images/brand/icon-blue.png",
+    logoOrange: "/images/brand/logo-orange.png",
+    logoBlue: "/images/brand/logo-blue.png",
+    brandingSheet: "/images/brand/branding-sheet.jpg",
+  },
 } as const;
 
 export const USER_ROLES = [

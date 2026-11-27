@@ -9,7 +9,7 @@ import type { ProductFilterInput, PaginatedResult } from "@/types";
 
 async function withDb() {
   await connection();
-  await withDb();
+  await connectToDatabase();
 }
 
 // ─── Shared filter ────────────────────────────────────────────────────────────

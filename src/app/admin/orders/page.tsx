@@ -27,7 +27,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   await requireAdminSession("orders.view");
   const sp = await searchParams;
   const status = sp.status ?? "";
-  const source = sp.source ?? "online";
+  const source = sp.source ?? "all";
   const page = Number(sp.page ?? "1");
   const pageSize = 30;
 
@@ -35,7 +35,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   await connectToDatabase();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const filter: Record<string, any> = { deletedAt: null, source };
+  const filter: Record<string, any> = { deletedAt: null };
+  if (source && source !== "all") filter.source = source;
   if (status) filter.status = status;
 
   const skip = (page - 1) * pageSize;
@@ -58,20 +59,55 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
     createdAt: o.createdAt ? new Date(String(o.createdAt)).toISOString() : "",
   }));
 
-  const statuses = ["", "pending", "paid", "processing", "shipped", "delivered", "completed", "cancelled"];
+  const statuses = [
+    "",
+    "pending",
+    "awaiting_payment",
+    "paid",
+    "processing",
+    "shipped",
+    "delivered",
+    "completed",
+    "cancelled",
+  ];
+  const sources = [
+    { value: "all", label: "All sources" },
+    { value: "online", label: "Online checkout" },
+    { value: "pos", label: "POS" },
+    { value: "custom", label: "Custom" },
+  ];
 
   return (
     <div>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Orders</p>
-          <h1 className="mt-1 font-heading text-4xl text-[#171717]">Online Orders</h1>
-          <p className="mt-1 text-sm text-[#171717]/50">{total} total</p>
+          <h1 className="mt-1 font-heading text-4xl text-[#171717]">Orders</h1>
+          <p className="mt-1 text-sm text-[#171717]/50">
+            {total} total · checkout orders appear here as soon as a customer places one
+          </p>
         </div>
       </div>
 
-      {/* Filters */}
       <div className="mt-5 flex flex-wrap gap-2">
+        {sources.map((s) => (
+          <Link
+            key={s.value}
+            href={`/admin/orders?source=${s.value}${status ? `&status=${status}` : ""}`}
+            className={cn(
+              "border px-3 py-1.5 text-sm transition-colors",
+              source === s.value
+                ? "border-[#171717] bg-[#171717] text-ivory"
+                : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper",
+            )}
+          >
+            {s.label}
+          </Link>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="mt-3 flex flex-wrap gap-2">
         {statuses.map((s) => (
           <Link
             key={s || "all"}
@@ -79,18 +115,23 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             className={cn(
               "border px-3 py-1.5 text-sm transition-colors capitalize",
               status === s
-                ? "border-[#171717] bg-[#171717] text-ivory"
+                ? "border-copper bg-copper/10 text-copper"
                 : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper"
             )}
           >
-            {s || "All"}
+            {s ? s.replace(/_/g, " ") : "All statuses"}
           </Link>
         ))}
       </div>
 
       <div className="mt-5 border border-[#171717]/10 bg-white overflow-x-auto">
         {items.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#171717]/30">No orders found.</div>
+          <div className="p-12 text-center">
+            <p className="text-sm text-[#171717]/45">No orders yet.</p>
+            <p className="mt-2 text-xs text-[#171717]/35">
+              Place a test order from the storefront checkout — it will show here automatically.
+            </p>
+          </div>
         ) : (
           <table className="w-full text-sm">
             <thead>

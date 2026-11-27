@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { CustomizationOption } from "@/models/CustomizationOption";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -28,7 +28,7 @@ const schema = z.object({
 
 export async function GET(_req: NextRequest) {
   try {
-    const session = await requireAdminSession("customization.manage");
+    const session = await requireAdminApi("customization.manage");
     void session;
     await connectToDatabase();
     const docs = await CustomizationOption.find({ deletedAt: null }).sort({ sortOrder: 1, name: 1 }).lean();
@@ -50,7 +50,7 @@ export async function GET(_req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await requireAdminSession("customization.manage");
+    const session = await requireAdminApi("customization.manage");
     const body = await req.json();
     const data = schema.parse(body);
     await connectToDatabase();

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand/logo";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,9 +10,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       />
       <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-8 lg:px-10">
         <header className="mb-12 flex items-center justify-between">
-          <Link href="/" className="font-heading text-2xl tracking-[0.2em] text-ivory">
-            FLINT
-          </Link>
+          <BrandLogo variant="wordmark" tone="orange" priority />
           <Link
             href="/catalogue"
             className="text-xs uppercase tracking-[0.2em] text-ivory/80 transition-colors hover:text-copper"

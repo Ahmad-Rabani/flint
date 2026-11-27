@@ -5,6 +5,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { ArrowRight, Mail } from "lucide-react";
 import { BRAND } from "@/constants";
+import { BrandLogo } from "@/components/brand/logo";
 
 const SHOP_LINKS = [
   { label: "All Knives", href: "/catalogue?category=knives" },
@@ -81,12 +82,7 @@ export function StoreFooter() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
-          <Link
-            href="/"
-            className="font-heading text-2xl tracking-[0.18em] text-ivory uppercase"
-          >
-            FLINT
-          </Link>
+          <BrandLogo variant="wordmark" tone="orange" />
           <p className="mt-4 text-sm leading-relaxed text-ivory/50 max-w-[220px]">
             {BRAND.tagline}. Hand-forged in small batches by master bladesmiths.
           </p>

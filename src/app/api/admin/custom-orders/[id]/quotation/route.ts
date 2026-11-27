@@ -2,7 +2,7 @@ import { type NextRequest } from "next/server";
 import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { CustomOrder, Quotation } from "@/models";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { handleRouteError, jsonCreated, jsonError } from "@/lib/api";
 import { requirePermission } from "@/lib/permissions";
 import { quotationNumber } from "@/lib/ids";
@@ -28,7 +28,7 @@ const quotationSchema = z.object({
 
 export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
   try {
-    const session = await requireAdminSession("quotations.manage");
+    const session = await requireAdminApi("quotations.manage");
     requirePermission(session, "quotations.manage");
     const { id } = await props.params;
     const body = await request.json();

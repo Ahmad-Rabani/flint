@@ -1,7 +1,7 @@
 import { type NextRequest } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { CustomOrder } from "@/models";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { handleRouteError, jsonError, jsonOk } from "@/lib/api";
 import { CUSTOM_ORDER_STATUSES } from "@/constants";
 import { requirePermission } from "@/lib/permissions";
@@ -15,7 +15,7 @@ const patchSchema = z.object({
 
 export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
   try {
-    const session = await requireAdminSession("custom_orders.manage");
+    const session = await requireAdminApi("custom_orders.manage");
     requirePermission(session, "custom_orders.manage");
     const { id } = await props.params;
     const body = await request.json();

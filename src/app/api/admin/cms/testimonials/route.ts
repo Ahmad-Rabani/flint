@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { requireAdminSession } from "@/lib/auth/admin";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { Testimonial } from "@/models/CMS";
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -18,7 +18,7 @@ const schema = z.object({
 
 export async function GET(_req: NextRequest) {
   try {
-    const session = await requireAdminSession("cms.manage"); void session;
+    const session = await requireAdminApi("cms.manage"); void session;
     await connectToDatabase();
     const docs = await Testimonial.find({ deletedAt: null }).sort({ sortOrder: 1 }).lean();
     return jsonOk(docs.map((d) => ({ id: String(d._id), authorName: d.authorName, authorTitle: d.authorTitle ?? null, quote: d.quote, rating: d.rating ?? 5, isFeatured: !!d.isFeatured, isActive: !!d.isActive, sortOrder: d.sortOrder ?? 0 })));
@@ -27,7 +27,7 @@ export async function GET(_req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await requireAdminSession("cms.manage");
+    const session = await requireAdminApi("cms.manage");
     const data = schema.parse(await req.json());
     await connectToDatabase();
     const doc = await Testimonial.create({ ...data, isActive: data.isActive ?? true, sortOrder: data.sortOrder ?? 0 });
