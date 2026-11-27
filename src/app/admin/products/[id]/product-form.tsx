@@ -128,6 +128,16 @@ export function ProductForm({ product, categories }: Props) {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (form.description.trim().length < 10) {
+      toast.error("Full description must be at least 10 characters (Short description is separate).");
+      return;
+    }
+    if (!form.name.trim() || !form.sku.trim()) {
+      toast.error("Name and SKU are required.");
+      return;
+    }
+
     startTransition(async () => {
       try {
         const payload = {
@@ -164,7 +174,18 @@ export function ProductForm({ product, categories }: Props) {
           body: JSON.stringify(payload),
         });
         const result = await res.json();
-        if (!res.ok) throw new Error(result.error ?? "Save failed");
+        if (!res.ok) {
+          const fieldErrors = result.details?.fieldErrors as Record<string, string[]> | undefined;
+          const firstField = fieldErrors
+            ? Object.entries(fieldErrors).find(([, msgs]) => msgs?.length)?.[0]
+            : null;
+          const firstMsg = firstField && fieldErrors?.[firstField]?.[0];
+          throw new Error(
+            firstMsg
+              ? `${firstField}: ${firstMsg}`
+              : result.error ?? "Save failed",
+          );
+        }
 
         toast.success(product ? "Product updated" : "Product created");
         if (!product) {
@@ -251,14 +272,18 @@ export function ProductForm({ product, categories }: Props) {
             />
           </div>
           <div className="mt-4">
-            <label className={labelCls}>Description *</label>
+            <label className={labelCls}>Description * (min. 10 characters)</label>
             <textarea
               className={`${inputCls} min-h-32 resize-y`}
               value={form.description}
               onChange={(e) => set("description", e.target.value)}
-              placeholder="Full product description…"
+              placeholder="Full product description for the storefront…"
               required
+              minLength={10}
             />
+            <p className="mt-1.5 text-xs text-[#171717]/40">
+              This is required separately from Short Description. {form.description.trim().length}/10
+            </p>
           </div>
         </Section>
 
