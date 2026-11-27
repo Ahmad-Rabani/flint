@@ -175,6 +175,7 @@ export default async function AdminDashboardPage() {
           {data.recentOrders.length === 0 ? (
             <p className="text-sm text-[#171717]/40">No orders yet.</p>
           ) : (
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#171717]/10">
@@ -204,6 +205,7 @@ export default async function AdminDashboardPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
 
@@ -218,6 +220,7 @@ export default async function AdminDashboardPage() {
           {data.recentCustomOrders.length === 0 ? (
             <p className="text-sm text-[#171717]/40">No custom orders yet.</p>
           ) : (
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#171717]/10">
@@ -245,6 +248,7 @@ export default async function AdminDashboardPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>

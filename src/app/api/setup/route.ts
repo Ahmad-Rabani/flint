@@ -1,8 +1,9 @@
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { hashPassword } from "@/lib/auth/password";
 import { createSessionToken, setSessionCookie } from "@/lib/auth/session";
-import { permissionsForRole } from "@/lib/permissions";
-import { handleRouteError, jsonCreated, jsonOk } from "@/lib/api";
+import { resolvePermissionsForUser } from "@/lib/permissions";
+import { handleRouteError, jsonCreated, jsonError, jsonOk } from "@/lib/api";
+import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/security/rate-limit";
 import { setupAdminSchema } from "@/lib/validation/auth";
 import { BusinessSettings, Role, User } from "@/models";
 import { ROLE_PERMISSIONS, USER_ROLES, DEFAULT_PAYMENT_METHODS } from "@/constants";
@@ -10,13 +11,12 @@ import { ROLE_PERMISSIONS, USER_ROLES, DEFAULT_PAYMENT_METHODS } from "@/constan
 export async function GET() {
   try {
     await connectToDatabase();
-    const settings = await BusinessSettings.findOne({ key: "default" });
     const adminCount = await User.countDocuments({
       role: { $in: ["super_admin", "admin"] },
       deletedAt: null,
     });
     return jsonOk({
-      setupRequired: !settings?.setupCompleted && adminCount === 0,
+      setupRequired: adminCount === 0,
     });
   } catch (error) {
     return handleRouteError(error);
@@ -25,6 +25,13 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const limit = checkRateLimit({
+      key: `setup:${clientIp(request)}`,
+      limit: 5,
+      windowMs: 60 * 60 * 1000,
+    });
+    if (!limit.ok) return tooManyRequests(limit.retryAfterSec);
+
     const body = setupAdminSchema.parse(await request.json());
     await connectToDatabase();
 
@@ -34,7 +41,7 @@ export async function POST(request: Request) {
     });
 
     if (adminCount > 0) {
-      throw new Error("Initial setup has already been completed");
+      return jsonError("Initial setup has already been completed", 409);
     }
 
     for (const role of USER_ROLES.filter((r) => r !== "customer")) {
@@ -53,7 +60,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const permissions = permissionsForRole("super_admin");
+    const permissions = await resolvePermissionsForUser({
+      role: "super_admin",
+      permissions: [],
+    });
     const user = await User.create({
       name: body.name,
       email: body.email.toLowerCase(),

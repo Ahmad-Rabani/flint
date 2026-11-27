@@ -4,12 +4,20 @@ import { buildObjectKey, getStorage, validateImageFile } from "@/lib/storage";
 import { handleRouteError, jsonCreated, jsonError } from "@/lib/api";
 import { Media } from "@/models";
 import { UPLOAD_LIMITS } from "@/constants";
+import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/security/rate-limit";
 
 // Folders that allow unauthenticated uploads (file type/size still validated)
 const ANONYMOUS_ALLOWED_FOLDERS = ["custom-orders"];
 
 export async function POST(request: Request) {
   try {
+    const limit = checkRateLimit({
+      key: `upload:${clientIp(request)}`,
+      limit: 30,
+      windowMs: 15 * 60 * 1000,
+    });
+    if (!limit.ok) return tooManyRequests(limit.retryAfterSec);
+
     const session = await getSession();
     const formData = await request.formData();
     const folder = String(formData.get("folder") || "general");

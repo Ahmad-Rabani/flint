@@ -79,6 +79,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
         <div className="space-y-5">
           {/* Items */}
           <Section title="Items">
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#171717]/10">
@@ -102,6 +103,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
                 ))}
               </tbody>
             </table>
+            </div>
           </Section>
 
           {/* Totals */}

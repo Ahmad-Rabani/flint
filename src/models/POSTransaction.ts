@@ -21,6 +21,7 @@ const POSTransactionSchema = new Schema(
     receiptNumber: { type: String, required: true, unique: true, index: true },
     cashierId: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
     customerId: { type: Schema.Types.ObjectId, ref: "Customer", index: true },
+    guestName: String,
     items: [POSItemSchema],
     subtotal: { type: Number, required: true },
     discountAmount: { type: Number, default: 0 },

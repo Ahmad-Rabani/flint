@@ -22,6 +22,7 @@ import {
   Boxes,
   CreditCard,
   Receipt,
+  RotateCcw,
   ChevronDown,
   Menu,
   X,
@@ -29,6 +30,10 @@ import {
   SlidersHorizontal,
   ArrowLeftRight,
   TriangleExclamationPoint,
+  ChartColumn,
+  Shield,
+  ScrollText,
+  UserCog,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/brand/logo";
@@ -94,6 +99,8 @@ const NAV_GROUPS: NavGroup[] = [
     anyPermission: ["pos.access"],
     items: [
       { href: "/admin/pos", label: "POS Checkout", icon: <CreditCard size={15} />, permission: "pos.access" },
+      { href: "/admin/pos/sales", label: "Sales History", icon: <Receipt size={15} />, permission: "pos.access" },
+      { href: "/admin/pos/refunds", label: "Refunds", icon: <RotateCcw size={15} />, permission: "pos.access" },
     ],
   },
   {
@@ -123,10 +130,23 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    label: "Reports",
+    anyPermission: ["reports.view"],
+    items: [
+      { href: "/admin/reports", label: "Overview", icon: <ChartColumn size={15} />, permission: "reports.view" },
+      { href: "/admin/reports/orders", label: "Orders", icon: <ShoppingBag size={15} />, permission: "reports.view" },
+      { href: "/admin/reports/inventory", label: "Inventory", icon: <Boxes size={15} />, permission: "reports.view" },
+      { href: "/admin/reports/pos", label: "POS", icon: <CreditCard size={15} />, permission: "reports.view" },
+    ],
+  },
+  {
     label: "Settings",
-    anyPermission: ["settings.view", "settings.manage"],
+    anyPermission: ["settings.view", "settings.manage", "users.manage", "roles.manage", "audit.view"],
     items: [
       { href: "/admin/settings", label: "Business Settings", icon: <Settings2 size={15} />, permission: "settings.view" },
+      { href: "/admin/users", label: "Users", icon: <UserCog size={15} />, permission: "users.manage" },
+      { href: "/admin/roles", label: "Roles & Permissions", icon: <Shield size={15} />, permission: "roles.manage" },
+      { href: "/admin/audit", label: "Audit Log", icon: <ScrollText size={15} />, permission: "audit.view" },
     ],
   },
 ];
@@ -188,15 +208,15 @@ function SidebarContent({ permissions, isSuperAdmin, pathname, userName, userRol
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden">
       {/* Logo */}
-      <div className="border-b border-white/10 px-6 py-5 flex items-center gap-2">
+      <div className="flex shrink-0 items-center gap-2 border-b border-white/10 px-6 py-5">
         <BrandLogo variant="mark" tone="orange" href="/admin" imgClassName="h-8 w-8" />
         <span className="text-xs text-copper">Atelier</span>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-2 py-4 scrollbar-thin">
+      {/* Nav — scroll if needed, but never show a scrollbar track */}
+      <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {NAV_GROUPS.filter(groupVisible).map((group) => {
           const visibleItems = group.items.filter((item) => hasPermission(item.permission));
           if (visibleItems.length === 0) return null;
@@ -236,7 +256,7 @@ function SidebarContent({ permissions, isSuperAdmin, pathname, userName, userRol
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-white/10 px-5 py-4">
+      <div className="shrink-0 border-t border-white/10 px-5 py-4">
         <p className="text-xs text-white/50">{userName}</p>
         <p className="mt-0.5 text-xs capitalize text-white/25">{userRole.replace(/_/g, " ")}</p>
         <form action={signOut} className="mt-3">
@@ -258,8 +278,8 @@ export function AdminNav(props: Props) {
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <aside className="hidden w-56 shrink-0 flex-col border-r border-white/10 bg-[#171717] lg:flex">
+      {/* Desktop sidebar — fixed height, no outer scrollbar */}
+      <aside className="hidden h-full max-h-dvh w-56 shrink-0 flex-col overflow-hidden border-r border-white/10 bg-[#171717] lg:flex">
         <SidebarContent {...props} pathname={pathname} />
       </aside>
 

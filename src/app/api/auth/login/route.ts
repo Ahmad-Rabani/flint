@@ -1,15 +1,22 @@
 import { connectToDatabase } from "@/lib/mongodb/connection";
 import { createSessionToken, setSessionCookie } from "@/lib/auth/session";
 import { verifyPassword } from "@/lib/auth/password";
-import { permissionsForRole } from "@/lib/permissions";
+import { resolvePermissionsForUser } from "@/lib/permissions";
 import { handleRouteError, jsonOk } from "@/lib/api";
 import { loginSchema } from "@/lib/validation/auth";
 import { User } from "@/models";
 import { writeAuditLog } from "@/lib/auth/audit";
-import type { Permission } from "@/constants";
+import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/security/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    const limit = checkRateLimit({
+      key: `auth:login:${clientIp(request)}`,
+      limit: 10,
+      windowMs: 15 * 60 * 1000,
+    });
+    if (!limit.ok) return tooManyRequests(limit.retryAfterSec);
+
     const body = loginSchema.parse(await request.json());
     await connectToDatabase();
 
@@ -28,10 +35,10 @@ export async function POST(request: Request) {
       return handleRouteError(new Error("Invalid email or password"));
     }
 
-    const permissions: Permission[] =
-      Array.isArray(user.permissions) && user.permissions.length > 0
-        ? (user.permissions.map(String) as Permission[])
-        : permissionsForRole(user.role);
+    const permissions = await resolvePermissionsForUser({
+      role: user.role,
+      permissions: user.permissions,
+    });
 
     const token = await createSessionToken({
       sub: String(user._id),

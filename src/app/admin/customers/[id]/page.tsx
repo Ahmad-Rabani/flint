@@ -88,6 +88,7 @@ export default async function CustomerDetailPage({ params }: Props) {
             {orderItems.length === 0 ? (
               <p className="text-sm text-[#171717]/30">No online orders.</p>
             ) : (
+              <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-[#171717]/10">
@@ -116,6 +117,7 @@ export default async function CustomerDetailPage({ params }: Props) {
                   ))}
                 </tbody>
               </table>
+              </div>
             )}
           </div>
 

@@ -4,9 +4,17 @@ import { createSessionToken, setSessionCookie } from "@/lib/auth/session";
 import { handleRouteError, jsonCreated } from "@/lib/api";
 import { registerSchema } from "@/lib/validation/auth";
 import { Customer, User } from "@/models";
+import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/security/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    const limit = checkRateLimit({
+      key: `auth:register:${clientIp(request)}`,
+      limit: 5,
+      windowMs: 60 * 60 * 1000,
+    });
+    if (!limit.ok) return tooManyRequests(limit.retryAfterSec);
+
     const body = registerSchema.parse(await request.json());
     await connectToDatabase();
 

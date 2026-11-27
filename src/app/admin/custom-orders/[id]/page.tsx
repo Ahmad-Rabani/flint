@@ -46,8 +46,8 @@ export default async function AdminCustomOrderDetailPage({ params }: Props) {
             ← All commissions
           </Link>
           <p className="mt-3 text-xs uppercase tracking-[0.3em] text-copper">Custom Order</p>
-          <h1 className="mt-1 font-heading text-4xl text-ivory">{order.orderNumber}</h1>
-          <p className="mt-1 text-sm capitalize text-white/40">
+          <h1 className="mt-1 font-heading text-4xl text-[#171717]">{order.orderNumber}</h1>
+          <p className="mt-1 text-sm capitalize text-[#171717]/45">
             {order.productType} · {order.designStyle.replace(/_/g, " ")} ·{" "}
             {order.createdAt ? formatDate(order.createdAt) : "—"}
           </p>
@@ -64,23 +64,23 @@ export default async function AdminCustomOrderDetailPage({ params }: Props) {
           <Section title="Customer">
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <dt className="text-white/35">Name</dt>
-                <dd className="mt-1 text-ivory">{order.customerName}</dd>
+                <dt className="text-[#171717]/45">Name</dt>
+                <dd className="mt-1 text-[#171717]">{order.customerName}</dd>
               </div>
               <div>
-                <dt className="text-white/35">Email</dt>
-                <dd className="mt-1 text-ivory">{order.customerEmail}</dd>
+                <dt className="text-[#171717]/45">Email</dt>
+                <dd className="mt-1 break-all text-[#171717]">{order.customerEmail}</dd>
               </div>
               {order.customerPhone && (
                 <div>
-                  <dt className="text-white/35">Phone</dt>
-                  <dd className="mt-1 text-ivory">{order.customerPhone}</dd>
+                  <dt className="text-[#171717]/45">Phone</dt>
+                  <dd className="mt-1 text-[#171717]">{order.customerPhone}</dd>
                 </div>
               )}
               {order.intendedUse && (
                 <div>
-                  <dt className="text-white/35">Intended use</dt>
-                  <dd className="mt-1 text-ivory">{order.intendedUse}</dd>
+                  <dt className="text-[#171717]/45">Intended use</dt>
+                  <dd className="mt-1 text-[#171717]">{order.intendedUse}</dd>
                 </div>
               )}
             </dl>
@@ -88,9 +88,9 @@ export default async function AdminCustomOrderDetailPage({ params }: Props) {
 
           {/* Vision */}
           <Section title="Vision">
-            <p className="text-sm leading-relaxed text-ivory/80">{order.description}</p>
+            <p className="text-sm leading-relaxed text-[#171717]/80">{order.description}</p>
             {order.additionalComments && (
-              <p className="mt-3 text-sm leading-relaxed text-white/50">
+              <p className="mt-3 text-sm leading-relaxed text-[#171717]/55">
                 {order.additionalComments}
               </p>
             )}
@@ -102,8 +102,8 @@ export default async function AdminCustomOrderDetailPage({ params }: Props) {
               <dl className="grid grid-cols-2 gap-4 text-sm">
                 {Object.entries(order.preferences).map(([k, v]) => (
                   <div key={k}>
-                    <dt className="text-xs capitalize text-white/35">{k.replace(/_/g, " ")}</dt>
-                    <dd className="mt-1 capitalize text-ivory">{String(v).replace(/_/g, " ")}</dd>
+                    <dt className="text-xs capitalize text-[#171717]/45">{k.replace(/_/g, " ")}</dt>
+                    <dd className="mt-1 capitalize text-[#171717]">{String(v).replace(/_/g, " ")}</dd>
                   </div>
                 ))}
               </dl>
@@ -113,7 +113,7 @@ export default async function AdminCustomOrderDetailPage({ params }: Props) {
           {/* Budget */}
           {(order.budgetMin || order.budgetMax) && (
             <Section title="Budget">
-              <p className="text-sm text-ivory">
+              <p className="text-sm text-[#171717]">
                 {order.budgetMin && formatCurrency(order.budgetMin)}
                 {order.budgetMin && order.budgetMax && " – "}
                 {order.budgetMax && formatCurrency(order.budgetMax)}
@@ -154,8 +154,8 @@ export default async function AdminCustomOrderDetailPage({ params }: Props) {
                     {STATUS_LABELS[h.status] ?? h.status}
                   </span>
                   <div className="min-w-0">
-                    {h.note && <p className="text-white/60">{h.note}</p>}
-                    <p className="text-xs text-white/30">{h.createdAt ? formatDate(h.createdAt) : "—"}</p>
+                    {h.note && <p className="text-[#171717]/60">{h.note}</p>}
+                    <p className="text-xs text-[#171717]/40">{h.createdAt ? formatDate(h.createdAt) : "—"}</p>
                   </div>
                 </li>
               ))}
@@ -177,7 +177,7 @@ export default async function AdminCustomOrderDetailPage({ params }: Props) {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="border border-white/10 bg-white/5 p-6">
+    <div className="border border-[#171717]/10 bg-white p-6">
       <h3 className="mb-4 text-xs uppercase tracking-[0.2em] text-copper/80">{title}</h3>
       {children}
     </div>

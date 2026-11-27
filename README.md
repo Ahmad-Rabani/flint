@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FLINT
 
-## Getting Started
+Handmade knives and axes storefront, with an admin CMS, inventory, POS, and reports. Next.js App Router, MongoDB, cookie sessions.
 
-First, run the development server:
+## Getting started
+
+1. Install dependencies and copy environment variables.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+On Windows PowerShell: `Copy-Item .env.example .env.local`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. Set `MONGODB_URI` and `AUTH_SECRET` in `.env.local`. `AUTH_SECRET` must be a long random string (at least 32 characters). MongoDB needs to be running before the app or the seed script starts.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Seed demo data, or create the first admin in the browser.
 
-## Learn More
+```bash
+npm run seed
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`npm run seed` **deletes existing FLINT collections** and reloads demo products, roles, and the admin user. Skip it if the database already has data you want to keep.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Admin access
 
-## Deploy on Vercel
+Seeded credentials come from `.env.local` (defaults in `.env.example`):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Email: `SEED_ADMIN_EMAIL` — `admin@flint.studio`
+- Password: `SEED_ADMIN_PASSWORD` — `FlintAdmin!2026`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Change both before any shared or production deploy.
+
+### First-time setup without seed
+
+If no `super_admin` or `admin` user exists, open [http://localhost:3000/setup](http://localhost:3000/setup) and create the super admin. Setup stays available only while that admin count is zero, including if settings were marked complete without an admin account. Once an admin exists, `POST /api/setup` is refused.
+
+Sign in at [http://localhost:3000/login](http://localhost:3000/login). Staff land in `/admin`.
