@@ -156,22 +156,71 @@ export async function getFeaturedProducts(limit = 6): Promise<PlainProduct[]> {
   return docs.map(serializeProduct);
 }
 
+/** Prefer high-res local assets when seed/CMS product thumbs are tiny. */
+const PRODUCT_COVER_OVERRIDES: Record<string, string> = {
+  "forge-line-chef-knife-210": "/images/products/chef-bone-handle.jpg",
+  "trailborn-camp-hatchet": "/images/products/skinner.jpg",
+  "northridge-hunting-knife": "/images/products/tracker-hunter.jpg",
+  "atelier-utility-blade": "/images/products/folding-blue.jpg",
+  "cascade-damascus-gyuto": "/images/products/chef-bone-handle.jpg",
+  "riverbend-fillet-knife": "/images/products/fish-folder.jpg",
+  "vesper-viking-bearded-axe": "/images/products/axe-2.jpg",
+};
+
+function withPreferredCover(product: PlainProduct): PlainProduct {
+  const override = PRODUCT_COVER_OVERRIDES[product.slug];
+  if (!override) return product;
+  const rest = product.images.filter((img) => img.url !== override);
+  return {
+    ...product,
+    images: [{ key: override, url: override, alt: product.name }, ...rest],
+  };
+}
+
 export async function getBestsellers(limit = 8): Promise<PlainProduct[]> {
   await withDb();
-  const docs = await Product.find({ ...ACTIVE_FILTER, isBestseller: true })
+  const flagged = await Product.find({ ...ACTIVE_FILTER, isBestseller: true })
     .sort({ soldCount: -1, createdAt: -1 })
     .limit(limit)
     .lean();
-  return docs.map(serializeProduct);
+
+  let docs = flagged;
+  if (docs.length < limit) {
+    const exclude = docs.map((doc) => doc._id);
+    const fillers = await Product.find({
+      ...ACTIVE_FILTER,
+      _id: { $nin: exclude },
+    })
+      .sort({ soldCount: -1, createdAt: -1 })
+      .limit(limit - docs.length)
+      .lean();
+    docs = [...docs, ...fillers];
+  }
+
+  return docs.map(serializeProduct).map(withPreferredCover);
 }
 
 export async function getNewArrivals(limit = 8): Promise<PlainProduct[]> {
   await withDb();
-  const docs = await Product.find({ ...ACTIVE_FILTER, isNewArrival: true })
+  const flagged = await Product.find({ ...ACTIVE_FILTER, isNewArrival: true })
     .sort({ createdAt: -1 })
     .limit(limit)
     .lean();
-  return docs.map(serializeProduct);
+
+  let docs = flagged;
+  if (docs.length < limit) {
+    const exclude = docs.map((doc) => doc._id);
+    const fillers = await Product.find({
+      ...ACTIVE_FILTER,
+      _id: { $nin: exclude },
+    })
+      .sort({ createdAt: -1 })
+      .limit(limit - docs.length)
+      .lean();
+    docs = [...docs, ...fillers];
+  }
+
+  return docs.map(serializeProduct).map(withPreferredCover);
 }
 
 export async function getProductBySlug(slug: string): Promise<PlainProduct | null> {

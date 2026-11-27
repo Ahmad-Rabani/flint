@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Search, User, Heart, ShoppingBag, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/features/cart/store";
+import { useWishlistStore } from "@/features/wishlist/store";
 import { BrandLogo } from "@/components/brand/logo";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -28,6 +29,8 @@ export function StoreHeader() {
   const pathname = usePathname();
   const itemCount = useCartStore((s) => s.itemCount());
   const openCart = useCartStore((s) => s.openCart);
+  const wishlistCount = useWishlistStore((s) => s.productIds.length);
+  const hydrateWishlist = useWishlistStore((s) => s.hydrate);
   const isHomePage = pathname === "/";
 
   useEffect(() => {
@@ -36,6 +39,10 @@ export function StoreHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    void hydrateWishlist();
+  }, [hydrateWishlist]);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -104,10 +111,19 @@ export function StoreHeader() {
 
           <Link
             href="/account/wishlist"
-            aria-label="Wishlist"
-            className="hidden h-10 w-10 place-items-center text-ivory/70 transition-colors hover:text-ivory sm:grid"
+            aria-label={wishlistCount > 0 ? `Wishlist, ${wishlistCount} items` : "Wishlist"}
+            className={cn(
+              "relative hidden h-10 w-10 place-items-center transition-colors sm:grid",
+              wishlistCount > 0
+                ? "text-[#E8B84A] hover:text-[#f0c85c]"
+                : "text-ivory/70 hover:text-ivory",
+            )}
           >
-            <Heart className="h-[1.125rem] w-[1.125rem]" strokeWidth={1.5} />
+            <Heart
+              className="h-[1.125rem] w-[1.125rem]"
+              strokeWidth={1.5}
+              fill={wishlistCount > 0 ? "currentColor" : "none"}
+            />
           </Link>
 
           <button
@@ -186,10 +202,20 @@ export function StoreHeader() {
                   <Link
                     href="/account/wishlist"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 px-3 py-3 text-sm text-ivory/65 transition-colors hover:text-ivory"
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-3 text-sm transition-colors",
+                      wishlistCount > 0
+                        ? "text-[#E8B84A] hover:text-[#f0c85c]"
+                        : "text-ivory/65 hover:text-ivory",
+                    )}
                   >
-                    <Heart className="h-4 w-4" strokeWidth={1.5} />
+                    <Heart
+                      className="h-4 w-4"
+                      strokeWidth={1.5}
+                      fill={wishlistCount > 0 ? "currentColor" : "none"}
+                    />
                     Wishlist
+                    {wishlistCount > 0 ? ` (${wishlistCount})` : ""}
                   </Link>
                   <Link
                     href="/catalogue"

@@ -28,7 +28,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           signOut={signOutAction}
         />
       }
-      toaster={<Toaster position="bottom-right" richColors />}
+      toaster={<Toaster position="top-right" richColors closeButton />}
     >
       {children}
     </AdminShell>

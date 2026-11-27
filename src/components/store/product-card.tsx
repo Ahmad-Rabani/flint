@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cn, formatCurrency } from "@/lib/utils";
 import type { PlainProduct } from "@/features/products/queries";
 import { ProductWishlistButton } from "@/components/store/product-wishlist-button";
+import { ProductCardCartButton } from "@/components/store/product-card-cart-button";
 
 type Props = {
   product: PlainProduct;
@@ -11,11 +12,17 @@ type Props = {
 };
 
 const BADGE_STYLES: Record<string, string> = {
-  "New": "bg-copper text-white",
-  "Bestseller": "bg-ink text-ivory border border-ivory/20",
-  "Limited": "bg-[#2a1a10] text-copper border border-copper/30",
-  "Custom": "bg-[#1a2214] text-[#7cad60] border border-[#7cad60]/30",
+  New: "bg-copper text-white",
+  Bestseller: "bg-[#171717] text-ivory",
+  Limited: "bg-[#2a1a10] text-copper",
+  Custom: "bg-[#1a2214] text-[#7cad60]",
+  Outdoor: "bg-[#171717] text-ivory",
+  Featured: "bg-copper text-white",
 };
+
+function isStudioWhiteBg(url: string) {
+  return /chef-bone-handle|fish-folder/i.test(url);
+}
 
 export function ProductCard({ product, priority = false, className }: Props) {
   const primaryImage = product.images[0];
@@ -24,6 +31,7 @@ export function ProductCard({ product, priority = false, className }: Props) {
     product.compareAtPrice !== undefined && product.compareAtPrice > product.price;
   const isLowStock = product.stock > 0 && product.stock <= 5;
   const isOutOfStock = product.stock === 0;
+  const studioShot = primaryImage ? isStudioWhiteBg(primaryImage.url) : false;
 
   const displayBadges = Array.from(
     new Set([
@@ -34,11 +42,13 @@ export function ProductCard({ product, priority = false, className }: Props) {
   ).slice(0, 2);
 
   return (
-    <article className={cn("group relative flex flex-col hover-lift", className)}>
-      {/* Image container */}
+    <article className={cn("group relative flex flex-col", className)}>
       <Link
         href={`/products/${product.slug}`}
-        className="relative block aspect-[3/4] bg-[#f0ece5] overflow-hidden"
+        className={cn(
+          "relative block aspect-[4/5] overflow-hidden transition-shadow duration-500",
+          studioShot ? "bg-[#f3efe8]" : "bg-[#1a1612]",
+        )}
         tabIndex={0}
         aria-label={product.name}
       >
@@ -49,25 +59,29 @@ export function ProductCard({ product, priority = false, className }: Props) {
               alt={primaryImage.alt ?? product.name}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              quality={90}
               className={cn(
-                "object-cover transition-all duration-700 ease-out",
-                hoverImage ? "group-hover:opacity-0" : "group-hover:scale-[1.04]",
+                "transition-transform duration-700 ease-out group-hover:scale-[1.03]",
+                studioShot
+                  ? "object-contain object-center p-5 mix-blend-multiply sm:p-6"
+                  : "object-cover object-center",
               )}
               priority={priority}
             />
-            {hoverImage && (
+            {hoverImage && !studioShot && (
               <Image
                 src={hoverImage.url}
                 alt={hoverImage.alt ?? product.name}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover absolute inset-0 opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100 scale-[1.04]"
+                quality={90}
+                className="absolute inset-0 object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
                 priority={false}
               />
             )}
           </>
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
+          <div className="flex h-full w-full items-center justify-center">
             <Image
               src="/images/products/placeholder-knife.svg"
               alt={product.name}
@@ -78,15 +92,14 @@ export function ProductCard({ product, priority = false, className }: Props) {
           </div>
         )}
 
-        {/* Badges */}
         {displayBadges.length > 0 && (
-          <div className="absolute top-3 left-3 flex flex-col gap-1">
+          <div className="absolute left-3 top-3 z-10 flex flex-col gap-1">
             {displayBadges.map((badge, index) => (
               <span
                 key={`${badge}-${index}`}
                 className={cn(
-                  "text-[9px] uppercase tracking-widest font-semibold px-2 py-1 leading-none",
-                  BADGE_STYLES[badge] ?? "bg-ink text-ivory",
+                  "px-2 py-1 text-[9px] font-semibold uppercase tracking-widest leading-none",
+                  BADGE_STYLES[badge] ?? "bg-[#171717] text-ivory",
                 )}
               >
                 {badge}
@@ -95,56 +108,58 @@ export function ProductCard({ product, priority = false, className }: Props) {
           </div>
         )}
 
-        {/* Out of stock overlay */}
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-ink/40 flex items-center justify-center backdrop-blur-[1px]">
-            <span className="text-[10px] uppercase tracking-widest text-ivory/80 border border-ivory/30 px-3 py-1.5">
-              Sold Out
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#171717]/45 backdrop-blur-[1px]">
+            <span className="border border-ivory/30 px-3 py-1.5 text-[10px] uppercase tracking-widest text-ivory/85">
+              Sold out
             </span>
           </div>
         )}
-
       </Link>
 
       <ProductWishlistButton productId={product._id} productName={product.name} />
 
-      {/* Info */}
-      <div className="mt-3 px-0.5">
+      <div className="mt-4 flex flex-1 flex-col px-0.5">
         {product.materials.length > 0 && (
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
+          <p className="mb-1.5 text-[10px] uppercase tracking-[0.16em] text-[#171717]/40">
             {product.materials.slice(0, 2).join(" · ")}
           </p>
         )}
         <Link
           href={`/products/${product.slug}`}
-          className="block text-sm font-medium text-foreground hover:text-copper transition-colors leading-snug"
+          className="block text-[15px] font-medium leading-snug text-[#171717] transition-colors hover:text-copper"
         >
           {product.name}
         </Link>
 
-        <div className="mt-1.5 flex items-baseline gap-2">
-          <span className="text-sm font-heading text-foreground">
+        <div className="mt-2 flex items-baseline gap-2">
+          <span
+            className={cn(
+              "font-heading text-lg",
+              isOnSale ? "text-copper" : "text-[#171717]",
+            )}
+          >
             {formatCurrency(product.price)}
           </span>
           {isOnSale && (
-            <span className="text-xs text-muted-foreground line-through">
+            <span className="text-xs text-[#171717]/40 line-through">
               {formatCurrency(product.compareAtPrice!)}
             </span>
           )}
           {isLowStock && !isOutOfStock && (
-            <span className="text-[10px] text-copper ml-auto">Only {product.stock} left</span>
+            <span className="ml-auto text-[10px] text-copper">Only {product.stock} left</span>
           )}
         </div>
 
         {product.averageRating > 0 && (
-          <div className="mt-1 flex items-center gap-1">
+          <div className="mt-2 flex items-center gap-1.5">
             <div className="flex gap-0.5">
               {Array.from({ length: 5 }).map((_, i) => (
                 <svg
                   key={i}
                   className={cn(
-                    "w-2.5 h-2.5",
-                    i < Math.round(product.averageRating) ? "text-copper" : "text-border",
+                    "h-2.5 w-2.5",
+                    i < Math.round(product.averageRating) ? "text-copper" : "text-[#171717]/15",
                   )}
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -153,9 +168,22 @@ export function ProductCard({ product, priority = false, className }: Props) {
                 </svg>
               ))}
             </div>
-            <span className="text-[10px] text-muted-foreground">({product.reviewCount})</span>
+            <span className="text-[10px] text-[#171717]/40">({product.reviewCount})</span>
           </div>
         )}
+
+        <div className="mt-auto pt-4">
+          <ProductCardCartButton
+            productId={product._id}
+            name={product.name}
+            slug={product.slug}
+            sku={product.sku}
+            price={product.price}
+            compareAtPrice={product.compareAtPrice}
+            imageUrl={primaryImage?.url}
+            stock={product.stock}
+          />
+        </div>
       </div>
     </article>
   );

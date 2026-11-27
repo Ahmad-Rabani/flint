@@ -343,8 +343,8 @@ async function seed() {
       categoryIds: [bySlug["axes-hatchets"]._id, bySlug["outdoor-camping"]._id],
       images: [
         {
-          key: "seed/axe-1.jpg",
-          url: "/images/products/axe-1.jpg",
+          key: "seed/skinner.jpg",
+          url: "/images/products/skinner.jpg",
           alt: "Trailborn Camp Hatchet",
         },
       ],
@@ -413,6 +413,8 @@ async function seed() {
       minStockLevel: 6,
       status: "active",
       isNewArrival: true,
+      isBestseller: true,
+      isFeatured: true,
       soldCount: 52,
       averageRating: 4.6,
       reviewCount: 8,

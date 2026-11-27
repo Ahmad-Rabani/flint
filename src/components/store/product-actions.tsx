@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Heart, Minus, Plus, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/features/cart/store";
+import { useWishlistStore } from "@/features/wishlist/store";
 import { cn } from "@/lib/utils";
 import type { PlainProduct } from "@/features/products/queries";
 
@@ -17,9 +18,17 @@ export function ProductActions({ product, isOutOfStock }: Props) {
   const [selectedVariant, setSelectedVariant] = useState<
     PlainProduct["variants"][number] | null
   >(product.variants.length > 0 ? product.variants[0] : null);
-  const [wishlistAdded, setWishlistAdded] = useState(false);
 
   const addLine = useCartStore((s) => s.addLine);
+  const hydrateWishlist = useWishlistStore((s) => s.hydrate);
+  const wishlistHas = useWishlistStore((s) => s.has);
+  const wishlistAdd = useWishlistStore((s) => s.add);
+  const wishlistRemove = useWishlistStore((s) => s.remove);
+  const wishlistAdded = wishlistHas(product._id);
+
+  useEffect(() => {
+    void hydrateWishlist();
+  }, [hydrateWishlist]);
 
   const activeVariants = product.variants.filter((v) => v.isActive);
   const displayPrice = selectedVariant?.price ?? product.price;
@@ -58,7 +67,8 @@ export function ProductActions({ product, isOutOfStock }: Props) {
       toast.error("Could not update wishlist");
       return;
     }
-    setWishlistAdded((v) => !v);
+    if (wishlistAdded) wishlistRemove(product._id);
+    else wishlistAdd(product._id);
     toast.success(wishlistAdded ? "Removed from wishlist" : "Added to wishlist");
   }
 
@@ -131,17 +141,19 @@ export function ProductActions({ product, isOutOfStock }: Props) {
           {isOutOfStock ? "Out of Stock" : "Add to Cart"}
         </button>
         <button
+          type="button"
           onClick={handleWishlist}
           aria-label={wishlistAdded ? "Remove from wishlist" : "Add to wishlist"}
+          aria-pressed={wishlistAdded}
           className={cn(
-            "p-4 border transition-all",
+            "cursor-pointer border p-4 transition-all",
             wishlistAdded
-              ? "border-copper text-copper bg-copper/5"
+              ? "border-[#E8B84A]/50 bg-[#E8B84A]/10 text-[#E8B84A]"
               : "border-border text-muted-foreground hover:border-foreground hover:text-foreground",
           )}
         >
           <Heart
-            className="w-4 h-4"
+            className="h-4 w-4"
             strokeWidth={1.5}
             fill={wishlistAdded ? "currentColor" : "none"}
           />

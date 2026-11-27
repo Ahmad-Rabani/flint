@@ -48,7 +48,7 @@ export default async function HomePage() {
       testimonials: [],
       navigation: undefined,
     })),
-    getBestsellers(8).catch(() => []),
+    getBestsellers(4).catch(() => []),
     getNewArrivals(4).catch(() => []),
     getCollections(true).catch(() => []),
   ]);
@@ -281,33 +281,38 @@ export default async function HomePage() {
 
       {/* ── Featured / Bestsellers ──────────────────────────────────────────── */}
       {bestsellers.length > 0 && (
-        <section className="py-20 md:py-28">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="flex items-end justify-between mb-10">
+        <section className="bg-[#f6f3ee] py-16 md:py-24">
+          <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+            <div className="mb-10 flex items-end justify-between gap-4">
               <div>
                 <div className="editorial-rule mb-4" />
-                <h2 className="font-heading text-3xl md:text-4xl">Bestsellers</h2>
-                <p className="mt-2 text-sm text-muted-foreground">The blades our customers keep coming back for.</p>
+                <h2 className="font-heading text-3xl text-[#171717] md:text-4xl">Bestsellers</h2>
+                <p className="mt-2 max-w-md text-sm text-[#171717]/55">
+                  The blades our customers keep coming back for.
+                </p>
               </div>
               <Link
                 href="/catalogue?sort=bestselling"
-                className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-copper transition-colors"
+                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
               >
-                View All
-                <ArrowRight className="w-3.5 h-3.5" />
+                View all
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-7">
-              {bestsellers.map((p, i) => (
+
+            <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+              {bestsellers.slice(0, 4).map((p, i) => (
                 <ProductCard key={p._id} product={p} priority={i < 2} />
               ))}
             </div>
-            <div className="mt-10 text-center sm:hidden">
+
+            <div className="mt-8 text-center sm:hidden">
               <Link
                 href="/catalogue?sort=bestselling"
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-copper transition-colors"
+                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50"
               >
-                View All Bestsellers <ArrowRight className="w-3.5 h-3.5" />
+                View all bestsellers
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           </div>
@@ -335,84 +340,141 @@ export default async function HomePage() {
 
       {/* ── New Arrivals ────────────────────────────────────────────────────── */}
       {newArrivals.length > 0 && (
-        <section className="py-16 md:py-24 bg-muted/30">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="flex items-end justify-between mb-10">
+        <section className="relative overflow-hidden border-y border-[#171717]/06 bg-[#efeae2] py-16 md:py-24">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-60"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 12% 18%, rgba(184,115,79,0.08), transparent 42%), radial-gradient(circle at 88% 0%, rgba(23,23,23,0.04), transparent 36%)",
+            }}
+          />
+          <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+            <div className="mb-10 flex items-end justify-between gap-4">
               <div>
-                <div className="editorial-rule mb-4" />
-                <h2 className="font-heading text-3xl md:text-4xl">New Arrivals</h2>
+                <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
+                  Fresh from the forge
+                </p>
+                <div className="editorial-rule mb-4 mt-4" />
+                <h2 className="font-heading text-3xl text-[#171717] md:text-4xl">New Arrivals</h2>
+                <p className="mt-2 max-w-md text-sm text-[#171717]/55">
+                  Newly finished blades — just released from the atelier.
+                </p>
               </div>
               <Link
                 href="/catalogue?sort=newest"
-                className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-copper transition-colors"
+                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
               >
-                See All <ArrowRight className="w-3.5 h-3.5" />
+                See all
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-7">
-              {newArrivals.map((p) => (
-                <ProductCard key={p._id} product={p} />
+
+            <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+              {newArrivals.slice(0, 4).map((p, i) => (
+                <ProductCard key={p._id} product={p} priority={i < 2} />
               ))}
+            </div>
+
+            <div className="mt-8 text-center sm:hidden">
+              <Link
+                href="/catalogue?sort=newest"
+                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50"
+              >
+                See all new arrivals
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           </div>
         </section>
       )}
 
       {/* ── Custom Design Promo ─────────────────────────────────────────────── */}
-      <section className="bg-ink relative overflow-hidden">
+      <section className="relative overflow-hidden bg-[#120e0b]">
         <div className="absolute inset-0">
-          {customSection?.image ? (
-            <Image
-              src={customSection.image.url}
-              alt="Custom design"
-              fill
-              className="object-cover opacity-30"
-            />
-          ) : (
-            <>
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1a0e06] to-ink" />
-              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-copper/[0.08] rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
-            </>
-          )}
+          <Image
+            src="/images/products/damascus-blade.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            quality={85}
+            className="object-cover object-center opacity-[0.18]"
+            aria-hidden
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#120e0b] via-[#120e0b]/90 to-[#120e0b]/55" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#120e0b] via-transparent to-[#120e0b]/45" />
+          <div
+            aria-hidden
+            className="absolute -right-24 top-1/2 h-[28rem] w-[28rem] -translate-y-1/2 rounded-full bg-copper/[0.12] blur-[110px]"
+          />
         </div>
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 py-24 md:py-32">
-          <div className="max-w-xl">
-            <div className="editorial-rule mb-6" />
-            <h2 className="font-heading text-4xl md:text-5xl xl:text-6xl text-ivory leading-tight">
+
+        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 sm:px-6 md:py-28 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:py-32">
+          <div>
+            <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
+              Bespoke commission
+            </p>
+            <div className="editorial-rule mb-6 mt-4" />
+            <h2 className="max-w-[14ch] font-heading text-[clamp(2.4rem,5vw,4.25rem)] leading-[1.02] text-ivory">
               {customSection?.title ?? (
                 <>
                   Your blade,
                   <br />
-                  <em className="text-copper not-italic">your story.</em>
+                  <span className="text-copper">your story.</span>
                 </>
               )}
             </h2>
-            <p className="mt-5 text-base text-ivory/60 leading-relaxed max-w-sm">
+            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ivory/60 sm:text-base">
               {customSection?.body ??
-                "Commission a fully bespoke knife or axe — from steel selection and handle material to custom engraving. No two custom pieces are ever alike."}
+                "Choose profile, steel, handle, and finish. Upload references. Receive a personal quotation from the forge."}
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
+
+            <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href={customSection?.ctaHref ?? "/custom"}
-                className="inline-flex items-center gap-3 bg-copper hover:bg-copper/90 text-white px-8 py-3.5 text-xs uppercase tracking-widest font-medium transition-colors"
+                className="inline-flex min-h-12 cursor-pointer items-center gap-3 bg-copper px-7 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#a86645]"
               >
-                {customSection?.ctaLabel ?? "Start Your Custom Order"}
-                <ArrowRight className="w-4 h-4" />
+                {customSection?.ctaLabel ?? "Start custom design"}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/craft"
+                className="text-[11px] font-medium uppercase tracking-[0.16em] text-ivory/55 transition-colors hover:text-ivory"
+              >
+                How we forge →
               </Link>
             </div>
-            <ul className="mt-10 grid grid-cols-2 gap-3">
+
+            <ol className="mt-12 grid gap-4 sm:grid-cols-2">
               {[
-                "Steel of your choice",
-                "Handle material & finish",
-                "Custom dimensions",
-                "Personal engraving",
-              ].map((feat) => (
-                <li key={feat} className="flex items-center gap-2 text-sm text-ivory/50">
-                  <span className="w-1 h-1 bg-copper rounded-none flex-shrink-0" />
-                  {feat}
+                { step: "01", label: "Steel of your choice" },
+                { step: "02", label: "Handle material & finish" },
+                { step: "03", label: "Custom dimensions" },
+                { step: "04", label: "Personal engraving" },
+              ].map((item) => (
+                <li key={item.step} className="flex items-start gap-3 border-t border-white/[0.08] pt-4">
+                  <span className="font-heading text-sm text-copper">{item.step}</span>
+                  <span className="pt-0.5 text-sm text-ivory/70">{item.label}</span>
                 </li>
               ))}
-            </ul>
+            </ol>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-lg lg:mx-0 lg:justify-self-end">
+            <div className="relative aspect-[4/5] overflow-hidden bg-[#1a1410]">
+              <Image
+                src={customSection?.image?.url ?? "/images/products/chef-bone-handle.jpg"}
+                alt="Hand-forged custom blade"
+                fill
+                sizes="(max-width: 1024px) 90vw, 42vw"
+                quality={92}
+                className="object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#120e0b]/55 via-transparent to-transparent" />
+            </div>
+            <p className="mt-4 text-[10px] uppercase tracking-[0.22em] text-ivory/35">
+              Built to your brief · quoted by the forge
+            </p>
           </div>
         </div>
       </section>

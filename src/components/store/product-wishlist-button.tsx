@@ -1,8 +1,10 @@
 "use client";
 
 import { Heart } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useWishlistStore } from "@/features/wishlist/store";
+import { cn } from "@/lib/utils";
 
 type Props = {
   productId: string;
@@ -11,15 +13,26 @@ type Props = {
 
 export function ProductWishlistButton({ productId, productName }: Props) {
   const [saving, setSaving] = useState(false);
+  const hydrate = useWishlistStore((s) => s.hydrate);
+  const has = useWishlistStore((s) => s.has);
+  const add = useWishlistStore((s) => s.add);
+  const remove = useWishlistStore((s) => s.remove);
+  const wishlisted = has(productId);
+
+  useEffect(() => {
+    void hydrate();
+  }, [hydrate]);
 
   async function onClick(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (saving) return;
     setSaving(true);
+
+    const method = wishlisted ? "DELETE" : "POST";
     try {
       const res = await fetch("/api/wishlist", {
-        method: "POST",
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId }),
       });
@@ -31,7 +44,14 @@ export function ProductWishlistButton({ productId, productName }: Props) {
         toast.error("Could not update wishlist");
         return;
       }
-      toast.success(`Saved ${productName}`);
+
+      if (wishlisted) {
+        remove(productId);
+        toast.success("Removed from wishlist");
+      } else {
+        add(productId);
+        toast.success(`Saved ${productName}`);
+      }
     } finally {
       setSaving(false);
     }
@@ -40,12 +60,25 @@ export function ProductWishlistButton({ productId, productName }: Props) {
   return (
     <button
       type="button"
-      aria-label={`Add ${productName} to wishlist`}
+      aria-label={
+        wishlisted ? `Remove ${productName} from wishlist` : `Add ${productName} to wishlist`
+      }
+      aria-pressed={wishlisted}
       disabled={saving}
-      className="absolute top-3 right-3 z-10 p-2 bg-white/90 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-white text-ink hover:text-copper"
+      className={cn(
+        "absolute right-3 top-3 z-10 grid h-9 w-9 cursor-pointer place-items-center bg-white/95 shadow-sm backdrop-blur-sm transition-all duration-200",
+        "opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100",
+        wishlisted
+          ? "text-[#E8B84A] opacity-100"
+          : "text-[#171717]/70 hover:text-[#171717]",
+      )}
       onClick={onClick}
     >
-      <Heart className="w-3.5 h-3.5" strokeWidth={1.5} />
+      <Heart
+        className="h-3.5 w-3.5"
+        strokeWidth={1.75}
+        fill={wishlisted ? "currentColor" : "none"}
+      />
     </button>
   );
 }

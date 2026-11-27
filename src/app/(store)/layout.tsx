@@ -33,7 +33,7 @@ export default function StoreLayout({ children }: Props) {
       <main className="flex-1">{children}</main>
       <StoreFooter />
       <CartDrawer />
-      <Toaster position="bottom-right" richColors />
+      <Toaster position="top-right" richColors closeButton />
     </>
   );
 }
