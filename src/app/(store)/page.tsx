@@ -198,56 +198,82 @@ export default async function HomePage() {
 
       {/* ── Collections ────────────────────────────────────────────────────── */}
       {collections.length > 0 && (
-        <section className="py-16 md:py-24 bg-muted/40">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="flex items-end justify-between mb-10">
+        <section className="bg-[#efeae2] py-16 md:py-24">
+          <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+            <div className="mb-10 flex items-end justify-between gap-4">
               <div>
                 <div className="editorial-rule mb-4" />
-                <h2 className="font-heading text-3xl md:text-4xl">Collections</h2>
+                <h2 className="font-heading text-3xl text-[#171717] md:text-4xl">Collections</h2>
+                <p className="mt-2 max-w-md text-sm text-[#171717]/55">
+                  Curated lines from kitchen steel to trail-ready blades.
+                </p>
               </div>
               <Link
                 href="/collections"
-                className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-copper transition-colors"
+                className="hidden text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50 transition-colors hover:text-copper sm:inline-flex sm:items-center sm:gap-2"
               >
-                All Collections
-                <ArrowRight className="w-3.5 h-3.5" />
+                All collections
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {collections.slice(0, 3).map((col, i) => (
-                <Link
-                  key={col._id}
-                  href={`/collections/${col.slug}`}
-                  className={`relative group overflow-hidden bg-ink aspect-[${i === 0 ? "4/3" : "3/4"}] block`}
-                  style={{ aspectRatio: i === 0 ? "4/3" : "3/4" }}
-                >
-                  {col.image ? (
-                    <Image
-                      src={col.image.url}
-                      alt={col.image.alt ?? col.name}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-70"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 surface-grain" />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 p-6">
-                    <p className="text-[10px] uppercase tracking-widest text-copper mb-2">
-                      Collection
-                    </p>
-                    <h3 className="font-heading text-xl text-ivory">{col.name}</h3>
-                    {col.description && (
-                      <p className="mt-1.5 text-xs text-ivory/50 line-clamp-2 max-w-xs">
-                        {col.description}
+
+            <div
+              className={
+                collections.length === 1
+                  ? "grid grid-cols-1"
+                  : "grid grid-cols-1 gap-5 md:grid-cols-2"
+              }
+            >
+              {collections.slice(0, 2).map((col, index) => {
+                const cover =
+                  col.image?.url ||
+                  ["/images/products/tracker-hunter.jpg", "/images/products/skinner.jpg"][index % 2]!;
+
+                return (
+                  <Link
+                    key={col._id}
+                    href={`/collections/${col.slug}`}
+                    className="group flex flex-col overflow-hidden bg-[#f6f3ee] transition-colors hover:bg-white"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#1a1612]">
+                      <Image
+                        src={cover}
+                        alt={col.image?.alt ?? col.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        quality={92}
+                        className="object-cover object-[center_40%] transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      />
+                    </div>
+
+                    <div className="flex flex-1 flex-col px-5 py-5 sm:px-6">
+                      <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-copper">
+                        Collection
                       </p>
-                    )}
-                    <span className="mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-ivory/60 group-hover:text-copper transition-colors">
-                      Explore <ArrowRight className="w-3 h-3" />
-                    </span>
-                  </div>
-                </Link>
-              ))}
+                      <h3 className="mt-1.5 font-heading text-2xl text-[#171717]">{col.name}</h3>
+                      {col.description && (
+                        <p className="mt-1.5 text-sm leading-relaxed text-[#171717]/55">
+                          {col.description}
+                        </p>
+                      )}
+                      <span className="mt-4 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/60 transition-colors group-hover:text-copper">
+                        Explore
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 text-center sm:hidden">
+              <Link
+                href="/collections"
+                className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#171717]/50"
+              >
+                All collections
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           </div>
         </section>

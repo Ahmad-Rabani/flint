@@ -511,6 +511,11 @@ async function seed() {
       isFeatured: true,
       isActive: true,
       sortOrder: 1,
+      image: {
+        key: "seed/tracker-hunter.jpg",
+        url: "/images/products/tracker-hunter.jpg",
+        alt: "Forge Essentials collection",
+      },
     },
     {
       name: "Field & Camp",
@@ -520,6 +525,11 @@ async function seed() {
       isFeatured: true,
       isActive: true,
       sortOrder: 2,
+      image: {
+        key: "seed/skinner.jpg",
+        url: "/images/products/skinner.jpg",
+        alt: "Field and Camp collection",
+      },
     },
   ]);
 

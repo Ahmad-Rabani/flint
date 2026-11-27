@@ -68,6 +68,7 @@ export type PlainCollection = {
   slug: string;
   description?: string;
   image?: { key: string; url: string; alt?: string };
+  productIds: string[];
   isFeatured: boolean;
   sortOrder: number;
 };
@@ -139,6 +140,7 @@ function serializeCollection(doc: any): PlainCollection {
     slug: doc.slug,
     description: doc.description,
     image: doc.image ? { key: doc.image.key, url: doc.image.url, alt: doc.image.alt } : undefined,
+    productIds: (doc.productIds ?? []).map(String),
     isFeatured: !!doc.isFeatured,
     sortOrder: doc.sortOrder ?? 0,
   };
@@ -275,6 +277,19 @@ export async function getCategoryBySlug(slug: string): Promise<PlainCategory | n
   return serializeCategory(doc);
 }
 
+/** Prefer these high-res local covers over tiny product thumbs (often 300px).
+ *  Avoid chef-bone-handle — already used in the atelier section. */
+const COLLECTION_COVER_FALLBACKS: Record<string, { url: string; alt: string }> = {
+  "forge-essentials": {
+    url: "/images/products/tracker-hunter.jpg",
+    alt: "Forge essentials collection",
+  },
+  "field-camp": {
+    url: "/images/products/skinner.jpg",
+    alt: "Field and camp collection",
+  },
+};
+
 // ─── Collection queries ───────────────────────────────────────────────────────
 export async function getCollections(featuredOnly = false): Promise<PlainCollection[]> {
   await withDb();
@@ -282,7 +297,49 @@ export async function getCollections(featuredOnly = false): Promise<PlainCollect
   const filter: Record<string, any> = { isActive: true, deletedAt: null };
   if (featuredOnly) filter.isFeatured = true;
   const docs = await Collection.find(filter).sort({ sortOrder: 1, name: 1 }).lean();
-  return docs.map(serializeCollection);
+  const collections = docs.map(serializeCollection);
+
+  const missingCoverIds = collections
+    .filter((col) => !col.image?.url && col.productIds.length > 0)
+    .flatMap((col) => col.productIds.slice(0, 1));
+
+  const productCovers = new Map<string, { key: string; url: string; alt?: string }>();
+  if (missingCoverIds.length > 0) {
+    const products = await Product.find({ _id: { $in: missingCoverIds } })
+      .select("images")
+      .lean();
+    for (const product of products as { _id: unknown; images?: { key?: string; url?: string; alt?: string }[] }[]) {
+      const img = product.images?.find((image) => image.url);
+      if (img?.url) {
+        productCovers.set(String(product._id), {
+          key: img.key || img.url,
+          url: img.url,
+          alt: img.alt,
+        });
+      }
+    }
+  }
+
+  return collections.map((col, index) => {
+    // Known homepage collections: always use curated high-res covers
+    const bySlug = COLLECTION_COVER_FALLBACKS[col.slug];
+    if (bySlug) {
+      return { ...col, image: { key: bySlug.url, url: bySlug.url, alt: bySlug.alt } };
+    }
+
+    if (col.image?.url) return col;
+
+    const fromProduct = col.productIds.map((id) => productCovers.get(id)).find(Boolean);
+    if (fromProduct) return { ...col, image: fromProduct };
+
+    const rotating = [
+      "/images/products/folding-blue.jpg",
+      "/images/products/tracker-hunter.jpg",
+      "/images/products/chef-bone-handle.jpg",
+    ];
+    const url = rotating[index % rotating.length]!;
+    return { ...col, image: { key: url, url, alt: col.name } };
+  });
 }
 
 export async function getCollectionBySlug(slug: string): Promise<PlainCollection | null> {
