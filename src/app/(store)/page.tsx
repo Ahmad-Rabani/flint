@@ -2,7 +2,7 @@ export const instant = false;
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Quote } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getHomeContent } from "@/features/cms/queries";
 import {
   getBestsellers,
@@ -12,6 +12,7 @@ import {
 import { ProductCard } from "@/components/store/product-card";
 import { NewsletterFormClient } from "@/components/store/newsletter-form";
 import { HeroVideo } from "@/components/store/hero-video";
+import { TestimonialSlider } from "@/components/store/testimonial-slider";
 import {
   Accordion,
   AccordionContent,
@@ -25,16 +26,25 @@ const CRAFT_STEPS = [
     num: "01",
     title: "Selection",
     desc: "Only high-carbon and Damascus steels that meet our exacting standards begin the journey.",
+    image: "/images/products/damascus-blade.jpg",
+    alt: "Damascus steel chosen for forging",
+    tone: "dark" as const,
   },
   {
     num: "02",
     title: "Forging",
     desc: "Each blade is shaped at the forge, where heat and hammer turn raw steel into precision.",
+    image: "/images/products/axe-1.jpg",
+    alt: "Blade shaped under heat and hammer",
+    tone: "dark" as const,
   },
   {
     num: "03",
     title: "Finishing",
     desc: "Hand-ground bevels, hand-fitted handles, and a final inspection before it reaches you.",
+    image: "/images/products/folding-blue.jpg",
+    alt: "Finished blade with fitted handle and sheath",
+    tone: "light" as const,
   },
 ];
 
@@ -480,35 +490,85 @@ export default async function HomePage() {
       </section>
 
       {/* ── Craftsmanship ───────────────────────────────────────────────────── */}
-      <section className="py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="mb-14 md:mb-20 flex flex-col md:flex-row md:items-end gap-5 justify-between">
+      <section className="relative overflow-hidden bg-[#f6f3ee] py-16 md:py-24">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-70"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 8% 12%, rgba(184,115,79,0.07), transparent 40%), radial-gradient(circle at 92% 88%, rgba(23,23,23,0.035), transparent 38%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+          <div className="mb-12 flex flex-col gap-5 md:mb-16 md:flex-row md:items-end md:justify-between">
             <div>
-              <div className="editorial-rule mb-4" />
-              <h2 className="font-heading text-3xl md:text-4xl xl:text-5xl max-w-sm leading-tight">
+              <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
+                Our process
+              </p>
+              <div className="editorial-rule mb-5 mt-4" />
+              <h2 className="max-w-[16ch] font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#171717]">
                 {craftSection?.title ?? "Crafted with intention at every step."}
               </h2>
             </div>
-            <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+            <p className="max-w-xs text-sm leading-relaxed text-[#171717]/55 md:pb-1">
               {craftSection?.subtitle ??
                 "From raw steel to finished blade — an unbroken chain of human skill."}
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 md:gap-12">
-            {CRAFT_STEPS.map((step) => (
-              <div key={step.num} className="border-t border-border pt-8">
-                <span className="font-heading text-5xl text-copper/20">{step.num}</span>
-                <h3 className="font-heading text-xl mt-3">{step.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
+
+          <div className="grid gap-8 md:grid-cols-3 md:gap-6 lg:gap-8">
+            {CRAFT_STEPS.map((step) => {
+              const light = step.tone === "light";
+              return (
+                <article key={step.num} className="group flex flex-col">
+                  <div
+                    className={
+                      light
+                        ? "relative aspect-[5/4] overflow-hidden bg-[#efeae2]"
+                        : "relative aspect-[5/4] overflow-hidden bg-[#1a1612]"
+                    }
+                  >
+                    <Image
+                      src={step.image}
+                      alt={step.alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      quality={92}
+                      className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    />
+                    <div
+                      className={
+                        light
+                          ? "absolute inset-0 bg-gradient-to-t from-[#efeae2]/35 to-transparent"
+                          : "absolute inset-0 bg-gradient-to-t from-[#120e0b]/35 to-transparent"
+                      }
+                    />
+                    <span
+                      className={
+                        light
+                          ? "absolute left-4 top-4 font-heading text-2xl text-[#171717]/55"
+                          : "absolute left-4 top-4 font-heading text-2xl text-ivory/90"
+                      }
+                    >
+                      {step.num}
+                    </span>
+                  </div>
+                  <div className="mt-5 border-t border-[#171717]/10 pt-5">
+                    <h3 className="font-heading text-xl text-[#171717]">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-[#171717]/55">{step.desc}</p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
-          <div className="mt-14 text-center">
+
+          <div className="mt-12 flex justify-center md:mt-14">
             <Link
               href="/craft"
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-copper transition-colors"
+              className="inline-flex min-h-11 cursor-pointer items-center gap-2 border border-[#171717]/15 bg-transparent px-6 text-[11px] font-medium uppercase tracking-[0.18em] text-[#171717] transition-colors hover:border-copper hover:text-copper"
             >
-              See how we work <ArrowRight className="w-3.5 h-3.5" />
+              See how we work
+              <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>
@@ -516,58 +576,32 @@ export default async function HomePage() {
 
       {/* ── Testimonials ────────────────────────────────────────────────────── */}
       {cms.testimonials.length > 0 && (
-        <section className="py-20 md:py-28 bg-muted/40">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="mb-12">
-              <div className="editorial-rule mb-4" />
-              <h2 className="font-heading text-3xl md:text-4xl">What our customers say.</h2>
+        <section className="relative overflow-hidden border-y border-[#171717]/06 bg-[#efeae2] py-16 md:py-24">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-80"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 12% 18%, rgba(184,115,79,0.08), transparent 40%), radial-gradient(circle at 90% 85%, rgba(23,23,23,0.035), transparent 38%)",
+            }}
+          />
+          <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+            <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
+                  Voices from the field
+                </p>
+                <div className="editorial-rule mb-5 mt-4" />
+                <h2 className="max-w-[16ch] font-heading text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.05] text-[#171717]">
+                  What our customers say.
+                </h2>
+              </div>
+              <p className="max-w-xs text-sm leading-relaxed text-[#171717]/55 md:pb-1">
+                Chefs, collectors, and guides — the people who put FLINT steel to work.
+              </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {cms.testimonials.map((t) => (
-                <div
-                  key={t._id}
-                  className="bg-background p-7 border border-border flex flex-col gap-4"
-                >
-                  <Quote className="w-5 h-5 text-copper/60" />
-                  <p className="text-sm text-foreground leading-relaxed flex-1 italic">
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                  <div className="flex items-center gap-3 pt-3 border-t border-border">
-                    {t.avatar ? (
-                      <Image
-                        src={t.avatar.url}
-                        alt={t.authorName}
-                        width={36}
-                        height={36}
-                        className="w-9 h-9 object-cover"
-                      />
-                    ) : (
-                      <div className="w-9 h-9 bg-muted flex items-center justify-center text-xs font-heading text-muted-foreground">
-                        {t.authorName.charAt(0)}
-                      </div>
-                    )}
-                    <div>
-                      <p className="text-sm font-medium">{t.authorName}</p>
-                      {t.authorTitle && (
-                        <p className="text-xs text-muted-foreground">{t.authorTitle}</p>
-                      )}
-                    </div>
-                    <div className="ml-auto flex gap-0.5">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <svg
-                          key={i}
-                          className={`w-3 h-3 ${i < t.rating ? "text-copper" : "text-border"}`}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+
+            <TestimonialSlider testimonials={cms.testimonials} />
           </div>
         </section>
       )}
