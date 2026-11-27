@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -56,25 +57,29 @@ const PRODUCT_TYPES: Array<{
   type: ProductType;
   label: string;
   sub: string;
-  icon: string;
+  image: string;
+  alt: string;
 }> = [
   {
     type: "knife",
     label: "Knife",
     sub: "Chef · Gyuto · Hunter · Fillet",
-    icon: "⚔",
+    image: "/images/products/tracker-hunter.jpg",
+    alt: "Hand-forged hunting knife with leather sheath",
   },
   {
     type: "axe",
     label: "Axe",
     sub: "Hatchet · Viking · Carving · Camp",
-    icon: "🪓",
+    image: "/images/products/skinner.jpg",
+    alt: "Hand-forged camp axe with leather sheath",
   },
   {
     type: "utility",
     label: "Utility",
     sub: "EDC · Workshop · Field · Bushcraft",
-    icon: "🔪",
+    image: "/images/products/folding-blue.jpg",
+    alt: "Utility folding blade with sheath",
   },
 ];
 
@@ -164,21 +169,34 @@ export function CustomDesignerWizard({ stylesMap, options, initialSession }: Pro
           const err = await res.json().catch(() => ({}));
           throw new Error(err.error ?? "Upload failed");
         }
-        const data = (await res.json()) as { files: UploadedImage[] };
-        const uploaded = data.files;
+        const data = (await res.json()) as { files?: UploadedImage[] };
+        const uploaded = data.files ?? [];
+        if (uploaded.length === 0) {
+          throw new Error("Upload failed");
+        }
 
         setState((s) => {
           const imgs = [...s.referenceImages];
           previews.forEach((p, i) => {
             const idx = imgs.findIndex((img) => img.id === p.id);
-            if (idx !== -1 && uploaded[i]) {
-              imgs[idx] = { ...uploaded[i], localPreview: p.localPreview };
-            }
+            const file = uploaded[i];
+            if (idx === -1 || !file) return;
+            // Keep blob preview until the server URL is confirmed loading;
+            // never leave a revoked object URL as the only src.
+            imgs[idx] = {
+              ...file,
+              id: file.id || p.id,
+              alt: file.alt || p.alt,
+              localPreview: p.localPreview,
+            };
           });
           return { ...s, referenceImages: imgs };
         });
       } catch (err) {
         toast.error(err instanceof Error ? err.message : "Upload failed");
+        previews.forEach((p) => {
+          if (p.localPreview) URL.revokeObjectURL(p.localPreview);
+        });
         setState((s) => ({
           ...s,
           referenceImages: s.referenceImages.filter(
@@ -186,21 +204,21 @@ export function CustomDesignerWizard({ stylesMap, options, initialSession }: Pro
           ),
         }));
       } finally {
-        setUploadingCount((c) => c - toUpload.length);
-        // Revoke object URLs for previews
-        previews.forEach((p) => {
-          if (p.localPreview) URL.revokeObjectURL(p.localPreview);
-        });
+        setUploadingCount((c) => Math.max(0, c - toUpload.length));
       }
     },
     [state.referenceImages.length],
   );
 
   function removeImage(id: string) {
-    setState((s) => ({
-      ...s,
-      referenceImages: s.referenceImages.filter((img) => img.id !== id),
-    }));
+    setState((s) => {
+      const target = s.referenceImages.find((img) => img.id === id);
+      if (target?.localPreview) URL.revokeObjectURL(target.localPreview);
+      return {
+        ...s,
+        referenceImages: s.referenceImages.filter((img) => img.id !== id),
+      };
+    });
   }
 
   // ─── Submit ─────────────────────────────────────────────────────────────
@@ -247,28 +265,28 @@ export function CustomDesignerWizard({ stylesMap, options, initialSession }: Pro
   // ─── Render ──────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-[#171717]">
+    <div className="min-h-screen bg-[#120e0b] pt-[4.25rem] lg:pt-[4.75rem]">
       {/* Progress bar */}
-      <div className="sticky top-0 z-30 border-b border-white/10 bg-[#171717]/95 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-6 py-5 lg:px-10">
-          <div className="flex items-center justify-between">
-            <span className="font-heading text-xs uppercase tracking-[0.3em] text-copper">
+      <div className="sticky top-[4.25rem] z-30 border-b border-white/10 bg-[#120e0b]/95 backdrop-blur lg:top-[4.75rem]">
+        <div className="mx-auto max-w-7xl px-5 py-4 sm:px-6 lg:px-10">
+          <div className="flex items-center justify-between gap-4">
+            <span className="font-heading text-[10px] uppercase tracking-[0.28em] text-copper sm:text-xs">
               Custom Commission
             </span>
-            <span className="text-xs text-white/40">
+            <span className="text-[10px] uppercase tracking-[0.16em] text-white/40 sm:text-xs">
               Step {step} of {STEPS.length}
             </span>
           </div>
-          {/* Step dots */}
           <div className="mt-4 flex items-center gap-0">
             {STEPS.map((s, i) => (
               <div key={s.id} className="flex flex-1 items-center">
                 <button
+                  type="button"
                   onClick={() => step > s.id && setStep(s.id)}
                   className={cn(
-                    "flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium transition-all",
+                    "flex h-7 w-7 items-center justify-center text-xs font-medium transition-all",
                     step === s.id
-                      ? "bg-copper text-white ring-2 ring-copper/40"
+                      ? "bg-copper text-white"
                       : step > s.id
                         ? "cursor-pointer bg-copper/20 text-copper hover:bg-copper/30"
                         : "bg-white/10 text-white/30",
@@ -293,13 +311,12 @@ export function CustomDesignerWizard({ stylesMap, options, initialSession }: Pro
               </div>
             ))}
           </div>
-          {/* Step labels */}
           <div className="mt-2 flex">
             {STEPS.map((s) => (
               <div key={s.id} className="flex-1 text-center">
                 <span
                   className={cn(
-                    "text-[10px] uppercase tracking-widest",
+                    "text-[9px] uppercase tracking-widest sm:text-[10px]",
                     step === s.id ? "text-copper" : step > s.id ? "text-white/40" : "text-white/20",
                   )}
                 >
@@ -312,7 +329,7 @@ export function CustomDesignerWizard({ stylesMap, options, initialSession }: Pro
       </div>
 
       {/* Panel */}
-      <div className="mx-auto max-w-6xl px-6 py-14 lg:px-10">
+      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 md:py-14 lg:px-10">
         {step === 1 && (
           <Step1ProductType
             value={state.productType}
@@ -362,11 +379,12 @@ export function CustomDesignerWizard({ stylesMap, options, initialSession }: Pro
         )}
 
         {/* Navigation */}
-        <div className="mt-14 flex items-center justify-between border-t border-white/10 pt-8">
+        <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-8 md:mt-14">
           <button
+            type="button"
             onClick={back}
             className={cn(
-              "px-6 py-3 text-xs uppercase tracking-[0.2em] text-white/50 transition-colors hover:text-white",
+              "cursor-pointer px-6 py-3 text-xs uppercase tracking-[0.2em] text-white/50 transition-colors hover:text-white",
               step === 1 && "invisible",
             )}
           >
@@ -375,12 +393,13 @@ export function CustomDesignerWizard({ stylesMap, options, initialSession }: Pro
 
           {step < STEPS.length ? (
             <button
+              type="button"
               onClick={next}
               disabled={!canAdvance()}
               className={cn(
                 "relative overflow-hidden bg-copper px-10 py-4 text-xs uppercase tracking-[0.25em] text-white transition-all",
                 canAdvance()
-                  ? "hover:bg-[#c97d58] active:scale-[0.98]"
+                  ? "cursor-pointer hover:bg-[#c97d58] active:scale-[0.98]"
                   : "cursor-not-allowed opacity-40",
               )}
             >
@@ -388,12 +407,13 @@ export function CustomDesignerWizard({ stylesMap, options, initialSession }: Pro
             </button>
           ) : (
             <button
+              type="button"
               onClick={handleSubmit}
               disabled={submitting || uploadingCount > 0}
               className={cn(
                 "relative overflow-hidden bg-copper px-12 py-4 text-xs uppercase tracking-[0.25em] text-white transition-all",
                 !submitting && uploadingCount === 0
-                  ? "hover:bg-[#c97d58] active:scale-[0.98]"
+                  ? "cursor-pointer hover:bg-[#c97d58] active:scale-[0.98]"
                   : "cursor-not-allowed opacity-60",
               )}
             >
@@ -429,39 +449,79 @@ function Step1ProductType({
 }) {
   return (
     <div>
-      <p className="font-heading text-xs uppercase tracking-[0.35em] text-copper">Step 1</p>
-      <h2 className="mt-3 font-heading text-5xl leading-tight text-ivory lg:text-6xl">
-        What are you<br />commissioning?
-      </h2>
-      <p className="mt-5 max-w-lg text-base text-white/50">
-        Choose the blade form at the heart of your commission. Every detail follows from here.
-      </p>
-
-      <div className="mt-14 grid gap-5 sm:grid-cols-3">
-        {PRODUCT_TYPES.map((pt) => (
-          <button
-            key={pt.type}
-            onClick={() => onChange(pt.type)}
-            className={cn(
-              "group relative flex flex-col items-start border p-8 text-left transition-all duration-200",
-              value === pt.type
-                ? "border-copper bg-copper/10 shadow-[0_0_30px_rgba(184,115,79,0.15)]"
-                : "border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/8",
-            )}
-          >
-            <span className="text-5xl">{pt.icon}</span>
-            <span className="mt-6 block font-heading text-3xl text-ivory">{pt.label}</span>
-            <span className="mt-2 text-xs text-white/40">{pt.sub}</span>
-            {value === pt.type && (
-              <span className="absolute right-5 top-5 flex h-6 w-6 items-center justify-center rounded-full bg-copper">
-                <svg className="h-3 w-3 text-white" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            )}
-          </button>
-        ))}
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
+            Step 1 · Product
+          </p>
+          <div className="editorial-rule mb-5 mt-4" />
+          <h2 className="max-w-[14ch] font-heading text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1.05] text-ivory">
+            What are you commissioning?
+          </h2>
+        </div>
+        <p className="max-w-sm text-sm leading-relaxed text-ivory/50 md:pb-1">
+          Choose the blade form at the heart of your commission. Every detail follows from here.
+        </p>
       </div>
+
+      <div className="mt-10 grid gap-4 sm:grid-cols-3 sm:gap-5 md:mt-12">
+        {PRODUCT_TYPES.map((pt) => {
+          const selected = value === pt.type;
+          return (
+            <button
+              key={pt.type}
+              type="button"
+              onClick={() => onChange(pt.type)}
+              aria-pressed={selected}
+              className={cn(
+                "group relative flex cursor-pointer flex-col overflow-hidden border text-left transition-all duration-300",
+                selected
+                  ? "border-copper ring-1 ring-copper/50"
+                  : "border-white/12 hover:border-white/35",
+              )}
+            >
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#2a221c]">
+                {/* Real product photo — never emoji / SVG icons */}
+                <Image
+                  src={pt.image}
+                  alt={pt.alt}
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  quality={92}
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" />
+
+                {selected && (
+                  <span className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center bg-copper">
+                    <svg className="h-3.5 w-3.5 text-white" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M2 6l3 3 5-5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                )}
+
+                <div className="absolute inset-x-0 bottom-0 z-10 p-5 sm:p-6">
+                  <span className="block font-heading text-2xl text-white sm:text-3xl">{pt.label}</span>
+                  <span className="mt-1.5 block text-[11px] uppercase tracking-[0.14em] text-white/70">
+                    {pt.sub}
+                  </span>
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      <p className="mt-6 text-center text-[11px] uppercase tracking-[0.16em] text-ivory/35">
+        {value ? `Selected · ${value}` : "Select a product type to continue"}
+      </p>
     </div>
   );
 }
@@ -479,57 +539,71 @@ function Step2Style({
 }) {
   return (
     <div>
-      <p className="font-heading text-xs uppercase tracking-[0.35em] text-copper">Step 2</p>
-      <h2 className="mt-3 font-heading text-5xl leading-tight text-ivory lg:text-6xl">
-        Choose your<br />design direction.
-      </h2>
-      <p className="mt-5 max-w-lg text-base text-white/50">
-        Each style is a starting point — the forge adapts every detail to your vision.
-      </p>
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-copper">
+            Step 2 · Style
+          </p>
+          <div className="editorial-rule mb-5 mt-4" />
+          <h2 className="max-w-[14ch] font-heading text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1.05] text-ivory">
+            Choose your design direction.
+          </h2>
+        </div>
+        <p className="max-w-sm text-sm leading-relaxed text-ivory/50 md:pb-1">
+          Each style is a starting point — the forge adapts every detail to your vision.
+        </p>
+      </div>
 
-      <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {styles.map((style) => (
-          <button
-            key={style.id}
-            onClick={() => onChange(style.id)}
-            className={cn(
-              "group relative flex flex-col items-start border p-7 text-left transition-all duration-200",
-              value === style.id
-                ? "border-copper bg-copper/10 shadow-[0_0_30px_rgba(184,115,79,0.12)]"
-                : "border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/8",
-            )}
-          >
-            {/* Abstract geometric shape */}
-            <div
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 md:mt-12">
+        {styles.map((style) => {
+          const selected = value === style.id;
+          return (
+            <button
+              key={style.id}
+              type="button"
+              onClick={() => onChange(style.id)}
+              aria-pressed={selected}
               className={cn(
-                "mb-5 h-16 w-16 border transition-colors",
-                value === style.id ? "border-copper/60" : "border-white/20",
+                "group relative flex cursor-pointer flex-col overflow-hidden border text-left transition-all duration-300",
+                selected
+                  ? "border-copper ring-1 ring-copper/50"
+                  : "border-white/12 hover:border-white/35",
               )}
-              aria-hidden
             >
-              <div
-                className={cn(
-                  "h-full w-full",
-                  value === style.id
-                    ? "bg-gradient-to-br from-copper/30 to-transparent"
-                    : "bg-gradient-to-br from-white/10 to-transparent",
+              <div className="relative aspect-[16/11] overflow-hidden bg-[#2a221c]">
+                <Image
+                  src={style.image}
+                  alt={style.label}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  quality={90}
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                {selected && (
+                  <span className="absolute right-3 top-3 z-10 grid h-7 w-7 place-items-center bg-copper">
+                    <svg className="h-3.5 w-3.5 text-white" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M2 6l3 3 5-5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
                 )}
-              />
-            </div>
-            <span className="font-heading text-xl text-ivory">{style.label}</span>
-            <span className="mt-1 text-xs font-medium uppercase tracking-widest text-copper/70">
-              {style.mood}
-            </span>
-            <p className="mt-3 text-xs leading-relaxed text-white/40">{style.description}</p>
-            {value === style.id && (
-              <span className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full bg-copper">
-                <svg className="h-3 w-3 text-white" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            )}
-          </button>
-        ))}
+              </div>
+              <div className="flex flex-1 flex-col bg-white/[0.03] p-5">
+                <span className="font-heading text-xl text-ivory">{style.label}</span>
+                <span className="mt-1 text-[10px] font-medium uppercase tracking-[0.16em] text-copper">
+                  {style.mood}
+                </span>
+                <p className="mt-3 text-xs leading-relaxed text-white/45">{style.description}</p>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -754,37 +828,53 @@ function Step4Images({
 
       {/* Thumbnails */}
       {(images.length > 0 || uploadingCount > 0) && (
-        <div className="mt-8 grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-6">
-          {images.map((img) => (
-            <div key={img.id} className="group relative aspect-square overflow-hidden border border-white/15 bg-white/5">
-              {(img.localPreview || img.url) && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={img.localPreview || img.url}
-                  alt={img.alt}
-                  className={cn("h-full w-full object-cover", !img.key && "opacity-50")}
-                />
-              )}
-              {!img.key && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <svg className="h-5 w-5 animate-spin text-copper" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                </div>
-              )}
-              {img.key && (
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {images.map((img) => {
+            const previewSrc = img.localPreview || img.url;
+            return (
+              <div
+                key={img.id}
+                className="group relative aspect-square overflow-hidden border border-white/15 bg-[#2a221c]"
+              >
+                {previewSrc ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={previewSrc}
+                    alt={img.alt || "Reference image"}
+                    className={cn(
+                      "h-full w-full object-cover",
+                      !img.key && "opacity-70",
+                    )}
+                  />
+                ) : (
+                  <div className="grid h-full place-items-center px-3 text-center text-[10px] uppercase tracking-widest text-white/35">
+                    Uploading…
+                  </div>
+                )}
+                {!img.key && (
+                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/25">
+                    <svg className="h-5 w-5 animate-spin text-copper" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                  </div>
+                )}
                 <button
-                  onClick={() => onRemove(img.id)}
-                  className="absolute right-1.5 top-1.5 hidden h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white group-hover:flex"
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onRemove(img.id);
+                  }}
+                  className="absolute right-2 top-2 grid h-7 w-7 cursor-pointer place-items-center bg-black/70 text-white opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100"
+                  aria-label="Remove image"
                 >
                   <svg className="h-3 w-3" viewBox="0 0 12 12" fill="none">
                     <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </button>
-              )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
