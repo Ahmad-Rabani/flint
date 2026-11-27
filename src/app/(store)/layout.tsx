@@ -5,6 +5,9 @@ import { CartDrawer } from "@/components/layout/cart-drawer";
 import { Toaster } from "@/components/ui/sonner";
 import { BRAND } from "@/constants";
 
+// Store pages load user-specific and catalogue data — allow blocking IO
+export const instant = false;
+
 export const metadata: Metadata = {
   title: {
     template: `%s — ${BRAND.name}`,

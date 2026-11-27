@@ -1,3 +1,5 @@
+export const instant = false;
+
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
 import { connectToDatabase } from "@/lib/mongodb/connection";

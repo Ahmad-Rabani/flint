@@ -1,3 +1,5 @@
+export const instant = false;
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Quote } from "lucide-react";

@@ -2,6 +2,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession, clearSessionCookie } from "@/lib/auth/session";
 
+// Account pages are user-specific and require blocking IO
+export const instant = false;
+
 const links = [
   { href: "/account", label: "Overview" },
   { href: "/account/orders", label: "Orders" },

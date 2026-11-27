@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Heart } from "lucide-react";
 import { cn, formatCurrency } from "@/lib/utils";
 import type { PlainProduct } from "@/features/products/queries";
+import { ProductWishlistButton } from "@/components/store/product-wishlist-button";
 
 type Props = {
   product: PlainProduct;
@@ -102,18 +102,9 @@ export function ProductCard({ product, priority = false, className }: Props) {
           </div>
         )}
 
-        {/* Wishlist button */}
-        <button
-          aria-label={`Add ${product.name} to wishlist`}
-          className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-white text-ink hover:text-copper"
-          onClick={(e) => {
-            e.preventDefault();
-            // wishlist handled on product page
-          }}
-        >
-          <Heart className="w-3.5 h-3.5" strokeWidth={1.5} />
-        </button>
       </Link>
+
+      <ProductWishlistButton productId={product._id} productName={product.name} />
 
       {/* Info */}
       <div className="mt-3 px-0.5">

@@ -1,3 +1,5 @@
+export const instant = false;
+
 import Link from "next/link";
 import { getAllCustomOrders } from "@/features/custom-orders/queries";
 import { requireAdminSession } from "@/lib/auth/admin";

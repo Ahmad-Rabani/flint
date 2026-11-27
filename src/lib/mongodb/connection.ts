@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { io } from "next/cache";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -20,6 +21,11 @@ const cached: MongooseCache = global.mongooseCache ?? { conn: null, promise: nul
 global.mongooseCache = cached;
 
 export async function connectToDatabase(): Promise<typeof mongoose> {
+  // io() suspends during prerendering so DB queries (and any new Date() in
+  // serializers) are excluded from the static shell. Inside "use cache"
+  // scopes or during real requests it resolves immediately.
+  await io();
+
   if (cached.conn) {
     return cached.conn;
   }

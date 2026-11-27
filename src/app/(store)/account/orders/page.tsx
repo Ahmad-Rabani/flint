@@ -1,3 +1,5 @@
+export const instant = false;
+
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";

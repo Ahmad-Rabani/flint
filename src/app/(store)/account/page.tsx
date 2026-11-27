@@ -1,3 +1,5 @@
+export const instant = false;
+
 import Link from "next/link";
 import { getSession } from "@/lib/auth/session";
 import { getCustomerOrders } from "@/features/orders/queries";

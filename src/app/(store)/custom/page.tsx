@@ -1,3 +1,5 @@
+export const instant = false;
+
 import { getSession } from "@/lib/auth/session";
 import { getCustomizationOptions } from "@/features/custom-orders/queries";
 import { STYLE_CATALOG } from "@/features/custom-orders/catalog";
