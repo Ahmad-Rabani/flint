@@ -3,56 +3,38 @@ export const instant = false;
 import Link from "next/link";
 import { connection } from "next/server";
 import { requireAdminSession } from "@/lib/auth/admin";
-import { connectToDatabase } from "@/lib/mongodb/connection";
-import { Product } from "@/models/Product";
+import { hasPermission } from "@/lib/permissions";
 import { formatCurrency, cn } from "@/lib/utils";
+import { getStockAlertCounts, listInventoryOverview } from "@/features/inventory/queries";
+import { parseStockFilter } from "@/features/inventory/types";
+import { InventorySubnav } from "./_components/inventory-subnav";
+import { InventoryPagination, withQuery } from "./_components/pagination";
+import { StockBadge } from "./_components/stock-badge";
+import { formatUnits } from "./_components/format";
 
-type Props = { searchParams: Promise<{ filter?: string }> };
+type Props = { searchParams: Promise<{ q?: string; filter?: string; page?: string }> };
 
 export default async function AdminInventoryPage({ searchParams }: Props) {
-  await requireAdminSession("inventory.view");
-  const { filter = "all" } = await searchParams;
+  const session = await requireAdminSession("inventory.view");
+  const canAdjust = hasPermission(session, "inventory.manage");
+  const sp = await searchParams;
+  const q = sp.q?.trim() ?? "";
+  const filter = parseStockFilter(sp.filter);
+  const page = Number(sp.page ?? "1");
 
   await connection();
-  await connectToDatabase();
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const baseFilter: Record<string, any> = { deletedAt: null, status: { $ne: "archived" } };
-  if (filter === "low") {
-    baseFilter.$expr = { $lte: ["$stock", "$minStockLevel"] };
-  } else if (filter === "out") {
-    baseFilter.stock = 0;
-  }
-
-  const docs = await Product.find(baseFilter)
-    .select("_id name sku stock minStockLevel price status images")
-    .sort({ stock: 1, name: 1 })
-    .lean();
-
-  const [totalProducts, lowStockCount, outOfStockCount] = await Promise.all([
-    Product.countDocuments({ deletedAt: null, status: { $ne: "archived" } }),
-    Product.countDocuments({ deletedAt: null, status: { $ne: "archived" }, $expr: { $lte: ["$stock", "$minStockLevel"] } }),
-    Product.countDocuments({ deletedAt: null, status: { $ne: "archived" }, stock: 0 }),
+  const [list, alerts] = await Promise.all([
+    listInventoryOverview({ q, filter, page, pageSize: 30 }),
+    getStockAlertCounts(q),
   ]);
 
-  const items = docs.map((p) => ({
-    id: String(p._id),
-    name: p.name,
-    sku: p.sku,
-    stock: p.stock ?? 0,
-    minStockLevel: p.minStockLevel ?? 5,
-    price: p.price,
-    status: p.status,
-    imageUrl: (p.images as { url: string }[])?.[0]?.url ?? null,
-    isLowStock: (p.stock ?? 0) <= (p.minStockLevel ?? 5) && (p.stock ?? 0) > 0,
-    isOutOfStock: (p.stock ?? 0) === 0,
-  }));
-
-  const filters = [
-    { value: "all", label: `All (${totalProducts})` },
-    { value: "low", label: `Low Stock (${lowStockCount})` },
-    { value: "out", label: `Out of Stock (${outOfStockCount})` },
+  const chips = [
+    { value: "all", label: `All (${alerts.all})` },
+    { value: "low", label: `Low stock (${alerts.low})` },
+    { value: "out", label: `Out of stock (${alerts.out})` },
+    { value: "in", label: `In stock (${alerts.in})` },
   ];
+  const scoped = Boolean(q) || filter !== "all";
 
   return (
     <div>
@@ -60,90 +42,177 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-copper/70">Inventory</p>
           <h1 className="mt-1 font-heading text-4xl text-[#171717]">Stock Overview</h1>
+          <p className="mt-1 text-sm text-[#171717]/50">
+            On-hand units, cost, and selling price for the live catalogue.
+          </p>
         </div>
         <div className="flex gap-3">
-          <span className="border border-red-200 bg-red-50 px-3 py-1.5 text-sm text-red-700">
-            {lowStockCount} low stock
-          </span>
-          <span className="border border-orange-200 bg-orange-50 px-3 py-1.5 text-sm text-orange-700">
-            {outOfStockCount} out of stock
-          </span>
+          <Link
+            href={withQuery("/admin/inventory", { q, filter: "low" })}
+            className="border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm text-amber-800"
+          >
+            {alerts.low} low stock
+          </Link>
+          <Link
+            href={withQuery("/admin/inventory", { q, filter: "out" })}
+            className="border border-red-200 bg-red-50 px-3 py-1.5 text-sm text-red-700"
+          >
+            {alerts.out} out of stock
+          </Link>
         </div>
       </div>
 
-      <div className="mt-5 flex gap-2">
-        {filters.map((f) => (
+      <InventorySubnav current="/admin/inventory" canAdjust={canAdjust} />
+
+      <form method="GET" className="mt-5 flex flex-wrap gap-3">
+        <input
+          name="q"
+          defaultValue={q}
+          placeholder="Search name, SKU, or barcode"
+          className="w-64 border border-[#171717]/20 bg-white px-3 py-2 text-sm text-[#171717] placeholder:text-[#171717]/30 focus:border-copper focus:outline-none"
+        />
+        {filter !== "all" && <input type="hidden" name="filter" value={filter} />}
+        <button
+          type="submit"
+          className="border border-[#171717]/20 px-4 py-2 text-sm text-[#171717]/60 transition-colors hover:border-copper hover:text-copper"
+        >
+          Search
+        </button>
+        {(q || filter !== "all") && (
+          <Link href="/admin/inventory" className="px-4 py-2 text-sm text-[#171717]/40 hover:text-[#171717]">
+            Clear
+          </Link>
+        )}
+      </form>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {chips.map((chip) => (
           <Link
-            key={f.value}
-            href={`/admin/inventory?filter=${f.value}`}
+            key={chip.value}
+            href={withQuery("/admin/inventory", { q, filter: chip.value === "all" ? undefined : chip.value })}
             className={cn(
               "border px-3 py-1.5 text-sm transition-colors",
-              filter === f.value
+              filter === chip.value
                 ? "border-[#171717] bg-[#171717] text-ivory"
-                : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper"
+                : "border-[#171717]/20 text-[#171717]/60 hover:border-copper hover:text-copper",
             )}
           >
-            {f.label}
+            {chip.label}
           </Link>
         ))}
       </div>
 
-      <div className="mt-5 border border-[#171717]/10 bg-white overflow-x-auto">
-        {items.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#171717]/30">No products found.</div>
+      <div className="mt-5 grid gap-3 sm:grid-cols-3">
+        <div className="border border-[#171717]/10 bg-white px-4 py-3">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#171717]/40">
+            {scoped ? "Matching SKUs" : "SKUs"}
+          </p>
+          <p className="mt-1 font-heading text-3xl text-[#171717]">{formatUnits(list.stats.skuCount)}</p>
+        </div>
+        <div className="border border-[#171717]/10 bg-white px-4 py-3">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#171717]/40">Units on hand</p>
+          <p className="mt-1 font-heading text-3xl text-[#171717]">{formatUnits(list.stats.unitsOnHand)}</p>
+        </div>
+        <div className="border border-[#171717]/10 bg-white px-4 py-3">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#171717]/40">Inventory valuation</p>
+          <p className="mt-1 font-heading text-3xl text-[#171717]">{formatCurrency(list.stats.valuation)}</p>
+        </div>
+      </div>
+
+      <div className="mt-5 overflow-x-auto border border-[#171717]/10 bg-white">
+        {list.items.length === 0 ? (
+          <div className="p-12 text-center">
+            <p className="text-sm text-[#171717]/45">
+              {q || filter !== "all" ? "No products match this search." : "No products in the catalogue yet."}
+            </p>
+            {!q && filter === "all" && (
+              <Link href="/admin/products" className="mt-3 inline-block text-sm text-copper">
+                View products
+              </Link>
+            )}
+          </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[#171717]/10">
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Product</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">SKU</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40">Stock</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40">Min Level</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40">Price</th>
-                <th className="px-4 pb-3 pt-4 text-left text-xs uppercase tracking-widest font-normal text-[#171717]/40">Status</th>
-                <th className="px-4 pb-3 pt-4 text-right text-xs uppercase tracking-widest font-normal text-[#171717]/40" />
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">Product</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">SKU</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">Barcode</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Stock</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Min</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Cost</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Price</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40">Valuation</th>
+                <th className="px-4 pb-3 pt-4 text-left text-xs font-normal uppercase tracking-widest text-[#171717]/40">Status</th>
+                <th className="px-4 pb-3 pt-4 text-right text-xs font-normal uppercase tracking-widest text-[#171717]/40" />
               </tr>
             </thead>
             <tbody className="divide-y divide-[#171717]/5">
-              {items.map((p) => (
+              {list.items.map((product) => (
                 <tr
-                  key={p.id}
+                  key={product.id}
                   className={cn(
                     "transition-colors",
-                    p.isOutOfStock ? "bg-red-50/50" : p.isLowStock ? "bg-yellow-50/50" : "hover:bg-[#171717]/[0.02]"
+                    product.stockStatus === "out"
+                      ? "bg-red-50/60"
+                      : product.stockStatus === "low"
+                        ? "bg-amber-50/50"
+                        : "hover:bg-[#171717]/[0.02]",
                   )}
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
-                      {p.imageUrl ? (
+                      {product.imageUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={p.imageUrl} alt={p.name} className="h-9 w-9 object-cover border border-[#171717]/10 shrink-0" />
+                        <img
+                          src={product.imageUrl}
+                          alt=""
+                          className="h-9 w-9 shrink-0 border border-[#171717]/10 object-cover"
+                        />
                       ) : (
-                        <div className="h-9 w-9 border border-[#171717]/10 bg-[#171717]/5 shrink-0" />
+                        <div className="h-9 w-9 shrink-0 border border-[#171717]/10 bg-[#171717]/5" />
                       )}
-                      <p className="font-medium text-[#171717]">{p.name}</p>
+                      <div>
+                        <p className="font-medium text-[#171717]">{product.name}</p>
+                        {product.tracksVariants && (
+                          <p className="text-xs text-[#171717]/40">{product.variantCount} variants</p>
+                        )}
+                      </div>
                     </div>
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs text-[#171717]/50">{p.sku}</td>
-                  <td className="px-4 py-3 text-right">
-                    <span className={cn(
-                      "font-semibold text-sm",
-                      p.isOutOfStock ? "text-red-600" : p.isLowStock ? "text-yellow-600" : "text-[#171717]"
-                    )}>
-                      {p.stock}
-                    </span>
-                    {p.isOutOfStock && <span className="ml-1.5 text-xs text-red-500">out</span>}
-                    {p.isLowStock && !p.isOutOfStock && <span className="ml-1.5 text-xs text-yellow-600">low</span>}
+                  <td className="px-4 py-3 font-mono text-xs text-[#171717]/55">{product.sku}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-[#171717]/45">{product.barcode ?? "—"}</td>
+                  <td className="px-4 py-3 text-right font-semibold tabular-nums text-[#171717]">
+                    {formatUnits(product.stock)}
                   </td>
-                  <td className="px-4 py-3 text-right text-[#171717]/50">{p.minStockLevel}</td>
-                  <td className="px-4 py-3 text-right text-[#171717]">{formatCurrency(p.price)}</td>
+                  <td className="px-4 py-3 text-right tabular-nums text-[#171717]/50">{product.minStockLevel}</td>
+                  <td className="px-4 py-3 text-right tabular-nums text-[#171717]/70">
+                    {formatCurrency(product.costPrice)}
+                  </td>
+                  <td className="px-4 py-3 text-right tabular-nums text-[#171717]">{formatCurrency(product.price)}</td>
+                  <td className="px-4 py-3 text-right tabular-nums text-[#171717]">
+                    {formatCurrency(product.valuation)}
+                  </td>
                   <td className="px-4 py-3">
-                    <span className="text-xs capitalize text-[#171717]/50">{p.status}</span>
+                    <StockBadge status={product.stockStatus} />
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Link href={`/admin/products/${p.id}`} className="text-xs text-copper/60 hover:text-copper transition-colors">
-                      Edit →
-                    </Link>
+                    <div className="flex justify-end gap-3 whitespace-nowrap">
+                      {canAdjust && (
+                        <Link
+                          href={`/admin/inventory/adjustments?productId=${product.id}`}
+                          className="text-xs text-copper/80 transition-colors hover:text-copper"
+                        >
+                          Adjust
+                        </Link>
+                      )}
+                      <Link
+                        href={`/admin/inventory/movements?productId=${product.id}`}
+                        className="text-xs text-[#171717]/45 transition-colors hover:text-[#171717]"
+                      >
+                        Movements
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -151,6 +220,14 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
           </table>
         )}
       </div>
+
+      <InventoryPagination
+        page={list.page}
+        totalPages={list.totalPages}
+        makeHref={(nextPage) =>
+          withQuery("/admin/inventory", { q, filter: filter === "all" ? undefined : filter }, nextPage)
+        }
+      />
     </div>
   );
 }

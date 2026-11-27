@@ -15,7 +15,7 @@ import {
   FileText,
   Megaphone,
   Users,
-  Image,
+  Image as ImageIcon,
   MessageSquare,
   HelpCircle,
   Home,
@@ -26,6 +26,9 @@ import {
   Menu,
   X,
   ClipboardList,
+  SlidersHorizontal,
+  ArrowLeftRight,
+  TriangleExclamationPoint,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/brand/logo";
@@ -78,9 +81,12 @@ const NAV_GROUPS: NavGroup[] = [
   },
   {
     label: "Inventory",
-    anyPermission: ["inventory.view"],
+    anyPermission: ["inventory.view", "inventory.manage"],
     items: [
       { href: "/admin/inventory", label: "Stock Overview", icon: <Boxes size={15} />, permission: "inventory.view" },
+      { href: "/admin/inventory/adjustments", label: "Adjustments", icon: <SlidersHorizontal size={15} />, permission: "inventory.manage" },
+      { href: "/admin/inventory/movements", label: "Movements", icon: <ArrowLeftRight size={15} />, permission: "inventory.view" },
+      { href: "/admin/inventory/low-stock", label: "Low Stock Alerts", icon: <TriangleExclamationPoint size={15} />, permission: "inventory.view" },
     ],
   },
   {
@@ -106,7 +112,7 @@ const NAV_GROUPS: NavGroup[] = [
       { href: "/admin/cms/pages", label: "Pages", icon: <FileText size={15} />, permission: "cms.manage" },
       { href: "/admin/cms/faq", label: "FAQ", icon: <HelpCircle size={15} />, permission: "cms.manage" },
       { href: "/admin/cms/testimonials", label: "Testimonials", icon: <MessageSquare size={15} />, permission: "cms.manage" },
-      { href: "/admin/cms/media", label: "Media", icon: <Image size={15} />, permission: "cms.manage" },
+      { href: "/admin/cms/media", label: "Media", icon: <ImageIcon size={15} />, permission: "cms.manage" },
     ],
   },
   {
@@ -169,7 +175,16 @@ function SidebarContent({ permissions, isSuperAdmin, pathname, userName, userRol
 
   const isActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin";
-    return pathname.startsWith(href);
+    if (pathname === href) return true;
+    if (!pathname.startsWith(`${href}/`)) return false;
+    const hrefs = NAV_GROUPS.flatMap((group) => group.items.map((item) => item.href));
+    const hasMoreSpecific = hrefs.some(
+      (other) =>
+        other !== href &&
+        other.startsWith(`${href}/`) &&
+        (pathname === other || pathname.startsWith(`${other}/`)),
+    );
+    return !hasMoreSpecific;
   };
 
   return (
